@@ -17,10 +17,12 @@ public class EnemyController : MonoBehaviour
         if (_los.LoS(_model.transform, _model.CheckTarget(), _model.range, _model.angle, _model.obstacleMask))
         {
             print("Target in range and angle, no obstacle");
+            _model.DetectingEntity = true;
         }
         else
         {
             print("Target out of range or angle, or obstacle in the way");
+            _model.DetectingEntity = false;
         }
         
     }

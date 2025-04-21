@@ -7,15 +7,30 @@ public class EnemyModel : MonoBehaviour
     public float angle;
     public float range;
 
+
     [Header("Enemy Layer")]
     public LayerMask obstacleMask;
 
     [Header("Enemy Target")]
     [SerializeField] private Transform _target;
 
+    bool _isDetectingEntity;
+
     public Transform CheckTarget()
     {
         return _target;
+    }
+
+    public bool DetectingEntity
+    {
+        set
+        {
+            _isDetectingEntity = value;
+        }
+        get
+        {
+            return _isDetectingEntity;
+        }
     }
 
     private void OnDrawGizmos()
