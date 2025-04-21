@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] private Transform[] waypoints;
     private EnemyModel _model;
     private LineOfSight _los;
+    private EnemyState currentState;
 
     private void Awake()
     {
