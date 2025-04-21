@@ -8,7 +8,7 @@ public abstract class EnemyState
     public EnemyState(EnemyController controller)
     {
         this.controller = controller;
-        this.model = controller.Model();
+        this.model = controller.Model;
     }
 
     public virtual void Enter()

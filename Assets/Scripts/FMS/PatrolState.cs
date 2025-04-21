@@ -9,7 +9,7 @@ public class PatrolState : EnemyState
 
     public PatrolState(EnemyController controller) : base(controller)
     {
-        waypoints = controller.Waypoints();
+        waypoints = controller.Waypoints;
     }
 
     public override void Enter()
