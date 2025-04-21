@@ -3,32 +3,20 @@ using UnityEngine;
 
 public class IdleState : EnemyState
 {
-    private float idleTime = 3f;
-    private float timer = 0f;
+    private float timer = 2f;
 
-    public IdleState(EnemyController controller) : base(controller){}
+    public IdleState(EnemyController controller) : base(controller) { }
 
-    public override void Enter()
+    public override void OnUpdate()
     {
-        Debug.Log("Entering Idle State");
-        timer = 0f;
-    }
-
-    public override void Update()
-    {
-        if (model.DetectingEntity)
-        {
-            controller.ChangeState(new PursuitState(controller));
-            return;
-        }
-
-        timer += Time.deltaTime;
-
-        if (timer >= idleTime)
+        timer -= Time.deltaTime;
+        if (timer <= 0f)
         {
             controller.ChangeState(new PatrolState(controller));
         }
+        else if (controller.CanSeeTarget())
+        {
+            controller.ChangeState(new PursuitState(controller));
+        }
     }
-        // Add any idle behavior here, such as playing an idle animation
-        // or waiting for a certain amount of time before transitioning to the next state.
 }

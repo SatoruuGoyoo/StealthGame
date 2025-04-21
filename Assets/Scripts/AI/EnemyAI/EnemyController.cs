@@ -2,57 +2,44 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private Transform[] waypoints;
     private EnemyModel _model;
     private LineOfSight _los;
-    private EnemyState currentState;
 
-    public EnemyModel Model => _model;
-    public Transform[] Waypoints => waypoints;
+    [Header("Waypoints")]
+    public Transform[] waypoints;
+    public float moveSpeed = 2f;
+
+    private EnemyState currentState;
 
     private void Awake()
     {
-        _los = new LineOfSight();
         _model = GetComponent<EnemyModel>();
-    }
-
-    private void Start()
-    {
-        ChageState(new PatrolState(this));
+        _los = new LineOfSight();
+        ChangeState(new IdleState(this));
     }
 
     private void Update()
     {
-        var target = _model.CheckTarget();
-        if (_los.LoS(_model.transform, target, _model.range, _model.angle, _model.obstacleMask))
-        {
-            print("Target in range and angle, no obstacle");
-            _model.DetectingEntity = true;
-        }
-        else
-        {
-            print("Target out of range or angle, or obstacle in the way");
-            _model.DetectingEntity = false;
-        }
-
-        currentState?.Update();
-
+        currentState?.OnUpdate();
     }
 
-    public void ChageState(EnemyState newState)
+    public void ChangeState(EnemyState newState)
     {
-        currentState?.Exit();
+        currentState?.OnExit();
         currentState = newState;
-        currentState.Enter();
+        currentState.OnEnter();
     }
 
-    public void MoveTo(Vector3 destination)
+    public EnemyModel Model => _model;
+
+    public void MoveTo(Vector3 target)
     {
-        Vector3 dir = (destination - transform.position).normalized;
-        float speed = 2f;
-        transform.position += dir * speed * Time.deltaTime;
+        Vector3 dir = (target - transform.position).normalized;
+        transform.position += dir * moveSpeed * Time.deltaTime;
     }
 
-
-
+    public bool CanSeeTarget()
+    {
+        return _los.LoS(_model.transform, _model.CheckTarget(), _model.range, _model.angle, _model.obstacleMask);
+    }
 }
