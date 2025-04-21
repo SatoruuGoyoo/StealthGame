@@ -3,16 +3,28 @@ using UnityEngine;
 public class EnemyView : MonoBehaviour
 {
     public GameObject entityUI;
-    EnemyModel model;
+    
 
     private void Awake()
     {
-        model = GetComponent<EnemyModel>();
+        GetComponent<EnemyModel>().onChangeEntityUI += onChangeUI;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        entityUI.SetActive(model.DetectingEntity);
+        var model = GetComponent<EnemyModel>();
+        if (model.onChangeEntityUI != null)
+        {
+            model.onChangeEntityUI -= onChangeUI;
+        }
     }
+
+    void onChangeUI(bool v)
+    {
+        entityUI.SetActive(v);
+    }
+
+
+
 
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyModel : MonoBehaviour
@@ -6,6 +7,7 @@ public class EnemyModel : MonoBehaviour
     [Range(1, 360)]
     public float angle;
     public float range;
+    public Action<bool> onChangeEntityUI = delegate { };
 
 
     [Header("Enemy Layer")]
@@ -25,12 +27,18 @@ public class EnemyModel : MonoBehaviour
     {
         set
         {
+            if (value != _isDetectingEntity) onChangeEntityUI(value);
             _isDetectingEntity = value;
         }
         get
         {
             return _isDetectingEntity;
         }
+    }
+
+    private void OnDestroy()
+    {
+        onChangeEntityUI = null;
     }
 
     private void OnDrawGizmos()
