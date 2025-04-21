@@ -23,7 +23,12 @@ public class LineOfSight
     public bool CheckForObstacle(Transform self, Transform target, LayerMask obstacleMask)
     {
         Vector3 dir = target.position - self.position; // B-A
-        return Physics.Raycast(self.position, dir.normalized, out RaycastHit hit, dir.magnitude, obstacleMask);
+        return !Physics.Raycast(self.position, dir.normalized, out RaycastHit hit, dir.magnitude, obstacleMask);
+    }
+
+    public bool LoS(Transform self, Transform target, float range, float angle, LayerMask obstacleMask)
+    {
+        return CheckRange(self, target, range) && CheckAngle(self, target, angle) && CheckForObstacle(self, target, obstacleMask);
     }
 
 }
