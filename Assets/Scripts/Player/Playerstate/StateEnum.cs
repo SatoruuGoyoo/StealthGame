@@ -4,8 +4,12 @@ using UnityEngine;
 
 public enum StateEnum
 {
+    Default,
     Idle,
     Walk,
-    Crouch
+    Crouch,
+    Spin,
+    Chase,
+    GoZone,
 }
 

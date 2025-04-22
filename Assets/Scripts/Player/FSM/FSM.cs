@@ -21,6 +21,12 @@ public class FSM<T>
         if (_currState != null)
             _currState.Execute();
     }
+
+    public void OnFixExecute()
+    {
+        if (_currState != null)
+            _currState.FixExecute();
+    }
     public void Transition(T input)
     {
         IState<T> newState = _currState.GetTransition(input);

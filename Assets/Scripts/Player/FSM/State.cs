@@ -17,6 +17,9 @@ public class State<T> : IState<T>
     public virtual void Execute()
     {
     }
+    public virtual void FixExecute()
+    {
+    }
     public virtual void Exit()
     {
     }

@@ -23,7 +23,6 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         _fsm.OnExecute();
-        _root.Execute();
     }
 
     private void FixedUpdate()

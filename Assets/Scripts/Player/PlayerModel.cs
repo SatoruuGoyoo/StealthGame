@@ -16,6 +16,8 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
     float _originalHeight;
     float _crouchHeight = 0.9f;
 
+    public Vector3 Position => transform.position;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
