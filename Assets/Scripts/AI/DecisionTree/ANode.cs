@@ -5,9 +5,9 @@ public class ANode : ITreeNode
 {
     Action _action;
 
-    public ANode(Action action)
+    public ANode(Action <int >action)
     {
-        _action = action;
+       // _action = action;
     }
 
     public void Execute()
