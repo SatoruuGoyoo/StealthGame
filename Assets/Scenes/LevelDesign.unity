@@ -20376,7 +20376,6 @@ GameObject:
   - component: {fileID: 539875253}
   - component: {fileID: 539875252}
   - component: {fileID: 539875255}
-  - component: {fileID: 539875256}
   - component: {fileID: 539875251}
   - component: {fileID: 539875254}
   m_Layer: 0
@@ -20483,7 +20482,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -20519,19 +20518,6 @@ MonoBehaviour:
   target: {fileID: 1884142989}
   offset: {x: 0.05, y: 5.11, z: -3.37}
   lookAtTarget: 1
---- !u!114 &539875256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 539875250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dafdd716756434646a262280f4c26aec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crtMaterial: {fileID: 2100000, guid: 3ce863111e0a6a843a897283e9d8c107, type: 2}
 --- !u!1 &542361975
 GameObject:
   m_ObjectHideFlags: 0
