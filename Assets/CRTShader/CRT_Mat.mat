@@ -40,6 +40,6 @@ Material:
     - _BlurOffset: 0.00097
     - _ScanLines_Speed: -0.003
     m_Colors:
-    - _Color: {r: 3.4034407, g: 3.4034407, b: 3.4034407, a: 0}
+    - _Color: {r: 4.5438604, g: 4.5438604, b: 4.5438604, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
