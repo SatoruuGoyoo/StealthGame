@@ -77324,7 +77324,7 @@ GameObject:
   - component: {fileID: 2128060699}
   - component: {fileID: 2128060700}
   m_Layer: 5
-  m_Name: MENU
+  m_Name: GameOverMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
