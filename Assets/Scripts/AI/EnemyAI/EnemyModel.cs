@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class EnemyModel : MonoBehaviour
+public class EnemyModel : PlayerModel
 {
     [Header("Line Of Sight")]
     [Range(1, 360)]
@@ -19,9 +20,23 @@ public class EnemyModel : MonoBehaviour
 
     bool _isDetectingEntity;
 
+    public float attackRange;
+
+    ILook _look;
+
     public Transform CheckTarget()
     {
         return _target;
+    }
+
+    public override void Attack()
+    {
+        var colls = Physics.OverlapSphere(Position, attackRange, obstacleMask);
+        for (int i = 0; i < colls.Length; i++)
+        {
+            GameObject.Destroy(colls[i].gameObject);
+        }
+        base.Attack();
     }
 
     public bool DetectingEntity
@@ -35,6 +50,12 @@ public class EnemyModel : MonoBehaviour
         {
             return _isDetectingEntity;
         }
+    }
+
+    public override void Move(Vector3 dir)
+    {
+        _look.LookDir(dir);
+        base.Move(dir);
     }
 
     private void OnDestroy()

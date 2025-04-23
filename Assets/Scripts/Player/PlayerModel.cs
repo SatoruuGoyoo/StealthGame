@@ -25,7 +25,7 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
         _originalHeight = _collider.height;
     }
 
-    public void Move(Vector3 dir)
+    public virtual void Move(Vector3 dir)
     {
         dir *= speed;
         dir.y = _rb.linearVelocity.y;

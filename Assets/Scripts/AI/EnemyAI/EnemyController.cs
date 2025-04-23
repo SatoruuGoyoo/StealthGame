@@ -6,8 +6,8 @@ public class EnemyController : MonoBehaviour
     public Transform target;
     public Transform zone;
     FSM<StateEnum> _fsm;
-    private EnemyModel _model;
-    private LineOfSightMono _los;
+    EnemyModel _model;
+    LineOfSightMono _los;
 
     private void Awake()
     {
@@ -23,7 +23,10 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        _fsm.OnExecute();
+        if (target != null)
+        {
+            _fsm.OnExecute();
+        }
     }
 
     private void FixedUpdate()
@@ -72,6 +75,19 @@ public class EnemyController : MonoBehaviour
         _fsm.SetInit(idle);
     }
 
+    bool QuestionCanAttack()
+    {
+        return Vector3.Distance(_model.Position, target.position) <= _model.attackRange;
+    }
+    bool QuestionGoToZone()
+    {
+        return Vector3.Distance(_model.transform.position, zone.transform.position) > 0.25f;
+    }
+    bool QuestionTargetInView()
+    {
+        if (target == null) return false;
+        return _los.LOS(target.transform) ;
+    }
     /*private void Update()
     {
         var target = _model.CheckTarget();
