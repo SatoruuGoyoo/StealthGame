@@ -7,16 +7,16 @@ public class EnemyView : MonoBehaviour
 
     private void Awake()
     {
-        GetComponent<EnemyModel>().onChangeEntityUI += onChangeUI;
+        //GetComponent<EnemyModel>().onChangeEntityUI += onChangeUI;
     }
 
     private void OnDestroy()
     {
-        var model = GetComponent<EnemyModel>();
-        if (model.onChangeEntityUI != null)
-        {
-            model.onChangeEntityUI -= onChangeUI;
-        }
+        //var model = GetComponent<EnemyModel>();
+        //if (model.onChangeEntityUI != null)
+        //{
+        //    model.onChangeEntityUI -= onChangeUI;
+        //}
     }
 
     void onChangeUI(bool v)

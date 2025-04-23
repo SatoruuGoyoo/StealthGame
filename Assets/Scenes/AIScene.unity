@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 933250696}
   - component: {fileID: 933250695}
   - component: {fileID: 933250694}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -786,9 +786,11 @@ GameObject:
   - component: {fileID: 1228516443}
   - component: {fileID: 1228516442}
   - component: {fileID: 1228516441}
+  - component: {fileID: 1228516447}
   - component: {fileID: 1228516446}
   - component: {fileID: 1228516445}
-  m_Layer: 0
+  - component: {fileID: 1228516448}
+  m_Layer: 8
   m_Name: AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -912,13 +914,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  angle: 120
-  range: 10
-  obstacleMask:
+  attackRange: 2
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &1228516447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228516440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba40ef4c42b4ce4aa9c91bd0eb4bb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 933250701}
+  zone: {fileID: 1383596103}
+--- !u!114 &1228516448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228516440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3fc666d8f7af54f8a5cbb048fad88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 9.3
+  angle: 180
+  obsMask:
     serializedVersion: 2
     m_Bits: 128
-  _target: {fileID: 933250701}
-  attackRange: 2
 --- !u!1 &1379069872
 GameObject:
   m_ObjectHideFlags: 0

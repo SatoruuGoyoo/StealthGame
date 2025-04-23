@@ -18,7 +18,7 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
 
     public Vector3 Position => transform.position;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _collider = GetComponent<CapsuleCollider>();
