@@ -9,6 +9,7 @@ public enum StateEnum
     Walk,
     Crouch,
     Attack,
-    Chase
+    Chase,
+    GoZone
 }
 
