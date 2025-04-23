@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public Transform[] waypoints;
     public Transform target;
     public Transform _initialZone;
     FSM<StateEnum> _fsm;
@@ -54,7 +55,7 @@ public class EnemyController : MonoBehaviour
         var idle = new NPCSIdle<StateEnum>();
         var attack = new NPCSAttack<StateEnum>();
         var chase = new NPCSChase<StateEnum>(target);
-        var goZone = new NPCSChase<StateEnum>(_initialZone);
+        var goZone = new NPCPatrol<StateEnum>(waypoints);
 
         // Added to a LIST
         var stateList = new List<NPCSBase<StateEnum>>();
