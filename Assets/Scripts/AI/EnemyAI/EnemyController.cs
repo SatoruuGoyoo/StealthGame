@@ -7,12 +7,13 @@ public class EnemyController : MonoBehaviour
     public Transform zone;
     FSM<StateEnum> _fsm;
     private EnemyModel _model;
-    private LineOfSight _los;
+    private LineOfSightMono _los;
 
     private void Awake()
     {
-        _los = new LineOfSight();
+        _los = GetComponent<LineOfSightMono>();
         _model = GetComponent<EnemyModel>();
+
     }
 
     private void Start()
@@ -33,6 +34,7 @@ public class EnemyController : MonoBehaviour
     void InitializedFSM()
     {
         _fsm = new FSM<StateEnum>();
+        var move = GetComponent<IMove>();
         var look = GetComponent<ILook>();
 
         var idle = new NPCIdle<StateEnum>();
