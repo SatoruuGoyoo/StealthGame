@@ -1,31 +1,123 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public Transform target;
+    FSM<StateEnum> _fsm;
     private EnemyModel _model;
-    private LineOfSight _los;
+    private LineOfSightMono _los;
+    ITreeNode _root;
+    private bool _isInitialized = false;
+
+
+
+    private void Start()
+    {
+        InitializeFSM();
+        InitializeTree();
+        _isInitialized = true;
+    }
+
+    void Update()
+    {
+        if (!_isInitialized) return;
+
+        _fsm.OnExecute();
+        _root?.Execute();
+
+        //_fsm.OnExecute();
+        //_root.Execute();
+    }
 
     private void Awake()
     {
-        _los = new LineOfSight();
         _model = GetComponent<EnemyModel>();
+        _los = GetComponent<LineOfSightMono>();
+
+        //if (target == null)
+        //{
+        //    GameObject player = GameObject.FindWithTag("Player");
+        //    if (player != null)
+        //        target = player.transform;
+        //}
     }
 
-    private void Update()
+    void InitializeFSM()
     {
-        var target = _model.CheckTarget();
-        if (_los.LoS(_model.transform, _model.CheckTarget(), _model.range, _model.angle, _model.obstacleMask))
+        _fsm = new FSM<StateEnum>();
+
+        var look = GetComponent<ILook>();
+
+        // States created
+        var idle = new NPCSIdle<StateEnum>();
+        var attack = new NPCSAttack<StateEnum>();
+        var chase = new NPCSChase<StateEnum>(target);
+
+        // Added to a LIST
+        var stateList = new List<NPCSBase<StateEnum>>();
+        stateList.Add(idle);
+        stateList.Add(attack);
+        stateList.Add(chase);
+
+        // Created Transitions
+        idle.AddTransition(StateEnum.Chase, chase);
+        idle.AddTransition(StateEnum.Attack, attack);
+
+        attack.AddTransition(StateEnum.Idle, idle);
+        attack.AddTransition(StateEnum.Chase, chase);
+
+        chase.AddTransition(StateEnum.Idle, idle);
+        chase.AddTransition(StateEnum.Attack, attack);
+
+        // Go trough List
+        for (int i = 0; i < stateList.Count; i++)
         {
-            print("Target in range and angle, no obstacle");
-            _model.DetectingEntity = true;
+            stateList[i].Initialize(_model, look, _model);
         }
-        else
-        {
-            print("Target out of range or angle, or obstacle in the way");
-            _model.DetectingEntity = false;
-        }
+
+        _fsm.SetInit(idle);
+
+    }
+
+    void InitializeTree()
+    {
+        var idle = new ANode(() => _fsm.Transition(StateEnum.Idle));
+        var attack = new ANode(() => _fsm.Transition(StateEnum.Attack));
+        var chase = new ANode(() => _fsm.Transition(StateEnum.Chase));
+
+        var qCanAttack = new QNode(QuestionCanAttack, attack , chase);
+        var qCanSeeTarget = new QNode(QuestionCanSeeTarget, qCanAttack, idle);
+
+        _root = qCanSeeTarget;
+    }
+    bool QuestionCanAttack()
+    {
+        return Vector3.Distance(_model.Position, target.position) <= _model.attackRange;
         
     }
+    bool QuestionCanSeeTarget()
+    {
+        if(target == null) return false;
+        return _los.LOS(target);
+    }
+
+
+    //private void Update()
+    //{
+    //    var target = _model.CheckTarget();
+    //    if (_los.LoS(_model.transform, _model.CheckTarget(), _model.range, _model.angle, _model.obstacleMask))
+    //    {
+    //        print("Target in range and angle, no obstacle");
+    //        _model.DetectingEntity = true;
+    //    }
+    //    else
+    //    {
+    //        print("Target out of range or angle, or obstacle in the way");
+    //        _model.DetectingEntity = false;
+    //    }
+        
+    //}
 
   
 

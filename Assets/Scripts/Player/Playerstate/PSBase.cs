@@ -13,5 +13,7 @@ public class PSBase<T> : State<T>
         _move = p[0] as IMove;
         _look = p[1] as ILook;
         _attack = p[2] as IAttack;
+
+        
     }
 }
