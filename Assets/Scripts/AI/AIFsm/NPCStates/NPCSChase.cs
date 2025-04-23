@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NPCSChase<T> : NPCSBase<T>
 {
-    Transform _target;
+    private Transform _target;
 
     public NPCSChase(Transform target)
     {
@@ -11,12 +11,16 @@ public class NPCSChase<T> : NPCSBase<T>
 
     public override void Execute()
     {
-        base.Execute();
-        
-        var dir = _target.transform.position - _move.Position;
+        if(!_look.CanSeeTarget())
+        {
+            StateMachine.Transition((T)(object)StateEnum.Idle);
+            return;
+        }
 
-        _move.Move(dir.normalized);
-        _look.LookDir(dir.normalized);
+        Vector3 dir = (_target.position - _move.Position).normalized;
+
+        _move.Move(dir);
+        _look.LookDir(dir);
         
     }
 }
