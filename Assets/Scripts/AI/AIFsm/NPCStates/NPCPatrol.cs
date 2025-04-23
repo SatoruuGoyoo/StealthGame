@@ -25,29 +25,24 @@ public class NPCPatrol<T> : NPCSBase<T>
             StateMachine.Transition((T)(object)StateEnum.Chase);
             return;
         }
-    }
+        Vector3 targetPos = waypoints[index].position;
+        Vector3 dir = (targetPos - _move.Position).normalized;
 
-    Vector3 targetPos = waypoints[index].position;
-    Vector3 dir = (targetPos - _move.Position).normalized;
+        _move.Move(dir);
+        _look.LookDir(dir);
 
-    _move.Move(dir);
-    _look.LookDir(dir);
-
-    if (Vector3.Distance(_move.Position, targetPos) < 0.1f)
-    {
-        index += direction;
-        if (index >= waypoints.Length || index< 0)
+        if (Vector3.Distance(_move.Position, targetPos) < 0.1f)
         {
+            index += direction;
+            if (index >= waypoints.Length || index< 0)
+            {
             direction *= -1;
             index += direction;
+            }
         }
+
+    
     }
-
-public override void FixExecute() 
-{
-
-}
-
 public override void Exit() 
 { 
 
