@@ -121,7 +121,6 @@ public class EnemyController : MonoBehaviour
     bool QuestionCanAttack()
     {
         return Vector3.Distance(_model.Position, target.position) <= _model.attackRange;
-        
     }
     bool QuestionCanSeeTarget()
     {

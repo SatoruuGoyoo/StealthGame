@@ -28,8 +28,6 @@ public class NPCPatrol<T>: NPCSBase<T>
 
         _currentIndex = 0;
         MoveToCurrentWaypoint();
-        // Aquí podrías activar animaciones de caminar, por ejemplo:
-        // _view.PlayAnimation("Walk");
     }
 
     public override void Execute()
@@ -61,7 +59,5 @@ public class NPCPatrol<T>: NPCSBase<T>
     public override void Exit()
     {
         base.Exit();
-        // Aquí podrías parar la animación de caminar:
-        // _view.PlayAnimation("Idle");
     }
 }
