@@ -23,7 +23,7 @@ public class PlayerView : MonoBehaviour, ILook
 
     public void LookDir(Vector3 dir)
     {
-        if (dir.sqrMagnitude < 0.001f) return; // Evita rotar si no hay dirección válida
+        if (dir.sqrMagnitude < 0.001f) return; 
 
         Quaternion targetRotation = Quaternion.LookRotation(dir.normalized);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speedRot);
@@ -39,6 +39,6 @@ public class PlayerView : MonoBehaviour, ILook
     {
         float vel = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z).magnitude;
         _anim.SetFloat("Vel", vel);
-        // "Crouch" lo maneja PSCrouch directamente
+      
     }
 }
