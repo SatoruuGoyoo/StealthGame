@@ -549,7 +549,7 @@ GameObject:
   - component: {fileID: 7912773449895415872}
   - component: {fileID: 8247810753394664934}
   - component: {fileID: 7056227880919889714}
-  - component: {fileID: 736907523914257033}
+  - component: {fileID: 431812948442886731}
   m_Layer: 0
   m_Name: pjIdle
   m_TagString: Untagged
@@ -566,7 +566,7 @@ Transform:
   m_GameObject: {fileID: 3980761239003601797}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0081489, y: 1.746, z: -0.0061653}
+  m_LocalPosition: {x: 2.12, y: 1.746, z: -0.0061653}
   m_LocalScale: {x: 51.399242, y: 51.399242, z: 51.399242}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -648,7 +648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  crouchHeight: 0.02
+  crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: 0.0006558567, y: 0.009, z: 0}
 --- !u!114 &7056227880919889714
 MonoBehaviour:
@@ -664,8 +664,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _anim: {fileID: 7670621022033871829}
   speedRot: 10
---- !u!136 &736907523914257033
-CapsuleCollider:
+--- !u!65 &431812948442886731
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -682,11 +682,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.003970545
-  m_Height: 0.036360417
-  m_Direction: 1
-  m_Center: {x: 0.00065585674, y: 0.016886165, z: 0}
+  serializedVersion: 3
+  m_Size: {x: 0.0068598515, y: 0.035523586, z: 0.00960762}
+  m_Center: {x: -0.00020460841, y: 0.017723033, z: -0.0006253576}
 --- !u!1 &4593436430652902903
 GameObject:
   m_ObjectHideFlags: 0
