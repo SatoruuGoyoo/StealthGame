@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class NPCSteering : MonoBehaviour
+public class NPCSteering<T> : NPCBase<T>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    ISteering _steering;
+    public NPCSteering(ISteering steering)
     {
-        
+        _steering = steering;
     }
-
-    // Update is called once per frame
-    void Update()
+    public override void Execute()
     {
-        
+        base.Execute();
+        var dir = _steering.GetDir();
+        _move.Move(dir.normalized);
+    }
+    public void ChangeSteering(ISteering newSteering)
+    {
+        _steering = newSteering;
     }
 }
