@@ -23,8 +23,12 @@ public class PlayerView : MonoBehaviour, ILook
 
     public void LookDir(Vector3 dir)
     {
-        transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * speedRot);
+        if (dir.sqrMagnitude < 0.001f) return; // Evita rotar si no hay dirección válida
+
+        Quaternion targetRotation = Quaternion.LookRotation(dir.normalized);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speedRot);
     }
+
 
     public void OnSpinAnim()
     {
