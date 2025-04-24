@@ -6,32 +6,34 @@ using UnityEngine;
 
 
 
-[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(BoxCollider))]
 public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
 {
     public float speed;
     Rigidbody _rb;
-    CapsuleCollider _collider;
+    BoxCollider _collider;
 
     Action _onAttack = delegate { };
     public Action OnAttack { get => _onAttack; set => _onAttack = value; }
 
     public bool IsCrouching { get; private set; } = false;
 
-    float _originalHeight = 0.03636042f;
-    Vector3 _originalCenter = new Vector3(0.0006558567f, 0.01688617f, 0f);
+    // Datos originales (de pie)
+    Vector3 originalSize = new Vector3(0.006859852f, 0.03552359f, 0.00960762f);
+    Vector3 originalCenter = new Vector3(-0.0002046084f, 0.01772303f, -0.0006253576f);
 
-    [SerializeField] float crouchHeight = 0.02f;
-    [SerializeField] Vector3 crouchCenter = new Vector3(0.0006558567f, 0.009f, 0f);
+    // Datos en crouch
+    [SerializeField] Vector3 crouchSize = new Vector3(0.006859852f, 0.02f, 0.00960762f);
+    [SerializeField] Vector3 crouchCenter = new Vector3(-0.0002046084f, 0.0105f, -0.0006253576f);
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _collider = GetComponent<CapsuleCollider>();
+        _collider = GetComponent<BoxCollider>();
 
-        // Guarda valores reales por si cambian en el prefab
-        _originalHeight = _collider.height;
-        _originalCenter = _collider.center;
+        // Guardamos valores reales por si el prefab cambia
+        originalSize = _collider.size;
+        originalCenter = _collider.center;
     }
 
     public void Move(Vector3 dir)
@@ -49,14 +51,14 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
     public void StartCrouch()
     {
         IsCrouching = true;
-        _collider.height = crouchHeight;
+        _collider.size = crouchSize;
         _collider.center = crouchCenter;
     }
 
     public void StopCrouch()
     {
         IsCrouching = false;
-        _collider.height = _originalHeight;
-        _collider.center = _originalCenter;
+        _collider.size = originalSize;
+        _collider.center = originalCenter;
     }
 }
