@@ -6,6 +6,11 @@ public enum StateEnum
 {
     Idle,
     Walk,
-    Crouch
+    Crouch,
+    Spin,
+    Chase,
+    GoZone,
+
+}
 }
 
