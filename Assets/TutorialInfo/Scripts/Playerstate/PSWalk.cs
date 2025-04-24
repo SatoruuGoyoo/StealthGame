@@ -16,10 +16,12 @@ public class PSWalk<T> : PSBase<T>
     }
     public override void Execute()
     {
-        var dir = new Vector3(InputManager.GetMove().x, 0, InputManager.GetMove().y);
-        _move.Move(dir);
+        Vector3 dir = new Vector3(InputManager.GetMove().x, 0, InputManager.GetMove().y);
+
         if (dir != Vector3.zero)
         {
+            dir = dir.normalized; 
+            _move.Move(dir);
             _look.LookDir(dir);
         }
         else
@@ -27,4 +29,5 @@ public class PSWalk<T> : PSBase<T>
             StateMachine.Transition(_inputToWalk);
         }
     }
+
 }

@@ -40,14 +40,20 @@ public class PSCrouch<T> : PSBase<T>
             return;
         }
 
-        var dir = new Vector3(InputManager.GetMove().x, 0, InputManager.GetMove().y);
-        _move.Move(dir * 0.5f); // Movimiento reducido
+        Vector3 dir = new Vector3(InputManager.GetMove().x, 0, InputManager.GetMove().y);
 
         if (dir != Vector3.zero)
         {
+            dir = dir.normalized; 
+            _move.Move(dir * 0.5f);
             _look.LookDir(dir);
         }
+        else
+        {
+            _move.Move(Vector3.zero);
+        }
     }
+
 
     public override void Exit()
     {
