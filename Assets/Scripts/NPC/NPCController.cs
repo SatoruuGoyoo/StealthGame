@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCController : MonoBehaviour
@@ -36,10 +36,17 @@ public class NPCController : MonoBehaviour
     }
     void InitializedSteering()
     {
-        
         var pursuit = new Pursuit(_model.transform, target, 0, timePrediction);
         var evade = new Evade(_model.transform, target, 0, timePrediction);
+        if(this.gameObject.tag == "NPC1")
+        {
         _steering = pursuit;
+
+        }
+        else
+        {
+            _steering = evade;
+        }
     }
     void InitializedFSM()
     {
@@ -84,20 +91,20 @@ public class NPCController : MonoBehaviour
     void InitializedTree()
     {
         var idle = new ActionNode(() => {
-            Debug.Log("Transici?n a Idle");
+            Debug.Log("Transici�n a Idle");
             _fsm.Transition(StateEnum.Idle);
         });
         var attack = new ActionNode(() => {
-            Debug.Log("Transici?n a Spin (Attack)");
+            Debug.Log("Transici�n a Spin (Attack)");
             _fsm.Transition(StateEnum.Spin);
         });
         var chase = new ActionNode(() => {
-            Debug.Log("Transici?n a Chase");
+            Debug.Log("Transici�n a Chase");
             _fsm.Transition(StateEnum.Chase);
         });
         var goZone = new ActionNode(() =>
         {
-            Debug.Log("Transici?n a GoZone");
+            Debug.Log("Transici�n a GoZone");
             _fsm.Transition(StateEnum.GoZone);
         });
 
