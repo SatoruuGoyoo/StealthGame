@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 
+
 public class PlayerController : MonoBehaviour
 {
     FSM<StateEnum> _fsm;
@@ -19,15 +20,14 @@ public class PlayerController : MonoBehaviour
         var move = GetComponent<IMove>();
         var look = GetComponent<ILook>();
         var attack = GetComponent<IAttack>();
-        var crouchHandler = GetComponent<ICrouch>(); // <- ESTA es la interfaz
+        var crouchHandler = GetComponent<ICrouch>();
 
         var stateList = new List<PSBase<StateEnum>>();
 
         var idle = new PSIdle<StateEnum>(StateEnum.Walk);
         var walk = new PSWalk<StateEnum>(StateEnum.Idle);
-        var crouch = new PSCrouch<StateEnum>(StateEnum.Idle); // <- ESTE es el estado
+        var crouch = new PSCrouch<StateEnum>(StateEnum.Idle);
 
-        // Transiciones
         idle.AddTransition(StateEnum.Walk, walk);
         idle.AddTransition(StateEnum.Crouch, crouch);
 
@@ -36,18 +36,15 @@ public class PlayerController : MonoBehaviour
 
         crouch.AddTransition(StateEnum.Idle, idle);
 
-        // Agregar estados a la lista
         stateList.Add(idle);
         stateList.Add(walk);
         stateList.Add(crouch);
 
-        // Inicializar estados
         foreach (var state in stateList)
         {
-            state.Initialize(move, look, attack, crouchHandler); // ¡acá se pasa la interfaz!
+            state.Initialize(move, look, attack, crouchHandler);
         }
 
-        // Estado inicial
         _fsm.SetInit(idle);
     }
 
