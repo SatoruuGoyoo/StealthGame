@@ -7,6 +7,7 @@ public interface IState<T>
     void Initialize(params object[] p);
     void Enter();
     void Execute();
+    void FixExecute();
     void Exit();
     IState<T> GetTransition(T input);
     void AddTransition(T input, IState<T> state);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ISteering
+public interface ISteering
 {
     Vector3 GetDir();
 }

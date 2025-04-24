@@ -27,7 +27,7 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
     [SerializeField] Vector3 crouchCenter = new Vector3(-0.0002046084f, 0.0105f, -0.0006253576f);
 
     public Vector3 Position => transform.position;
-    private void Awake()
+    protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _collider = GetComponent<BoxCollider>();
@@ -36,14 +36,14 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
         originalCenter = _collider.center;
     }
 
-    public void Move(Vector3 dir)
+    public virtual void Move(Vector3 dir)
     {
         dir *= speed;
         dir.y = _rb.linearVelocity.y;
         _rb.linearVelocity = dir;
     }
 
-    public void Attack()
+    public virtual void Attack()
     {
         _onAttack();
     }

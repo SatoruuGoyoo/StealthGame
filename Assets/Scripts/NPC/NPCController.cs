@@ -36,7 +36,7 @@ public class NPCController : MonoBehaviour
     }
     void InitializedSteering()
     {
-       
+
         var pursuit = new Pursuit(_model.transform, target, 0, timePrediction);
         var evade = new Evade(_model.transform, target, 0, timePrediction);
         _steering = pursuit;
@@ -49,7 +49,7 @@ public class NPCController : MonoBehaviour
         var idle = new NPCIdle<StateEnum>();
         var attack = new NPCAttack<StateEnum>();
         var chase = new NPCSteering<StateEnum>(_steering);
-        var goZone = new NPCSChase<StateEnum>(zone);
+        var goZone = new NPCChase<StateEnum>(zone);
 
         var stateList = new List<PSBase<StateEnum>>();
         stateList.Add(idle);
@@ -83,15 +83,18 @@ public class NPCController : MonoBehaviour
 
     void InitializedTree()
     {
-        var idle = new ActionNode(() => {
+        var idle = new ActionNode(() =>
+        {
             Debug.Log("Transici?n a Idle");
             _fsm.Transition(StateEnum.Idle);
         });
-        var attack = new ActionNode(() => {
+        var attack = new ActionNode(() =>
+        {
             Debug.Log("Transici?n a Spin (Attack)");
             _fsm.Transition(StateEnum.Spin);
         });
-        var chase = new ActionNode(() => {
+        var chase = new ActionNode(() =>
+        {
             Debug.Log("Transici?n a Chase");
             _fsm.Transition(StateEnum.Chase);
         });
