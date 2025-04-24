@@ -5,6 +5,7 @@ public class EnemyController : MonoBehaviour
 {
     public Transform target;
     public Transform _initialZone;
+    [SerializeField] private List<Transform> patrolWaypoints = new List<Transform>();
     FSM<StateEnum> _fsm;
     private EnemyModel _model;
     private LineOfSightMono _los;
@@ -55,6 +56,8 @@ public class EnemyController : MonoBehaviour
         var attack = new NPCSAttack<StateEnum>();
         var chase = new NPCSChase<StateEnum>(target);
         var goZone = new NPCSChase<StateEnum>(_initialZone);
+        var patrol = new NPCPatrol<StateEnum>();
+        patrol.Waypoints = patrolWaypoints;
 
         // Added to a LIST
         var stateList = new List<NPCSBase<StateEnum>>();
@@ -62,23 +65,33 @@ public class EnemyController : MonoBehaviour
         stateList.Add(attack);
         stateList.Add(chase);
         stateList.Add(goZone);
+        stateList.Add(patrol);
 
         // Created Transitions
         idle.AddTransition(StateEnum.Chase, chase);
         idle.AddTransition(StateEnum.Attack, attack);
-        chase.AddTransition(StateEnum.GoZone, goZone);
+        idle.AddTransition(StateEnum.GoZone, goZone);
+        idle.AddTransition(StateEnum.Patrol, patrol);
 
         attack.AddTransition(StateEnum.Idle, idle);
         attack.AddTransition(StateEnum.Chase, chase);
-        chase.AddTransition(StateEnum.GoZone, goZone);
+        attack.AddTransition(StateEnum.GoZone, goZone);
+        attack.AddTransition(StateEnum.Patrol, patrol);
 
         chase.AddTransition(StateEnum.Idle, idle);
         chase.AddTransition(StateEnum.Attack, attack);
         chase.AddTransition(StateEnum.GoZone, goZone);
+        chase.AddTransition(StateEnum.Patrol, patrol);
 
         goZone.AddTransition(StateEnum.Idle, idle);
         goZone.AddTransition(StateEnum.Chase, chase);
         goZone.AddTransition(StateEnum.Attack, attack);
+        goZone.AddTransition(StateEnum.Patrol, patrol);
+
+        patrol.AddTransition(StateEnum.Idle, idle);
+        patrol.AddTransition(StateEnum.Chase, chase);
+        patrol.AddTransition(StateEnum.GoZone, goZone);
+        patrol.AddTransition(StateEnum.Attack, attack);
 
         // Go trough List
         for (int i = 0; i < stateList.Count; i++)
@@ -96,12 +109,14 @@ public class EnemyController : MonoBehaviour
         var attack = new ANode(() => _fsm.Transition(StateEnum.Attack));
         var chase = new ANode(() => _fsm.Transition(StateEnum.Chase));
         var goZone = new ANode(() => _fsm.Transition(StateEnum.GoZone));
+        var patrol = new ANode(() => _fsm.Transition(StateEnum.Patrol));
 
         var qCanAttack = new QNode(QuestionCanAttack, attack , chase);
         var qCanGoZone = new QNode(QuestionCanGoZone, goZone, idle);
         var qCanSeeTarget = new QNode(QuestionCanSeeTarget, qCanAttack, qCanGoZone);
+        var qCanPatrol = new QNode(QuestionCanPatrol, patrol, idle);
 
-        _root = qCanSeeTarget;
+        _root = new QNode(QuestionCanSeeTarget, qCanAttack, qCanPatrol);
     }
     bool QuestionCanAttack()
     {
@@ -116,6 +131,15 @@ public class EnemyController : MonoBehaviour
     bool QuestionCanGoZone()
     {
         return Vector3.Distance(_model.transform.position, _initialZone.position) > 0.25f;
+    }
+
+    bool QuestionCanPatrol()
+    {
+        // 1) No ve al jugador
+        if (_los.LOS(target)) return false;
+        // 2) Está suficientemente cerca de su zona inicial
+        float distToZone = Vector3.Distance(_model.transform.position, _initialZone.position);
+        return distToZone <= 0.25f;
     }
 
 

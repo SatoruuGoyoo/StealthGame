@@ -9,6 +9,4 @@ public class NPCSIdle<T> : NPCSBase<T>
 
         // Trigger visuales, anims
     }
-
- 
 }
