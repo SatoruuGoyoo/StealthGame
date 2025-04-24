@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: a4a74d1f38b5faa41b2b14a4af7749b0, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -17072,8 +17072,8 @@ Transform:
   m_GameObject: {fileID: 425517195}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.54, y: 87.5002, z: 4.71}
-  m_LocalScale: {x: 0.1913002, y: 1.495, z: 1.495}
+  m_LocalPosition: {x: -3.54, y: 87.11, z: 4.71}
+  m_LocalScale: {x: 0.12907599, y: 1.0087214, z: 1.0087214}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1208471471}
@@ -30641,8 +30641,8 @@ Transform:
   m_GameObject: {fileID: 807441138}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.31, y: 87.228, z: 26.85}
-  m_LocalScale: {x: 0.9695075, y: 1.495, z: 1.495}
+  m_LocalPosition: {x: -15.19, y: 86.68, z: 26.85}
+  m_LocalScale: {x: 0.5239025, y: 0.8078681, z: 0.8078681}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1208471471}
@@ -31187,7 +31187,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -47347,8 +47347,8 @@ Transform:
   m_GameObject: {fileID: 1307864062}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 33.98, y: 87.5002, z: 28.71}
-  m_LocalScale: {x: 1.495, y: 1.495, z: 0.39468}
+  m_LocalPosition: {x: 33.98, y: 87.161, z: 28.71}
+  m_LocalScale: {x: 0.81843776, y: 0.81843776, z: 0.21606757}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1208471471}
@@ -73723,8 +73723,8 @@ Transform:
   m_GameObject: {fileID: 2037963777}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 6.42, y: 87.5002, z: 22.04}
-  m_LocalScale: {x: 1.495, y: 1.495, z: 0.39468}
+  m_LocalPosition: {x: 6.42, y: 87.09, z: 21.896}
+  m_LocalScale: {x: 0.87130094, y: 0.87130094, z: 0.23002344}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1208471471}
