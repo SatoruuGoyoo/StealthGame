@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public Rigidbody target;
+    public Transform zone;
+    FSM<StateEnum> _fsm;
+    NPCModel _model;
+    LineOfSightMono _los;
+    ITreeNode _root;
     void Start()
     {
         

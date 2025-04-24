@@ -18,20 +18,20 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
 
     public bool IsCrouching { get; private set; } = false;
 
-    // Datos originales (de pie)
+   
     Vector3 originalSize = new Vector3(0.006859852f, 0.03552359f, 0.00960762f);
     Vector3 originalCenter = new Vector3(-0.0002046084f, 0.01772303f, -0.0006253576f);
 
-    // Datos en crouch
+    
     [SerializeField] Vector3 crouchSize = new Vector3(0.006859852f, 0.02f, 0.00960762f);
     [SerializeField] Vector3 crouchCenter = new Vector3(-0.0002046084f, 0.0105f, -0.0006253576f);
 
+    public Vector3 Position => transform.position;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _collider = GetComponent<BoxCollider>();
 
-        // Guardamos valores reales por si el prefab cambia
         originalSize = _collider.size;
         originalCenter = _collider.center;
     }

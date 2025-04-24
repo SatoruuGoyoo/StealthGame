@@ -1,16 +1,22 @@
 using UnityEngine;
 
-public class NPCPatrol : MonoBehaviour
+public class NPCPatrol<T> : NPCBase<T>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    Transform _target;
+    public NPCPatrol(Transform target)
     {
-        
+        _target = target;
     }
-
-    // Update is called once per frame
-    void Update()
+    public override void Execute()
     {
-        
+        base.Execute();
+        //a-->b
+        //b-a
+        //a= self 
+        //b=target
+
+        var dir = _target.transform.position - _move.Position;
+        _move.Move(dir.normalized);
+        _look.LookDir(dir.normalized);
     }
 }
