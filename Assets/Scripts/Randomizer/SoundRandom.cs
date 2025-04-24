@@ -11,11 +11,11 @@ public class SoundRandom : MonoBehaviour
 
     private void Awake()
     {
-        _weights = new Dictionary<RarityEnum, float>();
+        _weights = new Dictionary<RarityEnum, float>()
         {
-            { RarityEnum.Common, 1f };
-            { RarityEnum.Rare, 0.5f };
-            { RarityEnum.UltraRare, 0.1f };
+            { RarityEnum.Common, 1f },
+            { RarityEnum.Rare, 0.5f },
+            { RarityEnum.UltraRare, 0.1f }
         };
 
         StartCoroutine(PlayRandomSoundLoop());
