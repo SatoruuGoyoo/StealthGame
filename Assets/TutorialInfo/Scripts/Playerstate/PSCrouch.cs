@@ -23,8 +23,6 @@ public class PSCrouch<T> : PSBase<T>
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("CROUCH: ENTER");
-
         _move.Move(Vector3.zero);
         _crouch?.StartCrouch();
 
@@ -43,7 +41,8 @@ public class PSCrouch<T> : PSBase<T>
         }
 
         var dir = new Vector3(InputManager.GetMove().x, 0, InputManager.GetMove().y);
-        _move.Move(dir * 0.5f);
+        _move.Move(dir * 0.5f); // Movimiento reducido
+
         if (dir != Vector3.zero)
         {
             _look.LookDir(dir);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public class PlayerView : MonoBehaviour, ILook
 {
     [SerializeField] Animator _anim;
@@ -34,14 +35,6 @@ public class PlayerView : MonoBehaviour, ILook
     {
         float vel = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z).magnitude;
         _anim.SetFloat("Vel", vel);
-
-        // Leer si estamos agachados para determinar tipo de movimiento
-        bool isCrouching = false;
-        if (TryGetComponent<CapsuleCollider>(out var col))
-        {
-            isCrouching = (col.height < 1.5f); // ✅ Esto funciona
-        }
-
-        _anim.SetBool("Crouch", isCrouching);
+        // "Crouch" lo maneja PSCrouch directamente
     }
 }
