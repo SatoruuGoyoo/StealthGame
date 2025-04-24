@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,10 +15,10 @@ public class PlayerView : MonoBehaviour, ILook
         GetComponent<IAttack>().OnAttack += OnSpinAnim;
     }
 
-    //public void Update()
-    //{
-    //    OnMoveAnim();
-    //}
+    public void Update()
+    {
+        UpdateMovementAnimations();
+    }
 
     public void LookDir(Vector3 dir)
     {
@@ -30,8 +30,18 @@ public class PlayerView : MonoBehaviour, ILook
         _anim.SetTrigger("Spin");
     }
 
-    //void OnMoveAnim()
-    //{
-    //    _anim.SetFloat("Vel", _rb.linearVelocity.magnitude);
-    //}
+    void UpdateMovementAnimations()
+    {
+        float vel = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z).magnitude;
+        _anim.SetFloat("Vel", vel);
+
+        // Leer si estamos agachados para determinar tipo de movimiento
+        bool isCrouching = false;
+        if (TryGetComponent<CapsuleCollider>(out var col))
+        {
+            isCrouching = (col.height < 1.5f); // ✅ Esto funciona
+        }
+
+        _anim.SetBool("Crouch", isCrouching);
+    }
 }
