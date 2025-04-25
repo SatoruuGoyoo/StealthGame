@@ -1,16 +1,37 @@
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LoadingState : State<GameState>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Enter()
     {
-        
+        Debug.Log("Cargando con fade...");
+        GameManager.Instance.StartCoroutine(FadeAndLoadScene("Level1"));
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator FadeAndLoadScene(string sceneName)
     {
-        
+        var fade = MainMenu.Instance?.fadeImage;
+
+        fade.gameObject.SetActive(true);
+        if (fade == null)
+        {
+            Debug.LogWarning("No se encontró el fadeImage");
+            SceneManager.LoadScene(sceneName);
+            yield break;
+        }
+        float t = 0f;
+        float duration = MainMenu.Instance.fadeDuration;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, t / duration);
+            fade.color = new Color(0, 0, 0, alpha);
+            yield return null;
+        }
+
+        SceneManager.LoadScene(sceneName);
     }
 }

@@ -5,43 +5,52 @@ using static GameManager;
 
 public class GameManager : MonoBehaviour
 {
-   
+
     public static GameManager Instance;
 
     private FSM<GameState> _fsm;
+
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-
         DontDestroyOnLoad(gameObject);
 
-        
-        var mainMenu = new MainMenuState();
+        InitFSM();
+    }
+
+    void Update() => _fsm?.OnExecute();
+    void FixedUpdate() => _fsm?.OnFixExecute();
+
+    public void ChangeState(GameState state)
+    {
+        _fsm?.Transition(state);
+    }
+
+    private void InitFSM()
+    {
+        _fsm = new FSM<GameState>();
+
+        var main = new MainMenuState();
         var loading = new LoadingState();
-        var inGame = new InGameState();
-        var paused = new PausedState();
+        var game = new InGameState();
+        var pause = new PausedState();
+      
+
+        main.AddTransition(GameState.Loading, loading);
+        loading.AddTransition(GameState.InGame, game);
+        game.AddTransition(GameState.Paused, pause);
+    
+        pause.AddTransition(GameState.InGame, game);
+        ;
+
+        main.Initialize();
+        loading.Initialize();
+        game.Initialize();
+        pause.Initialize();
        
 
-       
-        mainMenu.AddTransition(GameState.Loading, loading);
-        loading.AddTransition(GameState.InGame, inGame);
-        inGame.AddTransition(GameState.Paused, paused);
-        paused.AddTransition(GameState.InGame, inGame);
-     ;
-
-        
-        _fsm = new FSM<GameState>(mainMenu);
-    }
-    void Start()
-    {
-        
-    }
-
-  
-    void Update()
-    {
-        
+        _fsm.SetInit(main);
     }
 }

@@ -1,16 +1,16 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InGameState : State<GameState>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Enter()
     {
-        
+        Debug.Log("Jugando");
+        Time.timeScale = 1f;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Execute()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+            StateMachine.Transition(GameState.Paused);
     }
 }

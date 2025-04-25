@@ -1,16 +1,25 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MainMenuState : State<GameState>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    MainMenu mainMenu;
+
+    public override void Initialize(params object[] p)
     {
-        
+        mainMenu = GameObject.FindFirstObjectByType<MainMenu>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Enter()
     {
-        
+        Debug.Log("🟢 Estado: MainMenu");
+        if (mainMenu != null)
+            mainMenu.gameObject.SetActive(true);
+    }
+
+    public override void Exit()
+    {
+        Debug.Log("⏭ Saliendo de MainMenu");
+        if (mainMenu != null)
+            mainMenu.gameObject.SetActive(false);
     }
 }
