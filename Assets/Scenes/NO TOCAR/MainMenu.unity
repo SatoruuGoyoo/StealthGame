@@ -345,6 +345,7 @@ GameObject:
   m_Component:
   - component: {fileID: 196334433}
   - component: {fileID: 196334436}
+  - component: {fileID: 196334437}
   - component: {fileID: 196334435}
   - component: {fileID: 196334434}
   m_Layer: 5
@@ -430,6 +431,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2118821947}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &196334435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,6 +481,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 196334432}
   m_CullTransparentMesh: 1
+--- !u!114 &196334437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196334432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9510858ff7b523a4fad9b94d2510bc3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: UIButtonClick
+  hoverSound: UIButtonHover
 --- !u!1 &203079919
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,6 +505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 203079920}
   - component: {fileID: 203079923}
+  - component: {fileID: 203079924}
   - component: {fileID: 203079922}
   - component: {fileID: 203079921}
   m_Layer: 5
@@ -563,6 +591,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2118821947}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &203079922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,6 +641,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203079919}
   m_CullTransparentMesh: 1
+--- !u!114 &203079924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203079919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9510858ff7b523a4fad9b94d2510bc3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: UIButtonClick
+  hoverSound: UIButtonHover
 --- !u!1 &278555417
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 463319423}
   - component: {fileID: 463319426}
+  - component: {fileID: 463319427}
   - component: {fileID: 463319425}
   - component: {fileID: 463319424}
   m_Layer: 5
@@ -1317,6 +1372,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2118821947}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &463319425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,6 +1422,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463319422}
   m_CullTransparentMesh: 1
+--- !u!114 &463319427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463319422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9510858ff7b523a4fad9b94d2510bc3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: UIButtonClick
+  hoverSound: UIButtonHover
 --- !u!1 &510150190
 GameObject:
   m_ObjectHideFlags: 0
@@ -2289,6 +2370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 770326346}
   - component: {fileID: 770326349}
+  - component: {fileID: 770326350}
   - component: {fileID: 770326348}
   - component: {fileID: 770326347}
   m_Layer: 5
@@ -2374,6 +2456,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2118821947}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &770326348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2412,6 +2506,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 770326345}
   m_CullTransparentMesh: 1
+--- !u!114 &770326350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770326345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9510858ff7b523a4fad9b94d2510bc3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: UIButtonClick
+  hoverSound: UIButtonHover
 --- !u!1 &820704869
 GameObject:
   m_ObjectHideFlags: 0
@@ -2927,8 +3035,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: menu
-    clip: {fileID: 0}
-    volume: 1
+    clip: {fileID: 8300000, guid: 394be480464407e46a723642b1bab736, type: 3}
+    volume: 0.206
     pitch: 1
     loop: 1
     source: {fileID: 0}
@@ -3891,6 +3999,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1753756928}
   - component: {fileID: 1753756931}
+  - component: {fileID: 1753756932}
   - component: {fileID: 1753756930}
   - component: {fileID: 1753756929}
   m_Layer: 5
@@ -3976,6 +4085,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2118821947}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1753756930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4014,6 +4135,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753756927}
   m_CullTransparentMesh: 1
+--- !u!114 &1753756932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753756927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9510858ff7b523a4fad9b94d2510bc3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: UIButtonClick
+  hoverSound: UIButtonHover
 --- !u!1 &1797355701
 GameObject:
   m_ObjectHideFlags: 0
