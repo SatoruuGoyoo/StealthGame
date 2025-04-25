@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class PauseUI : MonoBehaviour
 
    
     public TextMeshProUGUI pauseText;
+    public TextMeshProUGUI messageText;
 
     void Awake()
     {
@@ -25,5 +27,18 @@ public class PauseUI : MonoBehaviour
     {
         if (pauseText != null)
             pauseText.gameObject.SetActive(false);  
+    }
+    public void ShowMessage(string message, float duration = 2f)
+    {
+        StopAllCoroutines();
+        StartCoroutine(ShowMessageRoutine(message, duration));
+    }
+
+    IEnumerator ShowMessageRoutine(string message, float duration)
+    {
+        messageText.text = message;
+        messageText.enabled = true;
+        yield return new WaitForSeconds(duration);
+        messageText.enabled = false;
     }
 }

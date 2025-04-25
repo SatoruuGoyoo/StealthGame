@@ -1,16 +1,44 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class KeycardPanel : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public string requiredKeycardID = "MainKeycard";
+    public GameObject doorToOpen;
 
-    // Update is called once per frame
+
+    private bool playerNear = false;
+
     void Update()
     {
-        
+        if (playerNear && Input.GetKeyDown(KeyCode.E))
+        {
+            if (PlayerInventory.Instance.HasKeycard(requiredKeycardID))
+            {
+             
+                doorToOpen.GetComponent<DoorMovement>().OpenDoor();
+            }
+            else
+            {
+                PauseUI.Instance.ShowMessage("Requiere una tarjeta", 4f);
+               
+            }
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerNear = true;
+            PauseUI.Instance.ShowMessage("Presione E para interactuar", 4f);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerNear = false;
+        }
     }
 }

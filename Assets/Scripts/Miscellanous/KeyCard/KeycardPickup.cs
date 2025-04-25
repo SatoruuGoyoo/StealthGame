@@ -1,16 +1,20 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class KeycardPickup : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public string keycardID = "MainKeycard"; 
+    private bool collected = false;
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
-        
+        if (collected) return;
+
+        if (other.CompareTag("Player"))
+        {
+           
+            PlayerInventory.Instance.CollectKeycard(keycardID);
+            collected = true;
+            Destroy(gameObject); 
+        }
     }
 }
