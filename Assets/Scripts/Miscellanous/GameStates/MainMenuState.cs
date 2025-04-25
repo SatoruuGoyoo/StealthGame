@@ -11,14 +11,14 @@ public class MainMenuState : State<GameState>
 
     public override void Enter()
     {
-        Debug.Log("🟢 Estado: MainMenu");
+        Debug.Log("MainMenu");
         if (mainMenu != null)
             mainMenu.gameObject.SetActive(true);
     }
 
     public override void Exit()
     {
-        Debug.Log("⏭ Saliendo de MainMenu");
+        Debug.Log("Saliendo de MainMenu");
         if (mainMenu != null)
             mainMenu.gameObject.SetActive(false);
     }

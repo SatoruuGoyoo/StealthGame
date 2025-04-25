@@ -36,20 +36,27 @@ public class GameManager : MonoBehaviour
         var loading = new LoadingState();
         var game = new InGameState();
         var pause = new PausedState();
-      
+        var over = new GameOverState();
+        var win = new VictoryState();
+
 
         main.AddTransition(GameState.Loading, loading);
         loading.AddTransition(GameState.InGame, game);
         game.AddTransition(GameState.Paused, pause);
-    
+        game.AddTransition(GameState.GameOver, over);
+        game.AddTransition(GameState.Victory, win);
         pause.AddTransition(GameState.InGame, game);
+        over.AddTransition(GameState.MainMenu, main);
+        win.AddTransition(GameState.MainMenu, main);
         ;
 
         main.Initialize();
         loading.Initialize();
         game.Initialize();
         pause.Initialize();
-       
+        over.Initialize();
+        win.Initialize();
+
 
         _fsm.SetInit(main);
     }

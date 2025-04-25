@@ -60,7 +60,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnGoToMission()
     {
-        //StartCoroutine(FadeAndLoadScene());
+ 
         GameManager.Instance.ChangeState(GameState.Loading);
     }
 
@@ -82,17 +82,4 @@ public class MainMenu : MonoBehaviour
         }
         fadeImage.gameObject.SetActive(false);
     }
-
-    //IEnumerator FadeAndLoadScene()
-    //{
-    //    fadeImage.gameObject.SetActive(true);
-    //    float t = 0;
-    //    while (t < fadeDuration)
-    //    {
-    //        t += Time.deltaTime;
-    //        float alpha = Mathf.Lerp(0f, 1f, t / fadeDuration);
-    //        fadeImage.color = new Color(0, 0, 0, alpha);
-    //        yield return null;
-    //    }
-    //}
 }

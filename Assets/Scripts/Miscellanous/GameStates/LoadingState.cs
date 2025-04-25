@@ -32,6 +32,7 @@ public class LoadingState : State<GameState>
             yield return null;
         }
 
+        GameManager.Instance.ChangeState(GameState.InGame);
         SceneManager.LoadScene(sceneName);
     }
 }
