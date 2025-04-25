@@ -6,21 +6,21 @@ public class LoadingState : State<GameState>
 {
     public override void Enter()
     {
-        Debug.Log("Cargando con fade...");
+        Debug.Log("🕐 Cargando con fade...");
         GameManager.Instance.StartCoroutine(FadeAndLoadScene("Level1"));
     }
 
     IEnumerator FadeAndLoadScene(string sceneName)
     {
         var fade = MainMenu.Instance?.fadeImage;
-
-        fade.gameObject.SetActive(true);
         if (fade == null)
         {
-            Debug.LogWarning("No se encontró el fadeImage");
+            Debug.LogWarning("No se encontró el fadeImage. Cargando directo.");
             SceneManager.LoadScene(sceneName);
             yield break;
         }
+
+        fade.gameObject.SetActive(true);
         float t = 0f;
         float duration = MainMenu.Instance.fadeDuration;
 
