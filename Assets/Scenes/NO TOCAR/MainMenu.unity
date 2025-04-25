@@ -2928,20 +2928,20 @@ MonoBehaviour:
   sounds:
   - name: menu
     clip: {fileID: 0}
-    volume: 0
-    pitch: 0
-    loop: 0
+    volume: 1
+    pitch: 1
+    loop: 1
     source: {fileID: 0}
   - name: UIButtonClick
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+    clip: {fileID: 8300000, guid: 6b907aade8e115b4d86ff47c0a9757a3, type: 3}
+    volume: 1
+    pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: UIButtonHover
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+    clip: {fileID: 8300000, guid: 1577f44824905934ba06889ebf3df3f1, type: 3}
+    volume: 1
+    pitch: 1
     loop: 0
     source: {fileID: 0}
   sceneMusics:
