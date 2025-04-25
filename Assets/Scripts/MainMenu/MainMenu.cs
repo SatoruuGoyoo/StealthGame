@@ -63,6 +63,12 @@ public class MainMenu : MonoBehaviour
  
         GameManager.Instance.ChangeState(GameState.Loading);
     }
+    public void RetryLevel()
+    {
+        
+        GameManager.Instance.ChangeState(GameState.Loading);
+
+    }
 
     public void ExitGame()
     {

@@ -46,7 +46,8 @@ public class GameManager : MonoBehaviour
         game.AddTransition(GameState.GameOver, over);
         game.AddTransition(GameState.Victory, win);
         pause.AddTransition(GameState.InGame, game);
-        over.AddTransition(GameState.MainMenu, main);
+        //over.AddTransition(GameState.MainMenu, main);
+        over.AddTransition(GameState.Loading, loading);
         win.AddTransition(GameState.MainMenu, main);
         ;
 
