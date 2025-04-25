@@ -7,9 +7,10 @@ public enum StateEnum
     Idle,
     Walk,
     Crouch,
-    Spin,
+    Attack,
     Chase,
     GoZone,
+    Patrol
 
 }
 

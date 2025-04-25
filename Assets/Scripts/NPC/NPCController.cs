@@ -4,24 +4,30 @@ using UnityEngine;
 public class NPCController : MonoBehaviour
 {
     public Rigidbody target;
-    public Transform zone;
+    //public Transform zone;
     public float timePrediction;
-    FSM<StateEnum> _fsm;
+    public float _waitTime;
+    public float _timer;
+    public List<Transform> patrolPoints; 
+    public FSM<StateEnum> _fsm;
     NPCModel _model;
     LineOfSightMono _los;
     ITreeNode _root;
     ISteering _steering;
+
     private void Awake()
     {
         _model = GetComponent<NPCModel>();
         _los = GetComponent<LineOfSightMono>();
     }
+
     void Start()
     {
         InitializedSteering();
         InitializedFSM();
         InitializedTree();
     }
+
     void Update()
     {
         if (target != null)
@@ -30,55 +36,71 @@ public class NPCController : MonoBehaviour
             _root.Execute();
         }
     }
+
     private void FixedUpdate()
     {
         _fsm.OnFixExecute();
     }
+
     void InitializedSteering()
     {
         var pursuit = new Pursuit(_model.transform, target, 0, timePrediction);
         var evade = new Evade(_model.transform, target, 0, timePrediction);
-        if(this.gameObject.tag == "NPC1")
+        if (this.gameObject.tag == "NPC1")
         {
-        _steering = pursuit;
-
+            _steering = pursuit;
         }
         else
         {
             _steering = evade;
         }
     }
+
     void InitializedFSM()
     {
         _fsm = new FSM<StateEnum>();
         var look = GetComponent<ILook>();
 
+        // Create States
         var idle = new NPCIdle<StateEnum>();
         var attack = new NPCAttack<StateEnum>();
         var chase = new NPCSteering<StateEnum>(_steering);
-        var goZone = new NPCChase<StateEnum>(zone);
+        //var goZone = new NPCChase<StateEnum>(zone);
+        var patrol = new NPCPatrol<StateEnum>(patrolPoints);  
 
+        // Add to List
         var stateList = new List<PSBase<StateEnum>>();
         stateList.Add(idle);
         stateList.Add(attack);
         stateList.Add(chase);
-        stateList.Add(goZone);
+        //stateList.Add(goZone);
+        stateList.Add(patrol);
 
+        // Create Transitions
         idle.AddTransition(StateEnum.Chase, chase);
-        idle.AddTransition(StateEnum.Spin, attack);
-        idle.AddTransition(StateEnum.GoZone, goZone);
+        idle.AddTransition(StateEnum.Attack, attack);
+        //idle.AddTransition(StateEnum.GoZone, goZone);
+        idle.AddTransition(StateEnum.Patrol, patrol);
 
         attack.AddTransition(StateEnum.Idle, idle);
         attack.AddTransition(StateEnum.Chase, chase);
-        attack.AddTransition(StateEnum.GoZone, goZone);
+        //attack.AddTransition(StateEnum.GoZone, goZone);
+        attack.AddTransition(StateEnum.Patrol, patrol);
 
         chase.AddTransition(StateEnum.Idle, idle);
-        chase.AddTransition(StateEnum.Spin, attack);
-        chase.AddTransition(StateEnum.GoZone, goZone);
+        chase.AddTransition(StateEnum.Attack, attack);
+        //chase.AddTransition(StateEnum.GoZone, goZone);
+        chase.AddTransition(StateEnum.Patrol, patrol);
 
-        goZone.AddTransition(StateEnum.Chase, chase);
-        goZone.AddTransition(StateEnum.Spin, attack);
-        goZone.AddTransition(StateEnum.Idle, idle);
+        //goZone.AddTransition(StateEnum.Chase, chase);
+        //goZone.AddTransition(StateEnum.Attack, attack);
+        //goZone.AddTransition(StateEnum.Idle, idle);
+        //goZone.AddTransition(StateEnum.Patrol, patrol);
+
+        patrol.AddTransition(StateEnum.Idle, idle);
+        patrol.AddTransition(StateEnum.Chase, chase);
+        patrol.AddTransition(StateEnum.Attack, attack);
+        //patrol.AddTransition(StateEnum.GoZone, goZone);
 
         for (int i = 0; i < stateList.Count; i++)
         {
@@ -90,38 +112,58 @@ public class NPCController : MonoBehaviour
 
     void InitializedTree()
     {
-        var idle = new ActionNode(() => {
-            Debug.Log("Transici�n a Idle");
+        var idle = new ActionNode(() =>
+        {
+            _timer = 0f;
             _fsm.Transition(StateEnum.Idle);
         });
-        var attack = new ActionNode(() => {
-            Debug.Log("Transici�n a Spin (Attack)");
-            _fsm.Transition(StateEnum.Spin);
+        var attack = new ActionNode(() =>
+        {
+           
+            _fsm.Transition(StateEnum.Attack);
         });
-        var chase = new ActionNode(() => {
-            Debug.Log("Transici�n a Chase");
+        var chase = new ActionNode(() =>
+        {
+            
             _fsm.Transition(StateEnum.Chase);
         });
-        var goZone = new ActionNode(() =>
+        //var goZone = new ActionNode(() =>
+        //{
+        //    Debug.Log("Transición a GoZone");
+        //    _fsm.Transition(StateEnum.GoZone);
+        //});
+        var patrol = new ActionNode(() =>
         {
-            Debug.Log("Transici�n a GoZone");
-            _fsm.Transition(StateEnum.GoZone);
+            Debug.Log("Transición a Patrol");
+            _fsm.Transition(StateEnum.Patrol);
         });
+        var waitForTime = new QuestionNode(
+            QuestionWaitForTime,
+            patrol,
+            idle
+        );
 
         var qCanAttack = new QuestionNode(QuestionCanAttack, attack, chase);
-        var qGoToZone = new QuestionNode(QuestionGoToZone, goZone, idle);
-        var qTargetInView = new QuestionNode(QuestionTargetInView, qCanAttack, qGoToZone);
+        //var qGoToZone = new QuestionNode(QuestionGoToZone, goZone, idle);
+        var qTargetInView = new QuestionNode(QuestionTargetInView, qCanAttack, waitForTime);
 
         _root = qTargetInView;
     }
+
     bool QuestionCanAttack()
     {
         return Vector3.Distance(_model.Position, target.position) <= _model.attackRange;
     }
-    bool QuestionGoToZone()
+    bool QuestionWaitForTime()
     {
-        return Vector3.Distance(_model.transform.position, zone.transform.position) > 0.25f;
+        return _timer >= _waitTime;
     }
+
+    //bool QuestionGoToZone()
+    //{
+    //    return Vector3.Distance(_model.transform.position, zone.transform.position) > 0.25f;
+    //}
+
     bool QuestionTargetInView()
     {
         if (target == null) return false;

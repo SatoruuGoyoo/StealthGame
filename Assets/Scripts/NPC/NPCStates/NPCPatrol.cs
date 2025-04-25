@@ -1,21 +1,52 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCPatrol<T> : NPCBase<T>
 {
-    Transform _target;
-    public NPCPatrol(Transform target)
+    List <Transform> _patrolPoints;
+    int _currentPatrolIndex = 0;
+    [SerializeField] float _arriveTreshold = 0.5f;
+    [SerializeField] float _waitTime = 1f;
+    float _timer;
+    bool _waitingAtWaypoint = false;
+
+    public NPCPatrol(List<Transform> patrolPoints)
     {
-        _target = target;
+        //Waypoints
+        _patrolPoints = patrolPoints;
+
     }
     public override void Execute()
     {
         base.Execute();
-        //a-->b
-        //b-a
-        //a= self 
-        //b=target
+        if (_patrolPoints == null || _patrolPoints.Count == 0) return;
+        
+        var target = _patrolPoints[_currentPatrolIndex];
+        Vector3 dir = target.position - _move.Position;
 
-        var dir = _target.transform.position - _move.Position;
+        if(_waitingAtWaypoint)
+        {
+            _move.Move(Vector3.zero);
+            _timer += Time.deltaTime;
+            if (_timer >= _waitTime)
+            {
+                _waitingAtWaypoint = false;
+                _timer = 0f;
+                _currentPatrolIndex = (_currentPatrolIndex + 1) % _patrolPoints.Count;
+                target = _patrolPoints[_currentPatrolIndex];
+                dir = target.position - _move.Position;
+            }
+            return;
+        }
+
+        if (dir.magnitude < _arriveTreshold)
+        {
+            _waitingAtWaypoint = true;
+            _move.Move(Vector3.zero);
+            return;
+        }
+    
         _move.Move(dir.normalized);
         _look.LookDir(dir.normalized);
     }
