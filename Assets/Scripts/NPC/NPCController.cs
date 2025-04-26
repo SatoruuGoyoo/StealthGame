@@ -10,10 +10,12 @@ public class NPCController : MonoBehaviour
     public float _timer;
     public List<Transform> patrolPoints; 
     public FSM<StateEnum> _fsm;
-    NPCModel _model;
-    LineOfSightMono _los;
-    ITreeNode _root;
-    ISteering _steering;
+    protected NPCModel _model;
+    protected LineOfSightMono _los;
+    protected ITreeNode _root;
+    protected ISteering _steering;
+
+    public StateEnum CurrentStateEnum { get; protected set; }
 
     private void Awake()
     {
@@ -42,7 +44,7 @@ public class NPCController : MonoBehaviour
         _fsm.OnFixExecute();
     }
 
-    void InitializedSteering()
+    protected virtual void InitializedSteering()
     {
         var pursuit = new Pursuit(_model.transform, target, 0, timePrediction);
         var evade = new Evade(_model.transform, target, 0, timePrediction);
@@ -56,7 +58,7 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    void InitializedFSM()
+    protected virtual void InitializedFSM()
     {
         _fsm = new FSM<StateEnum>();
         var look = GetComponent<ILook>();
@@ -110,7 +112,7 @@ public class NPCController : MonoBehaviour
         _fsm.SetInit(idle);
     }
 
-    void InitializedTree()
+    protected virtual void InitializedTree()
     {
         var idle = new ActionNode(() =>
         {
@@ -150,11 +152,11 @@ public class NPCController : MonoBehaviour
         _root = qTargetInView;
     }
 
-    bool QuestionCanAttack()
+    protected bool QuestionCanAttack()
     {
         return Vector3.Distance(_model.Position, target.position) <= _model.attackRange;
     }
-    bool QuestionWaitForTime()
+    protected bool QuestionWaitForTime()
     {
         return _timer >= _waitTime;
     }
@@ -164,7 +166,7 @@ public class NPCController : MonoBehaviour
     //    return Vector3.Distance(_model.transform.position, zone.transform.position) > 0.25f;
     //}
 
-    bool QuestionTargetInView()
+    protected bool QuestionTargetInView()
     {
         if (target == null) return false;
         return _los.LOS(target.transform);
