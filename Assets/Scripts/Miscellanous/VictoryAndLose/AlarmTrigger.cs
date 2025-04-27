@@ -20,9 +20,9 @@ public class AlarmTrigger : MonoBehaviour
                 if (lightObj != null)
                     lightObj.SetActive(true);
             }
-        }
         AudioManager.instance.PlaySound("alarm");
         AudioManager.instance.StopSound("music");
         Time.timeScale = 0f;
+        }
     }
 }

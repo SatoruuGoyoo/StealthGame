@@ -38,6 +38,10 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
 
     public virtual void Move(Vector3 dir)
     {
+        if (dir.magnitude > 1f)
+        {
+            dir.Normalize(); 
+        }
         dir *= speed;
         dir.y = _rb.linearVelocity.y;
         _rb.linearVelocity = dir;
