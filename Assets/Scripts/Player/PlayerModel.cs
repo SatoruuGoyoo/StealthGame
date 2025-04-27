@@ -25,7 +25,7 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
     [SerializeField] Vector3 crouchSize = new Vector3(0.006859852f, 0.02f, 0.00960762f);
     [SerializeField] Vector3 crouchCenter = new Vector3(-0.0002046084f, 0.0105f, -0.0006253576f);
 
-    [SerializeField] private float attackRange = 1.5f; // Nuevo: rango de ataque para encontrar enemigos
+     private float attackRange = 1.5f; // Nuevo: rango de ataque para encontrar enemigos
 
     public Vector3 Position => transform.position;
 

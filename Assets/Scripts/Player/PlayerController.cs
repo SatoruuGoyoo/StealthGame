@@ -37,6 +37,12 @@ public class PlayerController : MonoBehaviour
         walk.AddTransition(StateEnum.Attack, attackState);
 
         crouch.AddTransition(StateEnum.Idle, idle);
+        crouch.AddTransition(StateEnum.Walk, walk);
+        crouch.AddTransition(StateEnum.Attack, attackState);
+
+        attackState.AddTransition(StateEnum.Idle, idle);
+        attackState.AddTransition(StateEnum.Walk, walk);
+        attackState.AddTransition(StateEnum.Crouch, crouch);
 
         stateList.Add(idle);
         stateList.Add(walk);
