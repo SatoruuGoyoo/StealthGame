@@ -39028,7 +39028,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1018791590}
+  - component: {fileID: 1018791594}
   - component: {fileID: 1018791589}
+  - component: {fileID: 1018791593}
+  - component: {fileID: 1018791592}
+  - component: {fileID: 1018791591}
   m_Layer: 0
   m_Name: Ninja2
   m_TagString: Untagged
@@ -39067,7 +39071,7 @@ Transform:
   m_GameObject: {fileID: 1018791588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.185, y: 0, z: -23.94}
+  m_LocalPosition: {x: -3.29, y: 0, z: -16.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -39076,6 +39080,77 @@ Transform:
   - {fileID: 1229667193}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1018791591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018791588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225f575a4a64e1d41afe652c8e66df1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _anim: {fileID: 0}
+  speedRot: 10
+--- !u!114 &1018791592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018791588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
+  crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
+  attackRange: 0
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 192
+--- !u!114 &1018791593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018791588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804f76584285de349905c5cc810e4694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1793122592}
+  zone: {fileID: 0}
+  _patrolPoints: []
+  timePrediction: 0
+  waitTime: 0
+--- !u!65 &1018791594
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018791588}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1020958238
 GameObject:
   m_ObjectHideFlags: 0

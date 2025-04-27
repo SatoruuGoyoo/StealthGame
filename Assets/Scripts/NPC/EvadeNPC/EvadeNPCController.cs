@@ -5,7 +5,8 @@ public class EvadeNPCController : MonoBehaviour
 {
     public Rigidbody target;
     public Transform zone;
-    public Transform patrolArea;
+    public List<Transform> _patrolPoints;
+
     public float timePrediction;
     public float waitTime;
 
@@ -14,7 +15,7 @@ public class EvadeNPCController : MonoBehaviour
     private LineOfSightMono _los;
     private ITreeNode _root;
     private ISteering _evadeSteering;
-    private BoxCollider _patrolAreaCollider;
+   
     private ILook _look;
 
     private bool _isEvading = false;
@@ -26,7 +27,7 @@ public class EvadeNPCController : MonoBehaviour
         _model = GetComponent<NPCModel>();
         _los = GetComponent<LineOfSightMono>();
         _look = GetComponent<ILook>();
-        _patrolAreaCollider = patrolArea.GetComponent<BoxCollider>();
+        
     }
 
     void Start()
@@ -65,7 +66,7 @@ public class EvadeNPCController : MonoBehaviour
         var attack = new NPCAttack<StateEnum>();
         var evade = new NPCSteering<StateEnum>(_evadeSteering);
         var goZone = new NPCChase<StateEnum>(zone);
-        var patrol = new NPCPatrol<StateEnum>(_patrolAreaCollider);
+        var patrol = new NPCPatrol<StateEnum>(_patrolPoints);
 
         var states = new List<PSBase<StateEnum>> { idle, attack, evade, goZone, patrol };
 

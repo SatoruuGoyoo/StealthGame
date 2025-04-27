@@ -8,8 +8,7 @@ public class NPCController : MonoBehaviour
     public float timePrediction;
     public float _waitTime;
     public float _timer;
-    public Transform patrolArea;
-    private BoxCollider _patrolAreaCollider;
+    public List<Transform> _patrolPoints;
     public FSM<StateEnum> _fsm;
     protected NPCModel _model;
     protected LineOfSightMono _los;
@@ -22,7 +21,7 @@ public class NPCController : MonoBehaviour
     {
         _model = GetComponent<NPCModel>();
         _los = GetComponent<LineOfSightMono>();
-        _patrolAreaCollider = patrolArea.GetComponent<BoxCollider>();
+       
 
     }
 
@@ -71,7 +70,7 @@ public class NPCController : MonoBehaviour
         var attack = new NPCAttack<StateEnum>();
         var chase = new NPCSteering<StateEnum>(_steering);
         //var goZone = new NPCChase<StateEnum>(zone);
-        var patrol = new NPCPatrol<StateEnum>(_patrolAreaCollider);  
+        var patrol = new NPCPatrol<StateEnum>(_patrolPoints);  
 
         // Add to List
         var stateList = new List<PSBase<StateEnum>>();
