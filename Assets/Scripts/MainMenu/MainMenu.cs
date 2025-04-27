@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-
-
+    [Header("MainMenu Settings")]
     public GameObject logo, playButton, controlsButton, exitButton;
     public GameObject controlsPanel, returnButton;
     public GameObject codecPanel, goToMissionButton;
@@ -74,7 +73,6 @@ public class MainMenu : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
-        Debug.Log("Juego cerrado.");
     }
 
     IEnumerator FadeIn()

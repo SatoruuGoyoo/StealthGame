@@ -3,12 +3,16 @@ using UnityEngine;
 
 public class EvadeNPCController : MonoBehaviour
 {
-    public Rigidbody target;
-    public Transform zone;
+    [Header("Waypoints")]
     public List<Transform> _patrolPoints;
 
-    public float timePrediction;
+    [Header("Common Settings")]
+    public Rigidbody target;
+    public Transform zone;
     public float waitTime;
+
+    [Header("Evade Time")]
+    public float timePrediction;
 
     private FSM<StateEnum> _fsm;
     private NPCModel _model;
@@ -93,28 +97,24 @@ public class EvadeNPCController : MonoBehaviour
     {
         var patrol = new ActionNode(() =>
         {
-            Debug.Log("Transición a Patrol");
             _timer = 0f;
             _fsm.Transition(StateEnum.Patrol);
         });
 
         var idle = new ActionNode(() =>
         {
-            Debug.Log("Transición a Idle");
             _timer = 0f;
             _fsm.Transition(StateEnum.Idle);
         });
 
         var evadePlayer = new ActionNode(() =>
         {
-            Debug.Log("Transición a Evade (Chase)");
             _isEvading = true;
             _fsm.Transition(StateEnum.Chase);
         });
 
         var goToZone = new ActionNode(() =>
         {
-            Debug.Log("Transición a GoZone");
             _fsm.Transition(StateEnum.GoZone);
         });
 

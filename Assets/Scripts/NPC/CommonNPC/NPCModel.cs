@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class NPCModel : PlayerModel
 {
+    [Header("Attack Settings")]
     public float attackRange;
+
+    [Header("LayerMask")]
     public LayerMask enemyMask;
+
     ObstacleAvoidance _obs;
     ILook _look;
 

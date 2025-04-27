@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class PlayerView : MonoBehaviour, ILook
 {
+    [Header("Anim Settings")]
     [SerializeField] Animator _anim;
-    Rigidbody _rb;
+
+    [Header("Speed Rotation Settings")]
     public float speedRot = 10;
+
+    Rigidbody _rb;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         GetComponent<IAttack>().OnAttack += OnAttackAnim; 
     }
-
-
 
     public void Update()
     {
@@ -31,13 +31,10 @@ public class PlayerView : MonoBehaviour, ILook
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speedRot);
     }
 
-
     public void OnAttackAnim()
     {
         _anim.SetTrigger("Attack"); 
     }
-
-
 
     void UpdateMovementAnimations()
     {

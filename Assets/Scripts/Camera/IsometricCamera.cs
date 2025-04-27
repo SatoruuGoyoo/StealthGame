@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IsometricCamera : MonoBehaviour
 {
-    [SerializeField] private Transform target; // El jugador
+    [SerializeField] private Transform target; 
     [SerializeField] private Vector3 offset = new Vector3(5, 10, -5);
     [SerializeField] private bool lookAtTarget = true;
 

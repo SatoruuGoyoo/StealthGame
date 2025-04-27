@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class LineOfSightMono : MonoBehaviour
 {
+    [Header("LOS Settings")]
     public float range;
     public float angle;
     public LayerMask obsMask;
     public bool CheckRange(Transform target)
     {
-        //A->B
-        //B-A
-        //A: Self
-        //B: Target
-        //return Vector3.Distance(self.position, target.position) <= range;
-
         Vector3 dir = target.position - transform.position;
         float distance = dir.magnitude;
         return distance <= range;

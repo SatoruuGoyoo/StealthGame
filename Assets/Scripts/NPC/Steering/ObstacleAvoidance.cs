@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ObstacleAvoidance : MonoBehaviour
 {
+    [Header("Obs Settings")]
     [Min(1)]
     public int maxObs = 2;
     [Min(0)]
@@ -15,7 +16,6 @@ public class ObstacleAvoidance : MonoBehaviour
     private void Awake()
     {
         _colls = new Collider[maxObs];
-        //personalAreaGetComponent<Collider>().bounds.extents.magnitude;
     }
     public Vector3 GetDir(Vector3 currDir)
     {

@@ -3964,14 +3964,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804f76584285de349905c5cc810e4694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1758092645}
-  zone: {fileID: 425517196}
   _patrolPoints:
   - {fileID: 790349953}
   - {fileID: 533230050}
   - {fileID: 1241562032}
-  timePrediction: 1
+  target: {fileID: 1758092645}
+  zone: {fileID: 425517196}
   waitTime: 0
+  timePrediction: 1
 --- !u!95 &69723402
 Animator:
   serializedVersion: 7
@@ -72404,18 +72404,18 @@ GameObject:
   - component: {fileID: 1775237843}
   - component: {fileID: 1775237852}
   - component: {fileID: 1775237850}
-  - component: {fileID: 1775237849}
-  - component: {fileID: 1775237848}
   - component: {fileID: 1775237846}
-  - component: {fileID: 1775237845}
+  - component: {fileID: 1775237848}
   - component: {fileID: 1775237853}
+  - component: {fileID: 1775237849}
+  - component: {fileID: 1775237845}
   m_Layer: 0
   m_Name: Ninja1
   m_TagString: NPC1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1775237842
 Transform:
   m_ObjectHideFlags: 0
@@ -72585,15 +72585,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe26600702e6c7a43ade9ba64f18388e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1758092645}
-  timePrediction: 1
-  _waitTime: 0
-  _timer: 0
   _patrolPoints:
   - {fileID: 1599579519}
   - {fileID: 788084714}
   - {fileID: 1927415598}
   - {fileID: 1039142656}
+  timePrediction: 1
+  target: {fileID: 1758092645}
+  _waitTime: 0
+  _timer: 0
 --- !u!82 &1775237852
 AudioSource:
   m_ObjectHideFlags: 0

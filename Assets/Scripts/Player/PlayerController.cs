@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class PlayerController : MonoBehaviour
 {
     FSM<StateEnum> _fsm;
@@ -18,7 +16,7 @@ public class PlayerController : MonoBehaviour
         _fsm = new FSM<StateEnum>();
         var move = GetComponent<IMove>();
         var look = GetComponent<ILook>();
-        var attackHandler = GetComponent<IAttack>(); // Renombrado correctamente
+        var attackHandler = GetComponent<IAttack>(); 
         var crouchHandler = GetComponent<ICrouch>();
 
         var stateList = new List<PSBase<StateEnum>>();
@@ -26,11 +24,11 @@ public class PlayerController : MonoBehaviour
         var idle = new PSIdle<StateEnum>(StateEnum.Walk);
         var walk = new PSWalk<StateEnum>(StateEnum.Idle);
         var crouch = new PSCrouch<StateEnum>(StateEnum.Idle);
-        var attackState = new PSAttack<StateEnum>(StateEnum.Idle); // También renombrado
+        var attackState = new PSAttack<StateEnum>(StateEnum.Idle); 
 
         idle.AddTransition(StateEnum.Walk, walk);
         idle.AddTransition(StateEnum.Crouch, crouch);
-        idle.AddTransition(StateEnum.Attack, attackState); // Ahora correcto
+        idle.AddTransition(StateEnum.Attack, attackState); 
 
         walk.AddTransition(StateEnum.Idle, idle);
         walk.AddTransition(StateEnum.Crouch, crouch);
@@ -47,11 +45,11 @@ public class PlayerController : MonoBehaviour
         stateList.Add(idle);
         stateList.Add(walk);
         stateList.Add(crouch);
-        stateList.Add(attackState); // Correcto aquí también
+        stateList.Add(attackState);
 
         foreach (var state in stateList)
         {
-            state.Initialize(move, look, attackHandler, crouchHandler); // Usamos el handler
+            state.Initialize(move, look, attackHandler, crouchHandler); 
         }
 
         _fsm.SetInit(idle);
