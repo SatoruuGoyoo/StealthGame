@@ -19858,7 +19858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &449371863
 Animator:
   serializedVersion: 7
@@ -19980,6 +19980,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anim: {fileID: 449371863}
+  _audioSource: {fileID: 0}
+  _spottedClip: {fileID: 0}
   speedRot: 10
 --- !u!114 &449371869
 MonoBehaviour:
@@ -20010,11 +20012,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe26600702e6c7a43ade9ba64f18388e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1758092645}
+  _patrolPoints: []
   timePrediction: 1
+  target: {fileID: 1758092645}
   _waitTime: 0
   _timer: 0
-  patrolArea: {fileID: 1157705113}
 --- !u!4 &449371871
 Transform:
   m_ObjectHideFlags: 0
