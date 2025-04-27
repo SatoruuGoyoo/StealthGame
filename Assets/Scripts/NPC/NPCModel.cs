@@ -18,7 +18,10 @@ public class NPCModel : PlayerModel
         var colls = Physics.OverlapSphere(Position, attackRange, enemyMask);
         for (int i = 0; i < colls.Length; i++)
         {
+            
             GameObject.Destroy(colls[i].gameObject);
+            DefeatHandler.Instance.TriggerDefeat();
+
         }
         base.Attack();
     }

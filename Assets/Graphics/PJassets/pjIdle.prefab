@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 6377004501153075855}
   m_Layer: 0
   m_Name: armlower
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -549,10 +549,11 @@ GameObject:
   - component: {fileID: 7912773449895415872}
   - component: {fileID: 8247810753394664934}
   - component: {fileID: 7056227880919889714}
+  - component: {fileID: 8579373500664793060}
   - component: {fileID: 431812948442886731}
   m_Layer: 0
   m_Name: pjIdle
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -647,7 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6862815582898418bbf274fa8c308d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: 0.0006558567, y: 0.009, z: 0}
 --- !u!114 &7056227880919889714
@@ -664,6 +665,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _anim: {fileID: 7670621022033871829}
   speedRot: 10
+--- !u!114 &8579373500664793060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3980761239003601797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d971f171ed1322e41b908353a6e62d57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &431812948442886731
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1273,7 +1286,7 @@ GameObject:
   - component: {fileID: 7434116237971173524}
   m_Layer: 0
   m_Name: mixamorig:Hips
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
