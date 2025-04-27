@@ -14,7 +14,6 @@ public class EvadeNPCController : MonoBehaviour
     private LineOfSightMono _los;
     private ITreeNode _root;
     private ISteering _evadeSteering;
-    private ISteering _pursuitSteering;
     private BoxCollider _patrolAreaCollider;
     private ILook _look;
 
@@ -55,7 +54,7 @@ public class EvadeNPCController : MonoBehaviour
     void InitializeSteerings()
     {
         _evadeSteering = new Evade(_model.transform, target, 0, timePrediction);
-        _pursuitSteering = new Pursuit(_model.transform, target, 0, timePrediction);
+
     }
 
     void InitializeFSM()

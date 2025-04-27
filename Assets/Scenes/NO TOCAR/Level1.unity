@@ -3681,7 +3681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
   attackRange: 0
@@ -3721,7 +3721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225f575a4a64e1d41afe652c8e66df1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _anim: {fileID: 0}
+  _anim: {fileID: 69723402}
   speedRot: 10
 --- !u!114 &69723398
 MonoBehaviour:
@@ -53948,7 +53948,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1352111052
 Transform:
   m_ObjectHideFlags: 0
@@ -54276,7 +54276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1359206109
 Transform:
   m_ObjectHideFlags: 0
@@ -69870,7 +69870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1774469546
 Transform:
   m_ObjectHideFlags: 0
