@@ -3914,9 +3914,15 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: alert
-    clip: {fileID: 8300000, guid: 050aa6fae1e61d3448729809976939be, type: 3}
+  - name: pick
+    clip: {fileID: 8300000, guid: 9b7523a9030441e4cb7ea022d6a0b67b, type: 3}
     volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: door
+    clip: {fileID: 8300000, guid: 56f19c63a3bac4d45bbb11b5b4db04df, type: 3}
+    volume: 0.67
     pitch: 1
     loop: 0
     source: {fileID: 0}

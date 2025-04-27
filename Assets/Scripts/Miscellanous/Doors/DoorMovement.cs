@@ -21,6 +21,7 @@ public class DoorMovement : MonoBehaviour
     {
         opening = true;
         closing = false;
+        AudioManager.instance.PlaySound("door");
     }
 
     void CloseDoor()

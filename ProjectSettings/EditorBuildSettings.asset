@@ -9,7 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/NO TOCAR/MainMenu.unity
     guid: 3c14a076c42625b4b91b97e6b9136f8e
   - enabled: 1
-    path: Assets/Scenes/NO TOCAR/Level1.unity
+    path: Assets/Scenes/Level1.unity
+    guid: 2c00838ad043d0f42a5a6e63e90ce39c
+  - enabled: 0
+    path: Assets/Scenes/NO TOCAR/Nivel1.unity
     guid: d42d6346ca7ebd844b4d606b2155bd64
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
