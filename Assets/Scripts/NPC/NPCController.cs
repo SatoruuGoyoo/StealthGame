@@ -16,6 +16,10 @@ public class NPCController : MonoBehaviour
     protected ITreeNode _root;
     protected ISteering _steering;
 
+    public event System.Action<bool> OnTargetInView;
+
+    protected bool previousLOSState = false;
+
     public StateEnum CurrentStateEnum { get; protected set; }
 
     private void Awake()
@@ -172,6 +176,15 @@ public class NPCController : MonoBehaviour
     protected bool QuestionTargetInView()
     {
         if (target == null) return false;
-        return _los.LOS(target.transform);
+
+        bool currentLOS = _los.LOS(target.transform);
+
+        if (currentLOS != previousLOSState)
+        {
+            OnTargetInView?.Invoke(currentLOS);
+            previousLOSState = currentLOS;
+        }
+
+        return currentLOS;
     }
 }

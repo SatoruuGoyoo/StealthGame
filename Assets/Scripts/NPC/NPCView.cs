@@ -1,52 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCView : PlayerView
 {
-    [SerializeField] private LineOfSightMono _los;
-    [SerializeField] private Transform _player;
     [SerializeField] private AudioSource _audioSource;
-    private bool _hasSeenPlayer = false;
+    [SerializeField] private AudioClip _spottedClip;
 
-    private void Start()
+    private NPCController _npcController;
+
+    private void Awake()
     {
-        if (_los == null)
+        _npcController = GetComponent<NPCController>();
+        if (_npcController != null)
         {
-            _los = GetComponent<LineOfSightMono>();
+            _npcController.OnTargetInView += HandleTargetInView;
         }
+
         if (_audioSource == null)
         {
             _audioSource = GetComponent<AudioSource>();
         }
-        if (_player == null && GameObject.FindGameObjectWithTag("Player") != null)
-        {
-            _player = GameObject.FindGameObjectWithTag("Player").transform;
-        }
     }
 
-    private new void Update()
+    private void HandleTargetInView(bool seesPlayer)
     {
-        base.Update();
-
-        if (_player == null) return;
-
-        bool seesPlayer = _los.LOS(_player);
-
-        if (seesPlayer && !_hasSeenPlayer)
+        if (seesPlayer)
         {
-            _hasSeenPlayer = true;
             PlaySpottedSound();
-        }
-        else if (!seesPlayer)
-        {
-            _hasSeenPlayer = false;
         }
     }
 
     private void PlaySpottedSound()
     {
-        if (_audioSource != null && _audioSource.isPlaying)
+        if (_audioSource != null && _spottedClip != null)
         {
-            _audioSource.Play();
+            _audioSource.PlayOneShot(_spottedClip);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_npcController != null)
+        {
+            _npcController.OnTargetInView -= HandleTargetInView;
         }
     }
 }
