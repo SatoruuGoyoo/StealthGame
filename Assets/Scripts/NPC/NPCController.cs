@@ -167,11 +167,6 @@ public class NPCController : MonoBehaviour
         return _timer >= _waitTime;
     }
 
-    //bool QuestionGoToZone()
-    //{
-    //    return Vector3.Distance(_model.transform.position, zone.transform.position) > 0.25f;
-    //}
-
     protected bool QuestionTargetInView()
     {
         if (target == null) return false;
