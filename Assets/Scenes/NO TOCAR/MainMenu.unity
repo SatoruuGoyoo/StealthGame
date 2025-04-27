@@ -2989,86 +2989,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 342378302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1086921524
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1086921525}
-  - component: {fileID: 1086921526}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1086921525
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086921524}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.3436, y: 3.0629113, z: -28.116846}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1086921526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086921524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0234111d976ae0144bff63cb07a36b91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sounds:
-  - name: menu
-    clip: {fileID: 8300000, guid: 394be480464407e46a723642b1bab736, type: 3}
-    volume: 0.206
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: UIButtonClick
-    clip: {fileID: 8300000, guid: 6b907aade8e115b4d86ff47c0a9757a3, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: UIButtonHover
-    clip: {fileID: 8300000, guid: 1577f44824905934ba06889ebf3df3f1, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: music
-    clip: {fileID: 8300000, guid: 44602aa51f95e154f9f011ed45915ce9, type: 3}
-    volume: 0.447
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: alarm
-    clip: {fileID: 8300000, guid: 61c81d49d6c59f549a0d8759ae38b4d6, type: 3}
-    volume: 0.155
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  sceneMusics:
-  - sceneName: MainMenu
-    musicName: menu
-  - sceneName: Level1
-    musicName: music
 --- !u!1 &1123039205
 GameObject:
   m_ObjectHideFlags: 0
@@ -3927,6 +3847,100 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 342378302}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1617045973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1617045975}
+  - component: {fileID: 1617045974}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1617045974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617045973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0234111d976ae0144bff63cb07a36b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: menu
+    clip: {fileID: 8300000, guid: 394be480464407e46a723642b1bab736, type: 3}
+    volume: 0.206
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: UIButtonClick
+    clip: {fileID: 8300000, guid: 6b907aade8e115b4d86ff47c0a9757a3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: UIButtonHover
+    clip: {fileID: 8300000, guid: 1577f44824905934ba06889ebf3df3f1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: music
+    clip: {fileID: 8300000, guid: 44602aa51f95e154f9f011ed45915ce9, type: 3}
+    volume: 0.447
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: alarm
+    clip: {fileID: 8300000, guid: 61c81d49d6c59f549a0d8759ae38b4d6, type: 3}
+    volume: 0.155
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: alert
+    clip: {fileID: 8300000, guid: 050aa6fae1e61d3448729809976939be, type: 3}
+    volume: 0.477
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: alert
+    clip: {fileID: 8300000, guid: 050aa6fae1e61d3448729809976939be, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  sceneMusics:
+  - sceneName: MainMenu
+    musicName: menu
+  - sceneName: Level1
+    musicName: music
+  - sceneName: Sounds y hideouts
+    musicName: music
+--- !u!4 &1617045975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617045973}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.3436, y: 3.0629113, z: -28.116846}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1624729396
 GameObject:
@@ -4918,4 +4932,4 @@ SceneRoots:
   - {fileID: 1179404109}
   - {fileID: 1130699935}
   - {fileID: 1009074311}
-  - {fileID: 1086921525}
+  - {fileID: 1617045975}

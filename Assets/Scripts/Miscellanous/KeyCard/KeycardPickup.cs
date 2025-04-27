@@ -11,7 +11,7 @@ public class KeycardPickup : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-           
+            AudioManager.instance.PlaySound("pick");
             PlayerInventory.Instance.CollectKeycard(keycardID);
             collected = true;
             Destroy(gameObject); 
