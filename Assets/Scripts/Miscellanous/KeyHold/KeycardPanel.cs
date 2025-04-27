@@ -19,7 +19,7 @@ public class KeycardPanel : MonoBehaviour
             }
             else
             {
-                PauseUI.Instance.ShowMessage("Requiere una tarjeta", 4f);
+                PauseUI.Instance.ShowMessage("Requires a keycard", 4f);
                
             }
         }
@@ -30,7 +30,7 @@ public class KeycardPanel : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNear = true;
-            PauseUI.Instance.ShowMessage("Presione E para interactuar", 4f);
+            PauseUI.Instance.ShowMessage("Press E to Interact", 4f);
         }
     }
 
