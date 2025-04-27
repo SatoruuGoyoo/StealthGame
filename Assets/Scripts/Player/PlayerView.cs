@@ -7,13 +7,28 @@ using UnityEngine;
 public class PlayerView : MonoBehaviour, ILook
 {
     [SerializeField] Animator _anim;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _spottedClip;
     Rigidbody _rb;
     public float speedRot = 10;
+
+    private NPCController _npcController;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         GetComponent<IAttack>().OnAttack += OnSpinAnim;
+
+        _npcController = GetComponent<NPCController>();
+        if (_npcController != null)
+        {
+            _npcController.OnTargetInView += HandleTargetInView;
+        }
+
+        if (_audioSource == null)
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
     }
 
     public void Update()
@@ -40,5 +55,29 @@ public class PlayerView : MonoBehaviour, ILook
         float vel = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z).magnitude;
         _anim.SetFloat("Vel", vel);
       
+    }
+
+    private void HandleTargetInView(bool seesPlayer)
+    {
+        if (seesPlayer)
+        {
+            PlaySpottedSound();
+        }
+    }
+
+    private void PlaySpottedSound()
+    {
+        if (_audioSource != null && _spottedClip != null)
+        {
+            _audioSource.PlayOneShot(_spottedClip);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_npcController != null)
+        {
+            _npcController.OnTargetInView -= HandleTargetInView;
+        }
     }
 }
