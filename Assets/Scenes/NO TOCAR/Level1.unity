@@ -3626,7 +3626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599176d8c7698e4abdcb49016881f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5.27
+  range: 3.15
   angle: 121.5
   obsMask:
     serializedVersion: 2
@@ -15892,6 +15892,92 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351037923}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &354636888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 354636890}
+  - component: {fileID: 354636889}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &354636889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354636888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0234111d976ae0144bff63cb07a36b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: menu
+    clip: {fileID: 8300000, guid: 394be480464407e46a723642b1bab736, type: 3}
+    volume: 0.206
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: UIButtonClick
+    clip: {fileID: 8300000, guid: 6b907aade8e115b4d86ff47c0a9757a3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: UIButtonHover
+    clip: {fileID: 8300000, guid: 1577f44824905934ba06889ebf3df3f1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: music
+    clip: {fileID: 8300000, guid: 44602aa51f95e154f9f011ed45915ce9, type: 3}
+    volume: 0.447
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: alarm
+    clip: {fileID: 8300000, guid: 61c81d49d6c59f549a0d8759ae38b4d6, type: 3}
+    volume: 0.155
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: alert
+    clip: {fileID: 8300000, guid: 050aa6fae1e61d3448729809976939be, type: 3}
+    volume: 0.477
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  sceneMusics:
+  - sceneName: MainMenu
+    musicName: menu
+  - sceneName: Level1
+    musicName: music
+--- !u!4 &354636890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354636888}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.3436, y: 3.0629113, z: -28.116846}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &356151568
 GameObject:
   m_ObjectHideFlags: 0
@@ -17490,7 +17576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &408640404
 Light:
   m_ObjectHideFlags: 0
@@ -21823,7 +21909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &512206860
 Light:
   m_ObjectHideFlags: 0
@@ -28208,7 +28294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &686378892
 Light:
   m_ObjectHideFlags: 0
@@ -30287,7 +30373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &734514794
 Light:
   m_ObjectHideFlags: 0
@@ -39859,7 +39945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &1009300103
 Light:
   m_ObjectHideFlags: 0
@@ -39994,7 +40080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &1012486304
 Light:
   m_ObjectHideFlags: 0
@@ -40349,7 +40435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &1015067960
 Light:
   m_ObjectHideFlags: 0
@@ -51301,7 +51387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &1313073354
 Light:
   m_ObjectHideFlags: 0
@@ -53536,7 +53622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &1349969972
 Light:
   m_ObjectHideFlags: 0
@@ -54668,7 +54754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &1367094533
 Light:
   m_ObjectHideFlags: 0
@@ -62200,7 +62286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &1580122594
 Light:
   m_ObjectHideFlags: 0
@@ -67012,7 +67098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &1705071998
 Light:
   m_ObjectHideFlags: 0
@@ -67728,9 +67814,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EXIT GAME
-
-'
+  m_text: RETRY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c2298097cd49ef744861dee6941b80a6, type: 2}
   m_sharedMaterial: {fileID: -7696937032698502178, guid: c2298097cd49ef744861dee6941b80a6, type: 2}
@@ -68439,7 +68523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!108 &1740562700
 Light:
   m_ObjectHideFlags: 0
@@ -81465,7 +81549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9a03b851aec6e4f8d5b04df8eaeec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashSpeed: 30
+  flashSpeed: 60
 --- !u!1 &2074346609
 GameObject:
   m_ObjectHideFlags: 0
@@ -83907,3 +83991,4 @@ SceneRoots:
   - {fileID: 1428289839}
   - {fileID: 1157705113}
   - {fileID: 481742523}
+  - {fileID: 354636890}

@@ -3052,9 +3052,23 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: music
+    clip: {fileID: 8300000, guid: 44602aa51f95e154f9f011ed45915ce9, type: 3}
+    volume: 0.447
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: alarm
+    clip: {fileID: 8300000, guid: 61c81d49d6c59f549a0d8759ae38b4d6, type: 3}
+    volume: 0.155
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   sceneMusics:
   - sceneName: MainMenu
     musicName: menu
+  - sceneName: Level1
+    musicName: music
 --- !u!1 &1123039205
 GameObject:
   m_ObjectHideFlags: 0
