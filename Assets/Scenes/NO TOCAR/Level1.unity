@@ -19556,6 +19556,7 @@ MonoBehaviour:
   - {fileID: 1367094529}
   defeatHandler: {fileID: 712160315}
   alarmActivated: 0
+  player: {fileID: 1758092644}
 --- !u!1 &427620275
 GameObject:
   m_ObjectHideFlags: 0
