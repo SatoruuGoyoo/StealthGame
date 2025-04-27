@@ -458,6 +458,7 @@ GameObject:
   - component: {fileID: 1379569481}
   - component: {fileID: 1379569480}
   - component: {fileID: 1379569479}
+  - component: {fileID: 1379569482}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -608,7 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  crouchHeight: 0.02
+  crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: 0.0006558567, y: 0.009, z: 0}
 --- !u!114 &1379569481
 MonoBehaviour:
@@ -624,6 +625,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _anim: {fileID: 0}
   speedRot: 10
+--- !u!65 &1379569482
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379569473}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2038232761
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,13 +809,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3980761239003601797, guid: 498446a2fabaff14d85900029204b055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3802578895897101484}
   m_SourcePrefab: {fileID: 100100000, guid: 498446a2fabaff14d85900029204b055, type: 3}
+--- !u!1 &502084157149360337 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3980761239003601797, guid: 498446a2fabaff14d85900029204b055, type: 3}
+  m_PrefabInstance: {fileID: 502084157149360336}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3802578895897101483 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4227791396846976469, guid: 498446a2fabaff14d85900029204b055, type: 3}
   m_PrefabInstance: {fileID: 502084157149360336}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3802578895897101484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502084157149360337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1ded60e2b95f94e9f3802707746ad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 1.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

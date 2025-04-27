@@ -13,8 +13,10 @@ public class PlayerView : MonoBehaviour, ILook
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        GetComponent<IAttack>().OnAttack += OnSpinAnim;
+        GetComponent<IAttack>().OnAttack += OnAttackAnim; 
     }
+
+
 
     public void Update()
     {
@@ -30,10 +32,12 @@ public class PlayerView : MonoBehaviour, ILook
     }
 
 
-    public void OnSpinAnim()
+    public void OnAttackAnim()
     {
-        _anim.SetTrigger("Spin");
+        _anim.SetTrigger("Attack"); 
     }
+
+
 
     void UpdateMovementAnimations()
     {
