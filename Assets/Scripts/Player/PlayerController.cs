@@ -4,7 +4,6 @@ using UnityEngine;
 
 
 
-
 public class PlayerController : MonoBehaviour
 {
     FSM<StateEnum> _fsm;
@@ -19,7 +18,7 @@ public class PlayerController : MonoBehaviour
         _fsm = new FSM<StateEnum>();
         var move = GetComponent<IMove>();
         var look = GetComponent<ILook>();
-        var attack = GetComponent<IAttack>();
+        var attackHandler = GetComponent<IAttack>(); // Renombrado correctamente
         var crouchHandler = GetComponent<ICrouch>();
 
         var stateList = new List<PSBase<StateEnum>>();
@@ -27,22 +26,32 @@ public class PlayerController : MonoBehaviour
         var idle = new PSIdle<StateEnum>(StateEnum.Walk);
         var walk = new PSWalk<StateEnum>(StateEnum.Idle);
         var crouch = new PSCrouch<StateEnum>(StateEnum.Idle);
+        var attackState = new PSAttack<StateEnum>(StateEnum.Idle); // También renombrado
 
         idle.AddTransition(StateEnum.Walk, walk);
         idle.AddTransition(StateEnum.Crouch, crouch);
+        idle.AddTransition(StateEnum.Attack, attackState); // Ahora correcto
 
         walk.AddTransition(StateEnum.Idle, idle);
         walk.AddTransition(StateEnum.Crouch, crouch);
+        walk.AddTransition(StateEnum.Attack, attackState);
 
         crouch.AddTransition(StateEnum.Idle, idle);
+        crouch.AddTransition(StateEnum.Walk, walk);
+        crouch.AddTransition(StateEnum.Attack, attackState);
+
+        attackState.AddTransition(StateEnum.Idle, idle);
+        attackState.AddTransition(StateEnum.Walk, walk);
+        attackState.AddTransition(StateEnum.Crouch, crouch);
 
         stateList.Add(idle);
         stateList.Add(walk);
         stateList.Add(crouch);
+        stateList.Add(attackState); // Correcto aquí también
 
         foreach (var state in stateList)
         {
-            state.Initialize(move, look, attack, crouchHandler);
+            state.Initialize(move, look, attackHandler, crouchHandler); // Usamos el handler
         }
 
         _fsm.SetInit(idle);
@@ -50,7 +59,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (InputManager.GetMouseAttack())
+        {
+            _fsm.Transition(StateEnum.Attack);
+        }
+        else if (InputManager.GetKeyCrouch())
         {
             _fsm.Transition(StateEnum.Crouch);
         }
