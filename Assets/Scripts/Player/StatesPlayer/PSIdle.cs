@@ -12,7 +12,7 @@ public class PSIdle<T> : PSBase<T>
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("IDLE: ENTER");
+        
     }
     public override void Execute()
     {

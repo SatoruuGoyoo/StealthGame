@@ -12,7 +12,7 @@ public class PSWalk<T> : PSBase<T>
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("WALK: ENTER");
+        
     }
     public override void Execute()
     {

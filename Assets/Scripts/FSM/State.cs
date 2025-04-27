@@ -12,7 +12,7 @@ public class State<T> : IState<T>
     }
     public virtual void Enter()
     {
-        Debug.Log("ADAS");
+        
     }
     public virtual void Execute()
     {

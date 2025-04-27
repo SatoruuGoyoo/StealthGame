@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NPC1
   - NPC2
+  - Pause
   layers:
   - Default
   - TransparentFX

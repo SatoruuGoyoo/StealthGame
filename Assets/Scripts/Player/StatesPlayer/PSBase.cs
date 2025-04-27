@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PSBase<T> : State<T>
 {
+
     protected IMove _move;
     protected ILook _look;
     protected IAttack _attack;
