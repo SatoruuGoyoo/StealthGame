@@ -3,7 +3,7 @@ using UnityEngine;
 public class NPCIdle<T> : NPCBase<T>
 {
     float _timer;
-    float _waitTime = 2f;
+    float _waitTime = 1f;
 
     public override void Enter()
     {

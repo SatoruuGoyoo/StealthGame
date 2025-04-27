@@ -4,74 +4,50 @@ using UnityEngine;
 
 public class NPCPatrol<T> : NPCBase<T>
 {
-    BoxCollider _patrolAreaCollider;
-    Vector3 _targetPoint;
-    bool _hasTarget;
-    [SerializeField] float _arriveTreshold = 0.5f;
-    [SerializeField] float _waitTime = 2f;
+    List<Transform> _patrolPoints;
+    int _currentPatrolIndex = 0;
+    [SerializeField] float _arriveTreshold = 1f;
+    [SerializeField] float _waitTime = 1f;
     float _timer;
-    bool _waitingTime = false;
+    bool _waitingatWaypoint = false;
 
-    public NPCPatrol(BoxCollider area)
+    public NPCPatrol(List<Transform> patrolPoints)
     {
-     
-        _patrolAreaCollider = area;
+
+        _patrolPoints = patrolPoints;
 
     }
     public override void Execute()
     {
         base.Execute();
-        if(_patrolAreaCollider == null) return;
+        if (_patrolPoints == null || _patrolPoints.Count == 0) return;
 
-        if(_waitingTime)
+        var target = _patrolPoints[_currentPatrolIndex];
+        Vector3 dir = target.position - _move.Position;
+
+        if(_waitingatWaypoint)
         {
             _move.Move(Vector3.zero);
             _timer += Time.deltaTime;
             if (_timer >= _waitTime)
             {
-                _waitingTime = false;
+                _waitingatWaypoint = false;
                 _timer = 0f;
-                _hasTarget = false;
-
+                _currentPatrolIndex = (_currentPatrolIndex + 1) % _patrolPoints.Count;
+                target = _patrolPoints[_currentPatrolIndex];
+                dir = target.position - _move.Position;
             }
             return;
         }
 
-        if (!_hasTarget)
-        {
-            _targetPoint = GetRandomPointInArea();
-            _hasTarget = true;
-        }
-
-        Vector3 dir = _targetPoint - _move.Position;
-
         if (dir.magnitude < _arriveTreshold)
         {
-            _waitingTime = true;
+            _waitingatWaypoint = true;
             _move.Move(Vector3.zero);
-
+            return;
         }
 
         _move.Move(dir.normalized);
         _look.LookDir(dir.normalized);
-    }
-
-    private Vector3 GetRandomPointInArea()
-    {
-        Vector3 center = _patrolAreaCollider.center + _patrolAreaCollider.transform.position;
-        Vector3 size = _patrolAreaCollider.size * 1f;
-
-        Vector3 randomPoint; 
-        do
-        {
-            float randomX = Random.Range(-size.x, size.x);
-            float randomZ = Random.Range(-size.z, size.z);
-            float randomY = Random.Range(-size.y, size.y);
-
-            randomPoint = new Vector3(randomX, randomY, randomZ) + center; 
-        }
-        while (Vector3.Distance(randomPoint, _move.Position) < 1.5f);
-
-        return randomPoint;
     }
 }

@@ -4,24 +4,22 @@ using UnityEngine;
 public class NPCController : MonoBehaviour
 {
     public Rigidbody target;
-    //public Transform zone;
+    //public Transform zone;  
     public float timePrediction;
     public float _waitTime;
     public float _timer;
-    public Transform patrolArea;
-    private BoxCollider _patrolAreaCollider;
+
     public FSM<StateEnum> _fsm;
     NPCModel _model;
     LineOfSightMono _los;
     ITreeNode _root;
     ISteering _steering;
+    public List<Transform> _patrolPoints;
 
     private void Awake()
     {
         _model = GetComponent<NPCModel>();
         _los = GetComponent<LineOfSightMono>();
-        _patrolAreaCollider = patrolArea.GetComponent<BoxCollider>();
-
     }
 
     void Start()
@@ -64,46 +62,46 @@ public class NPCController : MonoBehaviour
         _fsm = new FSM<StateEnum>();
         var look = GetComponent<ILook>();
 
-        // Create States
+        // Create States  
         var idle = new NPCIdle<StateEnum>();
         var attack = new NPCAttack<StateEnum>();
         var chase = new NPCSteering<StateEnum>(_steering);
-        //var goZone = new NPCChase<StateEnum>(zone);
-        var patrol = new NPCPatrol<StateEnum>(_patrolAreaCollider);  
+        //var goZone = new NPCChase<StateEnum>(zone);  
+        var patrol = new NPCPatrol<StateEnum>(_patrolPoints);
 
-        // Add to List
+        // Add to List  
         var stateList = new List<PSBase<StateEnum>>();
         stateList.Add(idle);
         stateList.Add(attack);
         stateList.Add(chase);
-        //stateList.Add(goZone);
+        //stateList.Add(goZone);  
         stateList.Add(patrol);
 
-        // Create Transitions
+        // Create Transitions  
         idle.AddTransition(StateEnum.Chase, chase);
         idle.AddTransition(StateEnum.Attack, attack);
-        //idle.AddTransition(StateEnum.GoZone, goZone);
+        //idle.AddTransition(StateEnum.GoZone, goZone);  
         idle.AddTransition(StateEnum.Patrol, patrol);
 
         attack.AddTransition(StateEnum.Idle, idle);
         attack.AddTransition(StateEnum.Chase, chase);
-        //attack.AddTransition(StateEnum.GoZone, goZone);
+        //attack.AddTransition(StateEnum.GoZone, goZone);  
         attack.AddTransition(StateEnum.Patrol, patrol);
 
         chase.AddTransition(StateEnum.Idle, idle);
         chase.AddTransition(StateEnum.Attack, attack);
-        //chase.AddTransition(StateEnum.GoZone, goZone);
+        //chase.AddTransition(StateEnum.GoZone, goZone);  
         chase.AddTransition(StateEnum.Patrol, patrol);
 
-        //goZone.AddTransition(StateEnum.Chase, chase);
-        //goZone.AddTransition(StateEnum.Attack, attack);
-        //goZone.AddTransition(StateEnum.Idle, idle);
-        //goZone.AddTransition(StateEnum.Patrol, patrol);
+        //goZone.AddTransition(StateEnum.Chase, chase);  
+        //goZone.AddTransition(StateEnum.Attack, attack);  
+        //goZone.AddTransition(StateEnum.Idle, idle);  
+        //goZone.AddTransition(StateEnum.Patrol, patrol);  
 
         patrol.AddTransition(StateEnum.Idle, idle);
         patrol.AddTransition(StateEnum.Chase, chase);
         patrol.AddTransition(StateEnum.Attack, attack);
-        //patrol.AddTransition(StateEnum.GoZone, goZone);
+        //patrol.AddTransition(StateEnum.GoZone, goZone);  
 
         for (int i = 0; i < stateList.Count; i++)
         {
@@ -122,19 +120,19 @@ public class NPCController : MonoBehaviour
         });
         var attack = new ActionNode(() =>
         {
-           
+
             _fsm.Transition(StateEnum.Attack);
         });
         var chase = new ActionNode(() =>
         {
-            
+
             _fsm.Transition(StateEnum.Chase);
         });
-        //var goZone = new ActionNode(() =>
-        //{
-        //    Debug.Log("Transición a GoZone");
-        //    _fsm.Transition(StateEnum.GoZone);
-        //});
+        //var goZone = new ActionNode(() =>  
+        //{  
+        //    Debug.Log("Transición a GoZone");  
+        //    _fsm.Transition(StateEnum.GoZone);  
+        //});  
         var patrol = new ActionNode(() =>
         {
             Debug.Log("Transición a Patrol");
@@ -147,7 +145,7 @@ public class NPCController : MonoBehaviour
         );
 
         var qCanAttack = new QuestionNode(QuestionCanAttack, attack, chase);
-        //var qGoToZone = new QuestionNode(QuestionGoToZone, goZone, idle);
+        //var qGoToZone = new QuestionNode(QuestionGoToZone, goZone, idle);  
         var qTargetInView = new QuestionNode(QuestionTargetInView, qCanAttack, waitForTime);
 
         _root = qTargetInView;
@@ -162,10 +160,10 @@ public class NPCController : MonoBehaviour
         return _timer >= _waitTime;
     }
 
-    //bool QuestionGoToZone()
-    //{
-    //    return Vector3.Distance(_model.transform.position, zone.transform.position) > 0.25f;
-    //}
+    //bool QuestionGoToZone()  
+    //{  
+    //    return Vector3.Distance(_model.transform.position, zone.transform.position) > 0.25f;  
+    //}  
 
     bool QuestionTargetInView()
     {
