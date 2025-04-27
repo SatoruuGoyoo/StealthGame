@@ -65,7 +65,8 @@ public class MainMenu : MonoBehaviour
     }
     public void RetryLevel()
     {
-        
+
+
         GameManager.Instance.ChangeState(GameState.Loading);
 
     }

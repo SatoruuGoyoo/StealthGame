@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class AlarmTrigger : MonoBehaviour
 {
-    public GameObject[] alarmLights; 
+
+    public GameObject[] alarmLights;
     public DefeatHandler defeatHandler;
-    private bool alarmActivated = false;
+    public bool alarmActivated = false;
+    public GameObject player;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,16 +15,17 @@ public class AlarmTrigger : MonoBehaviour
             alarmActivated = true;
 
             if (defeatHandler != null)
-                defeatHandler.Defeated = true;
+                defeatHandler.TriggerDefeat(); 
 
             foreach (var lightObj in alarmLights)
             {
                 if (lightObj != null)
                     lightObj.SetActive(true);
             }
-        AudioManager.instance.PlaySound("alarm");
-        AudioManager.instance.StopSound("music");
-        Time.timeScale = 0f;
+            AudioManager.instance.PlaySound("alarm");
+            AudioManager.instance.StopSound("music");
+            Destroy(player);
+
         }
     }
 }

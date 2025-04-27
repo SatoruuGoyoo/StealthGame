@@ -3406,6 +3406,7 @@ GameObject:
   - component: {fileID: 66439691}
   - component: {fileID: 66439690}
   - component: {fileID: 66439689}
+  - component: {fileID: 66439697}
   m_Layer: 0
   m_Name: Ninja1
   m_TagString: NPC1
@@ -3474,10 +3475,11 @@ MonoBehaviour:
   speed: 2
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
-  attackRange: 0
+  attackRange: 1
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  _featHandler: {fileID: 1049639718}
 --- !u!65 &66439692
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3511,7 +3513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225f575a4a64e1d41afe652c8e66df1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _anim: {fileID: 0}
+  _anim: {fileID: 66439697}
   speedRot: 10
 --- !u!114 &66439694
 MonoBehaviour:
@@ -3525,8 +3527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599176d8c7698e4abdcb49016881f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 9.3
-  angle: 180
+  range: 3
+  angle: 119.2
   obsMask:
     serializedVersion: 2
     m_Bits: 128
@@ -3565,6 +3567,28 @@ Transform:
   - {fileID: 70074564}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &66439697
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66439688}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 63fda6295e219274bae44d2d5879ce90, type: 3}
+  m_Controller: {fileID: 9100000, guid: f7fece8f222b32747a702d91f98da654, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &70074563
 GameObject:
   m_ObjectHideFlags: 0
@@ -6568,6 +6592,92 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 76408040}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &166738027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 166738029}
+  - component: {fileID: 166738028}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &166738028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166738027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0234111d976ae0144bff63cb07a36b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: menu
+    clip: {fileID: 8300000, guid: 394be480464407e46a723642b1bab736, type: 3}
+    volume: 0.206
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: UIButtonClick
+    clip: {fileID: 8300000, guid: 6b907aade8e115b4d86ff47c0a9757a3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: UIButtonHover
+    clip: {fileID: 8300000, guid: 1577f44824905934ba06889ebf3df3f1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: music
+    clip: {fileID: 8300000, guid: 44602aa51f95e154f9f011ed45915ce9, type: 3}
+    volume: 0.447
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: alarm
+    clip: {fileID: 8300000, guid: 61c81d49d6c59f549a0d8759ae38b4d6, type: 3}
+    volume: 0.155
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: alert
+    clip: {fileID: 8300000, guid: 050aa6fae1e61d3448729809976939be, type: 3}
+    volume: 0.477
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  sceneMusics:
+  - sceneName: MainMenu
+    musicName: menu
+  - sceneName: Level1
+    musicName: music
+--- !u!4 &166738029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166738027}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.3436, y: 3.0629113, z: -28.116846}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &167577454
 GameObject:
@@ -9832,7 +9942,7 @@ Transform:
   m_GameObject: {fileID: 247762834}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.12, y: 0, z: -18.78}
+  m_LocalPosition: {x: -3.08, y: 0, z: -18.78}
   m_LocalScale: {x: 1.6438, y: 1, z: 1.942}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24227,6 +24337,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609768953}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &609799966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 609799968}
+  - component: {fileID: 609799967}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &609799967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609799966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d486c2be25f2fc14e93bfab9485ba5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &609799968
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609799966}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.397385, y: 2.072224, z: -25.276096}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &610038638
 GameObject:
   m_ObjectHideFlags: 0
@@ -38991,7 +39145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1018791589
 Animator:
   serializedVersion: 7
@@ -40142,6 +40296,52 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2038585664}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1049639717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049639719}
+  - component: {fileID: 1049639718}
+  m_Layer: 0
+  m_Name: DEFEATHANDLER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1049639718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049639717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 774ab599b84d0a547af4116333ca2b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Defeated: 0
+  DefeatUI: {fileID: 0}
+--- !u!4 &1049639719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049639717}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1056859078
 GameObject:
@@ -81329,3 +81529,6 @@ SceneRoots:
   - {fileID: 1793122591}
   - {fileID: 1849706326}
   - {fileID: 247762837}
+  - {fileID: 1049639719}
+  - {fileID: 609799968}
+  - {fileID: 166738029}
