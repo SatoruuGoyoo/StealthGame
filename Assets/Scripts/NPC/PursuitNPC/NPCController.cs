@@ -19,14 +19,14 @@ public class NPCController : MonoBehaviour
     public float _timer;
 
     public FSM<StateEnum> _fsm;
-    protected NPCModel _model;
-    protected LineOfSightMono _los;
-    protected ITreeNode _root;
-    protected ISteering _steering;
+    public NPCModel _model;
+    public LineOfSightMono _los;
+    public ITreeNode _root;
+    public ISteering _steering;
 
     public event System.Action<bool> OnTargetInView;
 
-    protected bool previousLOSState = false;
+    public bool previousLOSState = false;
 
     public StateEnum CurrentStateEnum { get; protected set; }
 
@@ -57,7 +57,7 @@ public class NPCController : MonoBehaviour
         _fsm.OnFixExecute();
     }
 
-    protected virtual void InitializedSteering()
+    void InitializedSteering()
     {
         var pursuit = new Pursuit(_model.transform, target, 0, timePrediction);
         var evade = new Evade(_model.transform, target, 0, timePrediction);
@@ -71,7 +71,7 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    protected virtual void InitializedFSM()
+    void InitializedFSM()
     {
         _fsm = new FSM<StateEnum>();
         var look = GetComponent<ILook>();
@@ -115,7 +115,7 @@ public class NPCController : MonoBehaviour
         _fsm.SetInit(idle);
     }
 
-    protected virtual void InitializedTree()
+    void InitializedTree()
     {
         var idle = new ActionNode(() =>
         {
@@ -136,10 +136,10 @@ public class NPCController : MonoBehaviour
         {
             _fsm.Transition(StateEnum.Patrol);
         });
-        var waitForTime = new QuestionNode(
+        var waitForTime = new QuestionNode(  // Wait time achieved
             QuestionWaitForTime,
-            patrol,
-            idle
+            patrol, // True? = Patrol
+            idle // False? = Idle
         );
 
         var qCanAttack = new QuestionNode(QuestionCanAttack, attack, chase);
@@ -148,16 +148,16 @@ public class NPCController : MonoBehaviour
         _root = qTargetInView;
     }
 
-    protected bool QuestionCanAttack()
+    bool QuestionCanAttack()
     {
         return Vector3.Distance(_model.Position, target.position) <= _model.attackRange;
     }
-    protected bool QuestionWaitForTime()
+    bool QuestionWaitForTime()
     {
         return _timer >= _waitTime;
     }
 
-    protected bool QuestionTargetInView()
+    bool QuestionTargetInView()
     {
         if (target == null) return false;
 
