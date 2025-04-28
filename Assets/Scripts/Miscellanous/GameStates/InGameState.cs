@@ -4,7 +4,7 @@ public class InGameState : State<GameState>
 {
     public override void Enter()
     {
-        Debug.Log("Jugando");
+       
         Time.timeScale = 1f;
     }
 

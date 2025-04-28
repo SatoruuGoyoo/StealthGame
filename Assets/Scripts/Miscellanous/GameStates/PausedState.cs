@@ -5,7 +5,7 @@ public class PausedState : State<GameState>
    
     public override void Enter()
     {
-        Debug.Log("Juego en pausa");
+        
        PauseUI.Instance.ShowPauseText();
         Time.timeScale = 0f; 
     
@@ -13,7 +13,7 @@ public class PausedState : State<GameState>
 
     public override void Exit()
     {
-        Debug.Log("Continuando juego");
+        
         PauseUI.Instance.HidePauseText();
         Time.timeScale = 1f; 
     }
