@@ -3,7 +3,10 @@ using UnityEngine;
 
 
 // Enemy Evade Controller
+
 // Initilaize FSM - Decision Tree - Steering (EVADE)
+
+// This script controls the behavior of an NPC that can evade a target using a finite state machine (FSM) and a decision tree.
 
 public class EvadeNPCController : MonoBehaviour
 {
@@ -70,6 +73,7 @@ public class EvadeNPCController : MonoBehaviour
     {
         _fsm = new FSM<StateEnum>();
 
+        // Create States
         var idle = new NPCIdle<StateEnum>();
         var attack = new NPCAttack<StateEnum>();
         var evade = new NPCSteering<StateEnum>(_evadeSteering);
@@ -78,7 +82,7 @@ public class EvadeNPCController : MonoBehaviour
 
         var states = new List<PSBase<StateEnum>> { idle, attack, evade, goZone, patrol };
 
-        // Transiciones
+        // Create Transitions
         idle.AddTransition(StateEnum.Chase, evade);
         idle.AddTransition(StateEnum.Patrol, patrol);
 

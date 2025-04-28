@@ -3722,7 +3722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599176d8c7698e4abdcb49016881f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  range: 7.5
   angle: 120
   obsMask:
     serializedVersion: 2
@@ -8831,7 +8831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599176d8c7698e4abdcb49016881f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 6.5
+  range: 7.5
   angle: 120
   obsMask:
     serializedVersion: 2
@@ -37716,7 +37716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599176d8c7698e4abdcb49016881f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  range: 7.5
   angle: 120
   obsMask:
     serializedVersion: 2
@@ -82848,7 +82848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599176d8c7698e4abdcb49016881f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  range: 7.5
   angle: 120
   obsMask:
     serializedVersion: 2
@@ -107564,7 +107564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599176d8c7698e4abdcb49016881f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  range: 7.5
   angle: 120
   obsMask:
     serializedVersion: 2
