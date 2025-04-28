@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+// Responsable de actualizar las animaciones del jugador según su estado y movimiento.
 
 public class PlayerView : MonoBehaviour, ILook
 {
@@ -17,7 +18,7 @@ public class PlayerView : MonoBehaviour, ILook
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        GetComponent<IAttack>().OnAttack += OnSpinAnim;
+        
 
         _npcController = GetComponent<NPCController>();
         if (_npcController != null)
@@ -45,11 +46,7 @@ public class PlayerView : MonoBehaviour, ILook
     }
 
 
-    public void OnSpinAnim()
-    {
-        _anim.SetTrigger("Spin");
-    }
-
+  
     void UpdateMovementAnimations()
     {
         float vel = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z).magnitude;

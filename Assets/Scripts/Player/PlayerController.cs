@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Inicializa y gestiona la Finite State Machine (FSM) del jugador.
+// Maneja las transiciones entre estados como Idle, Walk, Crouch y Attack basados en el InputManager.
+
 public class PlayerController : MonoBehaviour
 {
     FSM<StateEnum> _fsm;
@@ -26,6 +30,7 @@ public class PlayerController : MonoBehaviour
         var crouch = new PSCrouch<StateEnum>(StateEnum.Idle);
         var attackState = new PSAttack<StateEnum>(StateEnum.Idle); 
 
+        // transiciones de estados del player 
         idle.AddTransition(StateEnum.Walk, walk);
         idle.AddTransition(StateEnum.Crouch, crouch);
         idle.AddTransition(StateEnum.Attack, attackState); 

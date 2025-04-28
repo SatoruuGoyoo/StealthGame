@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+// Estado del jugador agachado.
 
 public class PSCrouch<T> : PSBase<T>
 {

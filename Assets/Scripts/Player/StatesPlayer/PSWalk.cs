@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Estado del jugador mientras se mueve.
+
+
 public class PSWalk<T> : PSBase<T>
 {
     T _inputToWalk;

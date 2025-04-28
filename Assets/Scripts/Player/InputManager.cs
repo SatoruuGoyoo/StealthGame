@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//script unico para menjar los inputs del jugador 
+
 public class InputManager
 {
     

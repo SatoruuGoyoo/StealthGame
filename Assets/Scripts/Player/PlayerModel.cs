@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Responsable del comportamiento físico del jugador: movimiento, ataque, agacharse.
+// Implementa las interfaces IMove, IAttack e ICrouch para integrarse a la FSM.
+
 [RequireComponent(typeof(BoxCollider))]
 public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
 {
@@ -18,13 +22,16 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
 
     public bool IsCrouching { get; private set; } = false;
 
+    // Toma en cuenta la hitbox del player con sus medidas 
     Vector3 originalSize = new Vector3(0.006859852f, 0.03552359f, 0.00960762f);
     Vector3 originalCenter = new Vector3(-0.0002046084f, 0.01772303f, -0.0006253576f);
 
+    // ajusto la hitbos del player cuando se agacha 
     [Header("Collider Settings")]
     [SerializeField] Vector3 crouchSize = new Vector3(0.006859852f, 0.02f, 0.00960762f);
     [SerializeField] Vector3 crouchCenter = new Vector3(-0.0002046084f, 0.0105f, -0.0006253576f);
 
+    //rango de ataque 
      private float _attackRange = 1.5f; 
 
     public Vector3 Position => transform.position;

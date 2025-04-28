@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+// Estado del jugador realizando un ataque.
 
 public class PSAttack<T> : PSBase<T>
 {

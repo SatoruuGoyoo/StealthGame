@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Estado del jugador cuando no se mueve.
+
+
 public class PSIdle<T> : PSBase<T>
 {
     T _inputToWalk;
