@@ -11,6 +11,7 @@ public class SoundRandom : MonoBehaviour
 
     private void Awake()
     {
+        //Initialize the weights for each rarity
         _weights = new Dictionary<RarityEnum, float>()
         {
             { RarityEnum.Common, 1f },
@@ -18,9 +19,11 @@ public class SoundRandom : MonoBehaviour
             { RarityEnum.UltraRare, 0.1f }
         };
 
+        //Start the loop that plays sounds
         StartCoroutine(PlayRandomSoundLoop());
     }
 
+    //Continously play the sounds at set intervals
     IEnumerator PlayRandomSoundLoop()
     {
         while (true)
@@ -30,12 +33,14 @@ public class SoundRandom : MonoBehaviour
         } 
     }
 
+    //Selects a random sound based on the rarity weights
     void GetRandomSound()
     {
         RarityEnum rarity = GetRandomRarityByWeight();
         SetSound(rarity);
     }
 
+    //Picks and plays the sound of the selected rarity
     void SetSound(RarityEnum rarity)
     {
         if (!dataBase || !dataBase.sounds.ContainsKey(rarity)) return;
@@ -48,6 +53,7 @@ public class SoundRandom : MonoBehaviour
         audioSource.Play();
     }
 
+    //Randomly selects a rarity based on the weights
     RarityEnum GetRandomRarityByWeight()
     {
         float total = 0;

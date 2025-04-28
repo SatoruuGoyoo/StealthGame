@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Interface for FSM states
 public interface IState<T>
 {
     void Initialize(params object[] p);

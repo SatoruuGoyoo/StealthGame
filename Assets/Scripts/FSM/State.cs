@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// A basic state for FSM
 public class State<T> : IState<T>
 {
     FSM<T> _fsm;

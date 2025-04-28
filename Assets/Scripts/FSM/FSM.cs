@@ -10,6 +10,8 @@ public class FSM<T>
     {
         SetInit(curr);
     }
+
+    //Sets the initial state
     public void SetInit(IState<T> curr)
     {
         curr.StateMachine = this;
@@ -26,6 +28,8 @@ public class FSM<T>
         if (_currState != null)
             _currState.FixExecute();
     }
+
+    //Transitions to a new state
     public void Transition(T input)
     {
         IState<T> newState = _currState.GetTransition(input);

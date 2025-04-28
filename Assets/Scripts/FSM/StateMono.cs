@@ -48,6 +48,8 @@ public class StateMono<T> : MonoBehaviour, IState<T>
             }
         }
     }
+
+    //Property to get and set the FSM
     public FSM<T> StateMachine
     {
         set
