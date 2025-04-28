@@ -18,15 +18,15 @@ public class NPCController : MonoBehaviour
     public float _waitTime;
     public float _timer;
 
-    public FSM<StateEnum> _fsm;
-    public NPCModel _model;
-    public LineOfSightMono _los;
-    public ITreeNode _root;
-    public ISteering _steering;
+     FSM<StateEnum> _fsm;
+     NPCModel _model;
+     LineOfSightMono _los;
+     ITreeNode _root;
+     ISteering _steering;
 
     public event System.Action<bool> OnTargetInView;
 
-    public bool previousLOSState = false;
+     bool previousLOSState = false;
 
     public StateEnum CurrentStateEnum { get; protected set; }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 // Obstacle Avoidance Steering Behavior
 // This script implements obstacle avoidance behavior for any Entity
-// .
+
 public class ObstacleAvoidance : MonoBehaviour
 {
     [Header("Obs Settings")]
