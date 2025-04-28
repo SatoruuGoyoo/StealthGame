@@ -6,7 +6,7 @@ public class LoadingState : State<GameState>
 {
     public override void Enter()
     {
-        Debug.Log("🕐 Cargando con fade...");
+     
         GameManager.Instance.StartCoroutine(FadeAndLoadScene("Level1"));
     }
 
@@ -15,7 +15,7 @@ public class LoadingState : State<GameState>
         var fade = MainMenu.Instance?.fadeImage;
         if (fade == null)
         {
-            Debug.LogWarning("No se encontró el fadeImage. Cargando directo.");
+           
             SceneManager.LoadScene(sceneName);
             yield break;
         }

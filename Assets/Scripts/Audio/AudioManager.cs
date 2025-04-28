@@ -70,7 +70,7 @@ public class AudioManager : MonoBehaviour
         Sound sound = System.Array.Find(sounds, s => s.name == name);
         if (sound == null)
         {
-            Debug.LogWarning("Este sonido '" + name + "' no est�");
+          
             return;
         }
         sound.source.Play();
@@ -81,7 +81,7 @@ public class AudioManager : MonoBehaviour
         Sound sound = System.Array.Find(sounds, s => s.name == name);
         if (sound == null)
         {
-            Debug.LogWarning("Este sonido '" + name + "' no est�");
+          
             return;
         }
         sound.source.Stop();
@@ -92,7 +92,7 @@ public class AudioManager : MonoBehaviour
         Sound sound = System.Array.Find(sounds, s => s.name == name);
         if (sound == null)
         {
-            Debug.LogWarning("Este sonido '" + name + "' no est�");
+          
             return;
         }
 
@@ -115,9 +115,6 @@ public class AudioManager : MonoBehaviour
         {
             PlayMusic(sceneMusic.musicName);
         }
-        else
-        {
-            Debug.LogWarning("No hay m�sica asignada para la escena '" + sceneName + "'.");
-        }
+        
     }
 }

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// NPCIdle class for the NPC state machine
+// NPC in idle state
 public class NPCIdle<T> : NPCBase<T>
 {
     float _timer;

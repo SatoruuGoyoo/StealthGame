@@ -1,5 +1,8 @@
 using UnityEngine;
 
+// Pursuit Steering Behavior
+// Pursuit is a steering behavior that allows an agent to predict the future position of a target and move towards it.
+
 public class Pursuit : ISteering
 {
     Transform _self;

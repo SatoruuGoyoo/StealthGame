@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+// QuestionNode class for the Decision Tree
+// This class represents a node in the decision tree that asks a question and executes one of two child nodes based on the answer.
+
 public class QuestionNode : ITreeNode
 {
     Func<bool> _question;

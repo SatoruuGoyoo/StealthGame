@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+// Enemy NPC Controller
+// Initilaize FSM - Decision Tree - Steering (Pursuit)
+// 
+
 public class NPCController : MonoBehaviour
 {
     [Header("NPC Waypoints")]

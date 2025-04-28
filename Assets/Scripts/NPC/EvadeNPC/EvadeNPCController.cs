@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
+// Enemy Evade Controller
+// Initilaize FSM - Decision Tree - Steering (EVADE)
+
 public class EvadeNPCController : MonoBehaviour
 {
     [Header("Waypoints")]
@@ -118,8 +122,8 @@ public class EvadeNPCController : MonoBehaviour
             _fsm.Transition(StateEnum.GoZone);
         });
 
-        // Árbol de decisiones
-        var qSeeAlarm = new QuestionNode(QuestionSeeAlarm, goToZone, new ActionNode(() => { Debug.Log("Sigo evadiendo"); }));
+        // Decision Tree
+        var qSeeAlarm = new QuestionNode(QuestionSeeAlarm, goToZone, new ActionNode(() => { }));
 
         var qIsEvading = new QuestionNode(() => _isEvading, qSeeAlarm,
             new QuestionNode(QuestionTargetInView, evadePlayer,

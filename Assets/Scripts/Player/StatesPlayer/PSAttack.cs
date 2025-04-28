@@ -18,7 +18,7 @@ public class PSAttack<T> : PSBase<T>
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("ATTACK: ENTER");
+      
         _timer = _attackDuration;
 
         _attack.Attack(); 

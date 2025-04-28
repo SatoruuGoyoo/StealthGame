@@ -2,6 +2,9 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
+// NPC Patrol State
+// NPC looks for waypoints to patrol - Waits 1f in every WYP
+
 public class NPCPatrol<T> : NPCBase<T>
 {
     List<Transform> _patrolPoints;

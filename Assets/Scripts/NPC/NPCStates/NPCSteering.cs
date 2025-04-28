@@ -1,5 +1,9 @@
 using UnityEngine;
 
+// NPC Steering class for the NPC state machine
+// This class represents the steering behavior of an NPC.
+// It uses an ISteering interface to get the direction for movement.
+
 public class NPCSteering<T> : NPCBase<T>
 {
     ISteering _steering;

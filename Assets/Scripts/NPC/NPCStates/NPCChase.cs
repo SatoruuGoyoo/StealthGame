@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// NPCChase class for the NPC state machine
+// This class represents the chase state of an NPC.
 public class NPCChase<T> : NPCBase<T> 
 {
     Transform _target;

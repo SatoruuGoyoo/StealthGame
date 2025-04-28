@@ -1,5 +1,8 @@
 using UnityEngine;
 
+// NPCModel is a class that represents a non-player character (NPC) in the game.
+// It inherits from PlayerModel and implements the IMove and IAttack interfaces.
+
 public class NPCModel : PlayerModel
 {
     [Header("Attack Settings")]
