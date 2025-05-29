@@ -15,9 +15,7 @@ public class NPCController : MonoBehaviour
 
     [Header("NPC Common Settings")]
     public Rigidbody target;
-    public float _waitTime;
-    public float _timer;
-
+  
      FSM<StateEnum> _fsm;
      NPCModel _model;
      LineOfSightMono _los;
@@ -45,11 +43,10 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        if (target != null)
-        {
+        
             _fsm.OnExecute();
             _root.Execute();
-        }
+        
     }
 
     private void FixedUpdate()
@@ -117,33 +114,13 @@ public class NPCController : MonoBehaviour
 
     void InitializedTree()
     {
-        var idle = new ActionNode(() =>
-        {
-            _timer = 0f;
-            _fsm.Transition(StateEnum.Idle);
-        });
-        var attack = new ActionNode(() =>
-        {
-           
-            _fsm.Transition(StateEnum.Attack);
-        });
-        var chase = new ActionNode(() =>
-        {
-            
-            _fsm.Transition(StateEnum.Chase);
-        });
-        var patrol = new ActionNode(() =>
-        {
-            _fsm.Transition(StateEnum.Patrol);
-        });
-        var waitForTime = new QuestionNode(  // Wait time achieved
-            QuestionWaitForTime,
-            patrol, // True? = Patrol
-            idle // False? = Idle
-        );
+        var idle = new ActionNode(() => _fsm.Transition(StateEnum.Idle));
+        var attack = new ActionNode(() => _fsm.Transition(StateEnum.Attack));
+        var chase = new ActionNode(() => _fsm.Transition(StateEnum.Chase));
+        var patrol = new ActionNode(() => _fsm.Transition(StateEnum.Patrol));
 
         var qCanAttack = new QuestionNode(QuestionCanAttack, attack, chase);
-        var qTargetInView = new QuestionNode(QuestionTargetInView, qCanAttack, waitForTime);
+        var qTargetInView = new QuestionNode(QuestionTargetInView, qCanAttack, patrol);
 
         _root = qTargetInView;
     }
@@ -152,10 +129,7 @@ public class NPCController : MonoBehaviour
     {
         return Vector3.Distance(_model.Position, target.position) <= _model.attackRange;
     }
-    bool QuestionWaitForTime()
-    {
-        return _timer >= _waitTime;
-    }
+   
 
     bool QuestionTargetInView()
     {

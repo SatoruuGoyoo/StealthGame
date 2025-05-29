@@ -14,6 +14,9 @@ public class NPCModel : PlayerModel
     ObstacleAvoidance _obs;
     ILook _look;
 
+    public bool lostPlayerTooLong = false;
+
+
     protected override void Awake()
     {
         _obs = GetComponent<ObstacleAvoidance>();
