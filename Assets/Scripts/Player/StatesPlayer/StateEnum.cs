@@ -10,7 +10,8 @@ public enum StateEnum
     Attack,
     Chase,
     GoZone,
-    Patrol
+    Patrol,
+    Search
 
 }
 

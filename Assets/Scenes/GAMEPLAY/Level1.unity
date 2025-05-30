@@ -3762,6 +3762,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!114 &45692056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3781,8 +3782,8 @@ MonoBehaviour:
   - {fileID: 1248510395}
   timePrediction: 1
   target: {fileID: 1758092645}
-  _waitTime: 0
-  _timer: 0
+  searchDuration: 3
+  idleAfterSearchDuration: 3
 --- !u!82 &45692057
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5462,6 +5463,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!65 &69723396
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8871,6 +8873,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!114 &126211726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8890,8 +8893,8 @@ MonoBehaviour:
   - {fileID: 734248015}
   timePrediction: 1
   target: {fileID: 1758092645}
-  _waitTime: 0
-  _timer: 0
+  searchDuration: 3
+  idleAfterSearchDuration: 3
 --- !u!82 &126211727
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10330,6 +10333,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!114 &152198855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37756,6 +37760,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!114 &595539613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37775,8 +37780,8 @@ MonoBehaviour:
   - {fileID: 825659322}
   timePrediction: 1
   target: {fileID: 1758092645}
-  _waitTime: 0
-  _timer: 0
+  searchDuration: 3
+  idleAfterSearchDuration: 3
 --- !u!82 &595539614
 AudioSource:
   m_ObjectHideFlags: 0
@@ -43648,6 +43653,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!114 &702171002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44321,6 +44327,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!114 &710285363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82888,6 +82895,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!114 &1349943208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82907,8 +82915,8 @@ MonoBehaviour:
   - {fileID: 1699275559}
   timePrediction: 1
   target: {fileID: 1758092645}
-  _waitTime: 0
-  _timer: 0
+  searchDuration: 3
+  idleAfterSearchDuration: 3
 --- !u!82 &1349943209
 AudioSource:
   m_ObjectHideFlags: 0
@@ -86264,6 +86272,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!114 &1394851452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107515,6 +107524,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!65 &1775237847
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -107588,8 +107598,8 @@ MonoBehaviour:
   - {fileID: 1039142656}
   timePrediction: 1
   target: {fileID: 1758092645}
-  _waitTime: 0
-  _timer: 0
+  searchDuration: 3
+  idleAfterSearchDuration: 3
 --- !u!82 &1775237852
 AudioSource:
   m_ObjectHideFlags: 0
@@ -118057,7 +118067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1945787650
 Transform:
   m_ObjectHideFlags: 0
