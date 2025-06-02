@@ -16,18 +16,6 @@ public class NPCController : MonoBehaviour
     [Header("NPC Common Settings")]
     public Rigidbody target;
 
-    //Test
-    [SerializeField] float searchDuration = 3f;
-    [SerializeField] float idleAfterSearchDuration = 3f;
-
-    float timeSinceLostPlayer = 0f;
-    float timeSinceIdleWait = 0f;
-
-    bool isSearching = false;
-    bool isWaitingIdle = false;
-    private bool canSeePlayer = false;
-
-
     FSM<StateEnum> _fsm;
      NPCModel _model;
      LineOfSightMono _los;
@@ -90,7 +78,7 @@ public class NPCController : MonoBehaviour
         var attack = new NPCAttack<StateEnum>();
         var chase = new NPCSteering<StateEnum>(_steering);
         var patrol = new NPCPatrol<StateEnum>(_patrolPoints);
-        var search = new NPCSteering<StateEnum>(_steering);
+        var search = new NPCSearch<StateEnum>();
 
         // Add to List
         var stateList = new List<PSBase<StateEnum>>();
@@ -112,9 +100,11 @@ public class NPCController : MonoBehaviour
         chase.AddTransition(StateEnum.Idle, idle);
         chase.AddTransition(StateEnum.Attack, attack);
         chase.AddTransition(StateEnum.Patrol, patrol);
+        chase.AddTransition(StateEnum.Search, search);
 
         search.AddTransition(StateEnum.Chase, chase);
-        search.AddTransition(StateEnum.Idle, idle);
+        search.AddTransition(StateEnum.Patrol, patrol);
+
 
         patrol.AddTransition(StateEnum.Idle, idle);
         patrol.AddTransition(StateEnum.Chase, chase);
@@ -131,18 +121,20 @@ public class NPCController : MonoBehaviour
 
     void InitializedTree()
     {
-        var idle = new ActionNode(() => _fsm.Transition(StateEnum.Idle));
-        var attack = new ActionNode(() => _fsm.Transition(StateEnum.Attack));
-        var chase = new ActionNode(() => _fsm.Transition(StateEnum.Chase));
         var patrol = new ActionNode(() => _fsm.Transition(StateEnum.Patrol));
         var search = new ActionNode(() => _fsm.Transition(StateEnum.Search));
+        var chase = new ActionNode(() => _fsm.Transition(StateEnum.Chase));
 
-        var qCanAttack = new QuestionNode(QuestionCanAttack, attack, chase);
-        var qShouldSearch = new QuestionNode(QuestionIsSearching, search,
-                                new QuestionNode(QuestionIsWaitingIdle, idle, patrol));
+        var qIsSearching = new QuestionNode(QuestionIsSearching, search,  patrol); 
+        var qSearchRequest = new QuestionNode(QuestionSearchRequested, search, qIsSearching);
+        var qChase = new QuestionNode(QuestionCanSeePlayer, chase, qSearchRequest);
 
-        _root = new QuestionNode(QuestionCanSeePlayer, qCanAttack, qShouldSearch);
+        _root = qChase;
     }
+
+
+
+
 
     bool QuestionCanAttack()
     {
@@ -151,57 +143,29 @@ public class NPCController : MonoBehaviour
 
     bool QuestionCanSeePlayer()
     {
+
         if (target == null) return false;
 
         bool currentLOS = _los.LOS(target.transform);
+
 
         if (currentLOS != previousLOSState)
         {
             OnTargetInView?.Invoke(currentLOS);
             previousLOSState = currentLOS;
-        }
 
-        if (currentLOS)
-        {
-            canSeePlayer = true;
-            isSearching = false;
-            isWaitingIdle = false;
-            timeSinceLostPlayer = 0f;
-            timeSinceIdleWait = 0f;
-        }
-        else
-        {
-            if (canSeePlayer)
+            if (!currentLOS)
             {
-                canSeePlayer = false;
-                isSearching = true;
-                timeSinceLostPlayer = 0f;
-            }
-
-            if (isSearching)
-            {
-                timeSinceLostPlayer += Time.deltaTime;
-                if (timeSinceLostPlayer >= searchDuration)
-                {
-                    isSearching = false;
-                    isWaitingIdle = true;
-                    timeSinceIdleWait = 0f;
-                }
-            }
-
-            if (isWaitingIdle)
-            {
-                timeSinceIdleWait += Time.deltaTime;
-                if (timeSinceIdleWait >= idleAfterSearchDuration)
-                {
-                    isWaitingIdle = false;
-                }
+                NPCMemory.SearchRequested = true;
             }
         }
 
-        return canSeePlayer;
+        return currentLOS;
     }
 
-    bool QuestionIsSearching() => isSearching;
-    bool QuestionIsWaitingIdle() => isWaitingIdle;
+    bool QuestionSearchRequested() => NPCMemory.SearchRequested;
+
+    bool QuestionIsSearching() => NPCMemory.IsSearching;
+
+
 }
