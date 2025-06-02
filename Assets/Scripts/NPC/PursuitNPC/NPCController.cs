@@ -132,10 +132,6 @@ public class NPCController : MonoBehaviour
         _root = qChase;
     }
 
-
-
-
-
     bool QuestionCanAttack()
     {
         return Vector3.Distance(_model.Position, target.position) <= _model.attackRange;

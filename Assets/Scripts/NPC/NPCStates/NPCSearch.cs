@@ -38,23 +38,18 @@ public class NPCSearch<T> : NPCBase<T>
         PickNewDirection();
 
         NPCMemory.IsSearching = true;
-        // No apagar SearchRequested todavía
-        Debug.Log("SEARCH ENTER: Comienza búsqueda. IsSearching = true");
     }
-
     public override void Execute()
     {
         base.Execute();
 
-        // Solo una vez apagamos SearchRequested
         if (!_searchRequestCleared && NPCMemory.SearchRequested)
         {
             NPCMemory.SearchRequested = false;
             _searchRequestCleared = true;
-            Debug.Log("SEARCH: SearchRequested apagado en Execute()");
         }
 
-        // Final de la búsqueda (pausa final)
+        // End of Search
         if (_isSearchFinished)
         {
             _move.Move(Vector3.zero);
@@ -63,17 +58,15 @@ public class NPCSearch<T> : NPCBase<T>
             if (_finalPauseTimer >= _finalPauseDuration)
             {
                 NPCMemory.IsSearching = false;
-                Debug.Log("SEARCH: Termina búsqueda. IsSearching = false");
             }
 
             return;
         }
 
-        // Recorre puntos
+        // Go trought points
         if (_visitedPoints >= _maxPoints)
         {
             _isSearchFinished = true;
-            Debug.Log("SEARCH: Completó puntos. Entra en pausa final.");
             return;
         }
 
@@ -87,7 +80,7 @@ public class NPCSearch<T> : NPCBase<T>
                 _isPaused = false;
                 _pauseTimer = 0f;
                 PickNewDirection();
-                Debug.Log($"SEARCH: Retoma movimiento hacia nuevo punto #{_visitedPoints + 1}");
+
             }
         }
         else
@@ -101,7 +94,7 @@ public class NPCSearch<T> : NPCBase<T>
                 _changeDirTimer = 0f;
                 _visitedPoints++;
                 _lastPosition = _move.Position;
-                Debug.Log($"SEARCH: Pausa en punto #{_visitedPoints}");
+
             }
         }
     }
@@ -110,9 +103,8 @@ public class NPCSearch<T> : NPCBase<T>
     {
         base.Exit();
         NPCMemory.IsSearching = false;
-        Debug.Log("SEARCH EXIT: IsSearching = false (por seguridad)");
-    }
 
+    }
     private void PickNewDirection()
     {
         Vector2 random = Random.insideUnitCircle.normalized * _stepDistance;
