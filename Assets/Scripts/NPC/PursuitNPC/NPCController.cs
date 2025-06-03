@@ -43,10 +43,8 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        
-            _fsm.OnExecute();
-            _root.Execute();
-        
+        _fsm.OnExecute();
+        _root.Execute(); 
     }
 
     private void FixedUpdate()
@@ -152,7 +150,7 @@ public class NPCController : MonoBehaviour
 
             if (!currentLOS)
             {
-                NPCMemory.SearchRequested = true;
+                NPCMemory.SearchRequested = true; //dejo de ver y search request y voy a estado pathfinding, conteo y cambia a false
             }
         }
 
