@@ -7,24 +7,22 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour
 {
-    [Header("NPC Waypoints")]
-    public List<Transform> _patrolPoints;
-
     [Header("Pursuit Time")]
     public float timePrediction;
 
     [Header("NPC Common Settings")]
     public Rigidbody target;
+    public WeightedPatrolPointManager patrolPointManager;
 
     FSM<StateEnum> _fsm;
-     NPCModel _model;
-     LineOfSightMono _los;
-     ITreeNode _root;
-     ISteering _steering;
+    NPCModel _model;
+    LineOfSightMono _los;
+    ITreeNode _root;
+    ISteering _steering;
 
     public event System.Action<bool> OnTargetInView;
 
-     bool previousLOSState = false;
+    bool previousLOSState = false;
 
     public StateEnum CurrentStateEnum { get; protected set; }
 
@@ -44,7 +42,7 @@ public class NPCController : MonoBehaviour
     void Update()
     {
         _fsm.OnExecute();
-        _root.Execute(); 
+        _root.Execute();
     }
 
     private void FixedUpdate()
@@ -56,14 +54,7 @@ public class NPCController : MonoBehaviour
     {
         var pursuit = new Pursuit(_model.transform, target, 0, timePrediction);
         var evade = new Evade(_model.transform, target, 0, timePrediction);
-        if (this.gameObject.tag == "NPC1")
-        {
-            _steering = pursuit;
-        }
-        else
-        {
-            _steering = evade;
-        }
+        _steering = (this.gameObject.tag == "NPC1") ? pursuit : evade;
     }
 
     void InitializedFSM()
@@ -75,18 +66,12 @@ public class NPCController : MonoBehaviour
         var idle = new NPCIdle<StateEnum>();
         var attack = new NPCAttack<StateEnum>();
         var chase = new NPCSteering<StateEnum>(_steering);
-        var patrol = new NPCPatrol<StateEnum>(_patrolPoints);
+        var patrol = new NPCPatrol<StateEnum>(patrolPointManager); // ← nuevo sistema
         var search = new NPCSearch<StateEnum>();
 
-        // Add to List
-        var stateList = new List<PSBase<StateEnum>>();
-        stateList.Add(idle);
-        stateList.Add(attack);
-        stateList.Add(chase);
-        stateList.Add(patrol);
-        stateList.Add(search);
+        var stateList = new List<PSBase<StateEnum>> { idle, attack, chase, patrol, search };
 
-        // Create Transitions
+        // Transitions
         idle.AddTransition(StateEnum.Chase, chase);
         idle.AddTransition(StateEnum.Attack, attack);
         idle.AddTransition(StateEnum.Patrol, patrol);
@@ -103,16 +88,12 @@ public class NPCController : MonoBehaviour
         search.AddTransition(StateEnum.Chase, chase);
         search.AddTransition(StateEnum.Patrol, patrol);
 
-
         patrol.AddTransition(StateEnum.Idle, idle);
         patrol.AddTransition(StateEnum.Chase, chase);
         patrol.AddTransition(StateEnum.Attack, attack);
-      
 
-        for (int i = 0; i < stateList.Count; i++)
-        {
-            stateList[i].Initialize(_model, look, _model);
-        }
+        foreach (var state in stateList)
+            state.Initialize(_model, look, _model);
 
         _fsm.SetInit(idle);
     }
@@ -123,7 +104,7 @@ public class NPCController : MonoBehaviour
         var search = new ActionNode(() => _fsm.Transition(StateEnum.Search));
         var chase = new ActionNode(() => _fsm.Transition(StateEnum.Chase));
 
-        var qIsSearching = new QuestionNode(QuestionIsSearching, search,  patrol); 
+        var qIsSearching = new QuestionNode(QuestionIsSearching, search, patrol);
         var qSearchRequest = new QuestionNode(QuestionSearchRequested, search, qIsSearching);
         var qChase = new QuestionNode(QuestionCanSeePlayer, chase, qSearchRequest);
 
@@ -137,11 +118,9 @@ public class NPCController : MonoBehaviour
 
     bool QuestionCanSeePlayer()
     {
-
         if (target == null) return false;
 
         bool currentLOS = _los.LOS(target.transform);
-
 
         if (currentLOS != previousLOSState)
         {
@@ -150,7 +129,7 @@ public class NPCController : MonoBehaviour
 
             if (!currentLOS)
             {
-                NPCMemory.SearchRequested = true; //dejo de ver y search request y voy a estado pathfinding, conteo y cambia a false
+                NPCMemory.SearchRequested = true;
             }
         }
 
@@ -160,6 +139,4 @@ public class NPCController : MonoBehaviour
     bool QuestionSearchRequested() => NPCMemory.SearchRequested;
 
     bool QuestionIsSearching() => NPCMemory.IsSearching;
-
-
 }
