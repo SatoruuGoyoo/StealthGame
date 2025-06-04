@@ -6,4 +6,5 @@ public interface IMove
 {
     void Move(Vector3 dir);
     Vector3 Position { get; }
+    void LookDir(Vector3 dir);
 }

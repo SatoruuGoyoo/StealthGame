@@ -12,6 +12,7 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
 {
     [Header("Speed Settings")]
     public float speed;
+    public float speedRot = 10;
 
 
     Rigidbody _rb;
@@ -54,6 +55,18 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
         dir *= speed;
         dir.y = _rb.linearVelocity.y;
         _rb.linearVelocity = dir;
+    }
+
+    public void LookDir(Vector3 dir)
+    {
+        if (Vector3.Angle(transform.forward, dir) > (Mathf.PI * Mathf.Rad2Deg) / 2)
+        {
+            transform.forward = dir;
+        }
+        else
+        {
+            transform.forward = Vector3.Lerp(transform.forward, dir, speedRot * Time.deltaTime);
+        }
     }
 
     public virtual void Attack()
