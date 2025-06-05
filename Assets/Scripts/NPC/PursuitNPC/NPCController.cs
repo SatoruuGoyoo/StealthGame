@@ -7,20 +7,26 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour
 {
-    [Header("Pursuit Time")]
-    public float timePrediction;
+    [Header("NPC Waypoints")]
+    public List<Transform> _patrolPoints;
+
+    //[Header("Pursuit Time")]
+    //public float timePrediction;
 
     [Header("NPC Common Settings")]
     public Rigidbody target;
-    public WeightedPatrolPointManager patrolPointManager;
 
     FSM<StateEnum> _fsm;
+    StatePathfinding<StateEnum> _statePathfinding;
     NPCModel _model;
-    LineOfSightMono _los;
-    ITreeNode _root;
-    ISteering _steering;
+     LineOfSightMono _los;
+     ITreeNode _root;
+     ISteering _steering;
 
     public event System.Action<bool> OnTargetInView;
+
+    private NPCMemory _memory = new NPCMemory();
+
 
     bool previousLOSState = false;
 
@@ -34,7 +40,7 @@ public class NPCController : MonoBehaviour
 
     void Start()
     {
-        InitializedSteering();
+        //InitializedSteering();
         InitializedFSM();
         InitializedTree();
     }
@@ -42,7 +48,7 @@ public class NPCController : MonoBehaviour
     void Update()
     {
         _fsm.OnExecute();
-        _root.Execute();
+        _root.Execute(); 
     }
 
     private void FixedUpdate()
@@ -50,28 +56,44 @@ public class NPCController : MonoBehaviour
         _fsm.OnFixExecute();
     }
 
-    void InitializedSteering()
-    {
-        var pursuit = new Pursuit(_model.transform, target, 0, timePrediction);
-        var evade = new Evade(_model.transform, target, 0, timePrediction);
-        _steering = (this.gameObject.tag == "NPC1") ? pursuit : evade;
-    }
+    //void InitializedSteering()
+    //{
+    //    var pursuit = new Pursuit(_model.transform, target, 0, timePrediction);
+    //    var evade = new Evade(_model.transform, target, 0, timePrediction);
+    //    //if (this.gameObject.tag == "NPC1")
+    //    //{
+    //    //    _steering = pursuit;
+    //    //}
+    //    //else
+    //    //{
+    //    //    _steering = evade;
+    //    //}
+    //}
 
     void InitializedFSM()
     {
         _fsm = new FSM<StateEnum>();
         var look = GetComponent<ILook>();
+        var anim = GetComponent<Animator>();
 
         // Create States
         var idle = new NPCIdle<StateEnum>();
         var attack = new NPCAttack<StateEnum>();
-        var chase = new NPCSteering<StateEnum>(_steering);
-        var patrol = new NPCPatrol<StateEnum>(patrolPointManager); // ← nuevo sistema
-        var search = new NPCSearch<StateEnum>();
 
-        var stateList = new List<PSBase<StateEnum>> { idle, attack, chase, patrol, search };
+        var patrol = new NPCPatrol<StateEnum>(_model.transform, _model, look, anim, _patrolPoints);
+        var chase = new NPCChase<StateEnum>(_model.transform, _model, look, anim, target.transform);
 
-        // Transitions
+        var search = new NPCSearch<StateEnum>(_memory);
+
+        // Add to List
+        var stateList = new List<IState<StateEnum>>();
+        stateList.Add(idle);
+        stateList.Add(attack);
+        stateList.Add(patrol);
+        stateList.Add(chase);
+        stateList.Add(search);
+
+        // Create Transitions
         idle.AddTransition(StateEnum.Chase, chase);
         idle.AddTransition(StateEnum.Attack, attack);
         idle.AddTransition(StateEnum.Patrol, patrol);
@@ -80,20 +102,25 @@ public class NPCController : MonoBehaviour
         attack.AddTransition(StateEnum.Chase, chase);
         attack.AddTransition(StateEnum.Patrol, patrol);
 
+        search.AddTransition(StateEnum.Chase, chase);
+        search.AddTransition(StateEnum.Patrol, patrol);
+
+        //Chase
         chase.AddTransition(StateEnum.Idle, idle);
         chase.AddTransition(StateEnum.Attack, attack);
         chase.AddTransition(StateEnum.Patrol, patrol);
         chase.AddTransition(StateEnum.Search, search);
 
-        search.AddTransition(StateEnum.Chase, chase);
-        search.AddTransition(StateEnum.Patrol, patrol);
-
+        //Patrol
         patrol.AddTransition(StateEnum.Idle, idle);
         patrol.AddTransition(StateEnum.Chase, chase);
         patrol.AddTransition(StateEnum.Attack, attack);
+      
 
-        foreach (var state in stateList)
-            state.Initialize(_model, look, _model);
+        for (int i = 0; i < stateList.Count; i++)
+        {
+            stateList[i].Initialize(_model, look, _model);
+        }
 
         _fsm.SetInit(idle);
     }
@@ -103,13 +130,21 @@ public class NPCController : MonoBehaviour
         var patrol = new ActionNode(() => _fsm.Transition(StateEnum.Patrol));
         var search = new ActionNode(() => _fsm.Transition(StateEnum.Search));
         var chase = new ActionNode(() => _fsm.Transition(StateEnum.Chase));
+        var attack = new ActionNode(() => _fsm.Transition(StateEnum.Attack));
 
-        var qIsSearching = new QuestionNode(QuestionIsSearching, search, patrol);
-        var qSearchRequest = new QuestionNode(QuestionSearchRequested, search, qIsSearching);
-        var qChase = new QuestionNode(QuestionCanSeePlayer, chase, qSearchRequest);
+        // Si puede atacar → atacar
+        var qAttack = new QuestionNode(QuestionCanAttack, attack, chase);
 
-        _root = qChase;
+        // Si puede ver al jugador → pregunta si puede atacar
+        var qChase = new QuestionNode(QuestionCanSeePlayer, qAttack, search);
+
+        // Si no puede ver → pregunta si está buscando
+        var qSearchRequest = new QuestionNode(QuestionSearchRequested, search, patrol);
+        var qIsSearching = new QuestionNode(QuestionIsSearching, search, qSearchRequest);
+
+        _root = new QuestionNode(QuestionCanSeePlayer, qAttack, qIsSearching);
     }
+
 
     bool QuestionCanAttack()
     {
@@ -129,14 +164,17 @@ public class NPCController : MonoBehaviour
 
             if (!currentLOS)
             {
-                NPCMemory.SearchRequested = true;
+                _memory.SearchRequested = true;
             }
         }
 
-        return currentLOS;
+        if (currentLOS)
+            _memory.UpdateLastSeen();
+
+        return _memory.ShouldKeepChasing;
     }
+    bool QuestionSearchRequested() => _memory.SearchRequested;
+    bool QuestionIsSearching() => _memory.IsSearching;
 
-    bool QuestionSearchRequested() => NPCMemory.SearchRequested;
 
-    bool QuestionIsSearching() => NPCMemory.IsSearching;
 }

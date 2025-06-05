@@ -1,84 +1,88 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
-// NPC Patrol State
-// NPC looks for waypoints to patrol - Waits 1f in every WYP
-
-public class NPCPatrol<T> : NPCBase<T>
+public class NPCPatrol<T> : StatePathfinding<T>
 {
-    private WeightedPatrolPointManager _patrolPointManager;
-    private Queue<Vector2Int> _currentPath = new Queue<Vector2Int>();
-    private float _arriveThreshold = 0.2f;
-    private float _waitTime = 1f;
-    private float _waitTimer = 0f;
-    private bool _waiting = false;
+    private List<Vector3> _patrolPoints;
+    private int _currentPatrolIndex = 0;
 
-    public NPCPatrol(WeightedPatrolPointManager patrolPointManager, float waitTime = 1f)
+    private float _arriveThreshold = 1f;
+    private float _waitTime = 1f;
+    private float _timer;
+    private bool _waitingAtWaypoint = false;
+
+    private ILook _look;
+    private Transform _fakeTarget;
+
+
+    private static Transform CreateFakeTarget()
     {
-        _patrolPointManager = patrolPointManager;
-        _waitTime = waitTime;
+        var go = new GameObject("FakeTarget_Patrol");
+        go.hideFlags = HideFlags.HideInHierarchy;
+        return go.transform;
     }
+
+    public NPCPatrol(Transform entity, IMove move, ILook look, Animator anim, List<Transform> patrolPoints)
+    : base(entity, move, anim, null)
+    {
+        _look = look;
+
+        _fakeTarget = CreateFakeTarget();
+        base._target = _fakeTarget;
+
+        _patrolPoints = new List<Vector3>();
+        foreach (var p in patrolPoints)
+            _patrolPoints.Add(Vector3Int.RoundToInt(p.position));
+    }
+
+
+
 
     public override void Enter()
     {
         base.Enter();
-        GenerateNewPath();
+        GoToNextPoint();
     }
 
     public override void Execute()
     {
         base.Execute();
 
-        if (_waiting)
+        if (IsFinishPath && !_waitingAtWaypoint)
+        {
+            _timer = 0f;
+            _waitingAtWaypoint = true;
+        }
+
+        if (_waitingAtWaypoint)
         {
             _move.Move(Vector3.zero);
-            _waitTimer += Time.deltaTime;
-            if (_waitTimer >= _waitTime)
+            _timer += Time.deltaTime;
+
+            if (_timer >= _waitTime)
             {
-                _waitTimer = 0f;
-                _waiting = false;
-                GenerateNewPath();
+                _waitingAtWaypoint = false;
+                GoToNextPoint();
             }
-            return;
-        }
-
-        if (_currentPath.Count == 0)
-        {
-            _waiting = true;
-            return;
-        }
-
-        Vector2Int next = _currentPath.Peek();
-        Vector3 worldPos = new Vector3(next.x, 0f, next.y);
-        Vector3 dir = worldPos - _move.Position;
-
-        if (dir.magnitude <= _arriveThreshold)
-        {
-            _currentPath.Dequeue();
-        }
-        else
-        {
-            _move.Move(dir.normalized);
-            _look.LookDir(dir.normalized);
         }
     }
 
-    private void GenerateNewPath()
+    public override void Exit()
     {
-        Vector2Int start = new Vector2Int(Mathf.RoundToInt(_move.Position.x), Mathf.RoundToInt(_move.Position.z));
-        Vector2Int target = _patrolPointManager.GetRandomPoint();
+        base.Exit();
+        if (_fakeTarget != null)
+            GameObject.Destroy(_fakeTarget.gameObject);
+    }
 
-        List<Vector2Int> path = ASTAR.Run(
-            start,
-            t => t == target,
-            GridManager.Instance.GetNeighbours,
-            GridManager.Instance.GetCost,
-            t => Vector2Int.Distance(t, target)
-        );
 
-        _currentPath.Clear();
-        foreach (var node in path)
-            _currentPath.Enqueue(node);
+    private void GoToNextPoint()
+    {
+        var next = _patrolPoints[_currentPatrolIndex];
+        _target.position = next;
+
+        SetPathAStarPlusVector();
+
+        _currentPatrolIndex = (_currentPatrolIndex + 1) % _patrolPoints.Count;
     }
 }
