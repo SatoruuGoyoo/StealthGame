@@ -19940,12 +19940,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
   attackRange: 1
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
+  lostPlayerTooLong: 0
 --- !u!65 &449371867
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20015,8 +20017,6 @@ MonoBehaviour:
   _patrolPoints: []
   timePrediction: 1
   target: {fileID: 1758092645}
-  _waitTime: 0
-  _timer: 0
 --- !u!4 &449371871
 Transform:
   m_ObjectHideFlags: 0
@@ -24299,7 +24299,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openOffset: {x: 0, y: 7, z: 0}
-  openSpeed: 2
+  moveSpeed: 2
+  triggerArea: {fileID: 0}
 --- !u!1 &563008781
 GameObject:
   m_ObjectHideFlags: 0
@@ -83352,7 +83353,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openOffset: {x: 0, y: 7, z: 0}
-  openSpeed: 2
+  moveSpeed: 2
+  triggerArea: {fileID: 0}
 --- !u!1 &2117692873
 GameObject:
   m_ObjectHideFlags: 0
@@ -84155,6 +84157,10 @@ PrefabInstance:
       propertyPath: patrolArea
       value: 
       objectReference: {fileID: 1157705113}
+    - target: {fileID: 5696018115572518222, guid: 362d27b7d1476394fa06777fd7f49adb, type: 3}
+      propertyPath: _patrolPoints.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6008649122710194087, guid: 362d27b7d1476394fa06777fd7f49adb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.74
