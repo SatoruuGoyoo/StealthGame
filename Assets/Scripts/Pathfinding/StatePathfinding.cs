@@ -69,8 +69,10 @@ public class StatePathfinding<T> : StateFollowPoints<T>
 
     private bool IsSatisfied(Vector3 curr, Vector3 goal)
     {
-        return Vector3.Distance(curr, goal) <= 2f && InView(curr, goal);
+        // Elimina el "InView" para que llegue más cerca al objetivo
+        return Vector3.Distance(curr, goal) <= 0.8f; // más estricto
     }
+
 
     private List<Vector3> GetConnections(Vector3 curr)
     {
