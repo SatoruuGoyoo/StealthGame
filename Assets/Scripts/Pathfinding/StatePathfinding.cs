@@ -5,14 +5,12 @@ public class StatePathfinding<T> : StateFollowPoints<T>
 {
     protected IMove _move;
     private Animator _anim;
-    protected Transform _target;
 
-    public StatePathfinding(Transform entity, IMove move, Animator anim, Transform target, float distanceToPoint = 0.2f)
+    public StatePathfinding(Transform entity, IMove move, Animator anim, float distanceToPoint = 0.2f)
         : base(entity, distanceToPoint)
     {
         _move = move;
         _anim = anim;
-        _target = target;
     }
 
     protected override void OnMove(Vector3 dir)
@@ -21,57 +19,42 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         _move.LookDir(dir);
     }
 
-    protected override void OnStartPath()
+    protected override void OnStartPath() => _anim.SetFloat("Vel", 1);
+    protected override void OnFinishPath() => _anim.SetFloat("Vel", 0);
+
+    public void SetPathTo(Vector3 goal)
     {
-        _anim.SetFloat("Vel", 1);
-    }
-
-    protected override void OnFinishPath()
-    {
-        _anim.SetFloat("Vel", 0);
-    }
-
-    public void SetPathAStarPlusVector()
-    {
-
-
-
         Vector3 init = Vector3Int.RoundToInt(_entity.position);
-        Vector3 goal = Vector3Int.RoundToInt(_target.position);
+        goal = Vector3Int.RoundToInt(goal);
 
         List<Vector3> path = ASTAR.Run<Vector3>(
             init,
-            curr => IsSatisfied(curr, goal),
+            curr => Vector3.Distance(curr, goal) <= 2f && InView(curr, goal),
             GetConnections,
             GetCost,
-            curr => Heuristic(curr, goal)
+            curr => Vector3.Distance(curr, goal)
         );
 
-        for (int i = 0; i < path.Count - 1; i++)
+        if (path == null || path.Count < 2)
         {
-            Debug.DrawLine(path[i] + Vector3.up * 0.2f, path[i + 1] + Vector3.up * 0.2f, Color.red, 1f);
+            Debug.LogWarning($"[CHASE] Ignorado path: count = {path?.Count ?? 0}");
+            return;
+        }
+        else
+        {
+            Debug.Log($"[CHASE] Path con {path.Count} puntos");
         }
 
 
         path = ASTAR.CleanPath(path, InView);
         SetWaypoints(path);
+
+        for (int i = 0; i < path.Count - 1; i++)
+            Debug.DrawLine(path[i] + Vector3.up * 0.2f, path[i + 1] + Vector3.up * 0.2f, Color.cyan, 1.5f);
     }
 
-    private float Heuristic(Vector3 current, Vector3 goal)
-    {
-        return Vector3.Distance(current, goal);
-    }
-
-    private float GetCost(Vector3 from, Vector3 to)
-    {
-        return Vector3.Distance(from, to);
-    }
-
-    private bool IsSatisfied(Vector3 curr, Vector3 goal)
-    {
-        return Vector3.Distance(curr, goal) <= 2f && InView(curr, goal);
-    }
-
+    // Métodos auxiliares (idénticos)
+    private float GetCost(Vector3 from, Vector3 to) => Vector3.Distance(from, to);
     private List<Vector3> GetConnections(Vector3 curr)
     {
         var neighbors = new List<Vector3>();
@@ -95,4 +78,5 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         Vector3 dir = to - from;
         return !Physics.Raycast(from, dir.normalized, dir.magnitude, PathfindingConstants.obsMask);
     }
+
 }

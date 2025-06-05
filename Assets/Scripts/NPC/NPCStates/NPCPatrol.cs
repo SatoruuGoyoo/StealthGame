@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class NPCPatrol<T> : StatePathfinding<T>
 {
@@ -13,31 +12,16 @@ public class NPCPatrol<T> : StatePathfinding<T>
     private bool _waitingAtWaypoint = false;
 
     private ILook _look;
-    private Transform _fakeTarget;
-
-
-    private static Transform CreateFakeTarget()
-    {
-        var go = new GameObject("FakeTarget_Patrol");
-        go.hideFlags = HideFlags.HideInHierarchy;
-        return go.transform;
-    }
 
     public NPCPatrol(Transform entity, IMove move, ILook look, Animator anim, List<Transform> patrolPoints)
-    : base(entity, move, anim, null)
+        : base(entity, move, anim)
     {
         _look = look;
-
-        _fakeTarget = CreateFakeTarget();
-        base._target = _fakeTarget;
 
         _patrolPoints = new List<Vector3>();
         foreach (var p in patrolPoints)
             _patrolPoints.Add(Vector3Int.RoundToInt(p.position));
     }
-
-
-
 
     public override void Enter()
     {
@@ -68,20 +52,10 @@ public class NPCPatrol<T> : StatePathfinding<T>
         }
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-        if (_fakeTarget != null)
-            GameObject.Destroy(_fakeTarget.gameObject);
-    }
-
-
     private void GoToNextPoint()
     {
         var next = _patrolPoints[_currentPatrolIndex];
-        _target.position = next;
-
-        SetPathAStarPlusVector();
+        SetPathTo(next);
 
         _currentPatrolIndex = (_currentPatrolIndex + 1) % _patrolPoints.Count;
     }
