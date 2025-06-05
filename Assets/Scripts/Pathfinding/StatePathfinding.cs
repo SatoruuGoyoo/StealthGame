@@ -4,7 +4,7 @@ using UnityEngine;
 public class StatePathfinding<T> : StateFollowPoints<T>
 {
     protected IMove _move;
-    private Animator _anim;
+    protected Animator _anim;
     protected Transform _target;
 
     public StatePathfinding(Transform entity, IMove move, Animator anim, Transform target, float distanceToPoint = 0.2f)
@@ -36,6 +36,8 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         Vector3 init = Vector3Int.RoundToInt(_entity.position);
         Vector3 goal = Vector3Int.RoundToInt(_target.position);
 
+        Debug.Log($"[A*] De {init} a {goal}");
+
         List<Vector3> path = ASTAR.Run<Vector3>(
             init,
             curr => IsSatisfied(curr, goal),
@@ -45,6 +47,9 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         );
 
         path = ASTAR.CleanPath(path, InView);
+
+        Debug.Log($"[A*] Path generado con {path.Count} puntos");
+
         SetWaypoints(path);
     }
 

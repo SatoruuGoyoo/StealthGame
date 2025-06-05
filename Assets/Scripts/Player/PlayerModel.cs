@@ -52,9 +52,10 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
         {
             dir.Normalize();
         }
+
         dir *= speed;
-        dir.y = _rb.linearVelocity.y;
-        _rb.linearVelocity = dir;
+        dir.y = _rb.velocity.y;
+        _rb.velocity = dir;
     }
 
     public void LookDir(Vector3 dir)

@@ -16,6 +16,9 @@ public class NPCController : MonoBehaviour
     [Header("NPC Common Settings")]
     public Rigidbody target;
 
+    [Header("Roulette")]
+    [SerializeField] private PatrolPointSelector _patrolSelector;
+
     FSM<StateEnum> _fsm;
     StatePathfinding<StateEnum> _statePathfinding;
     NPCModel _model;
@@ -80,7 +83,7 @@ public class NPCController : MonoBehaviour
         var idle = new NPCIdle<StateEnum>();
         var attack = new NPCAttack<StateEnum>();
 
-        var patrol = new NPCPatrol<StateEnum>(_model.transform, _model, look, anim, _patrolPoints);
+        var patrol = new NPCPatrolRoulette<StateEnum>(_model.transform, _model, anim, _patrolSelector);
         var chase = new NPCChase<StateEnum>(_model.transform, _model, look, anim, target.transform);
 
         var search = new NPCSearch<StateEnum>(_memory);
@@ -115,12 +118,13 @@ public class NPCController : MonoBehaviour
         patrol.AddTransition(StateEnum.Idle, idle);
         patrol.AddTransition(StateEnum.Chase, chase);
         patrol.AddTransition(StateEnum.Attack, attack);
-      
 
-        for (int i = 0; i < stateList.Count; i++)
-        {
-            stateList[i].Initialize(_model, look, _model);
-        }
+
+        idle.Initialize(_model, look, _model);
+        attack.Initialize(_model, look, _model);
+        chase.Initialize(_model, look, _model);
+        search.Initialize(_model, look, _model);
+        patrol.Initialize(_model, _patrolSelector);
 
         _fsm.SetInit(idle);
     }
@@ -136,13 +140,17 @@ public class NPCController : MonoBehaviour
         var qAttack = new QuestionNode(QuestionCanAttack, attack, chase);
 
         // Si puede ver al jugador → pregunta si puede atacar
-        var qChase = new QuestionNode(QuestionCanSeePlayer, qAttack, search);
+        var qCanSee = new QuestionNode(QuestionCanSeePlayer, qAttack, null); // el false lo resolvemos después
 
         // Si no puede ver → pregunta si está buscando
         var qSearchRequest = new QuestionNode(QuestionSearchRequested, search, patrol);
         var qIsSearching = new QuestionNode(QuestionIsSearching, search, qSearchRequest);
 
-        _root = new QuestionNode(QuestionCanSeePlayer, qAttack, qIsSearching);
+        // Si no ve → sigue la lógica de búsqueda
+        qCanSee = new QuestionNode(QuestionCanSeePlayer, qAttack, qIsSearching);
+
+        // Root node que siempre ejecuta algo
+        _root = new QuestionNode(() => true, qCanSee, patrol);
     }
 
 

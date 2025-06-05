@@ -24,13 +24,22 @@ public class PatrolPointSelector : MonoBehaviour
         return patrolPoints.Count > 0 ? patrolPoints[0].point : null;
     }
 
-    // Opcional: Recalcula pesos según distancia al NPC
     public void UpdateWeights(Vector3 npcPos)
     {
         foreach (var p in patrolPoints)
         {
             float dist = Vector3.Distance(npcPos, p.point.position);
             p.weight = Mathf.Max(0.1f, 1f / dist);
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        if (patrolPoints == null) return;
+        Gizmos.color = Color.yellow;
+        foreach (var p in patrolPoints)
+        {
+            if (p.point != null)
+                Gizmos.DrawWireSphere(p.point.position, 0.3f);
         }
     }
 }
