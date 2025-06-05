@@ -46,7 +46,7 @@ public class ASTAR : MonoBehaviour
                     cost[child] = currentCost;
                     pending.Enqueue(child, currentCost + heuristic(child));
                     parents[child] = current;
-                }
+                } 
             }
         }
 
@@ -54,20 +54,31 @@ public class ASTAR : MonoBehaviour
     }
     public static List<T> CleanPath<T>(List<T> path, Func<T, T, bool> inView)
     {
-        if (path == null) return path;
-        if (path.Count <= 2) return path;
-        var newPath = new List<T>();
-        newPath.Add(path[0]);
+        if (path == null || path.Count <= 2)
+            return path;
 
-        for (int i = 2; i < path.Count; i++)
+        List<T> clean = new List<T>();
+        int currentIndex = 0;
+
+        while (currentIndex < path.Count - 1)
         {
-            var last = newPath[newPath.Count - 1];
-            if (!inView(last, path[i]))
+            int furthestIndex = currentIndex + 1;
+
+            for (int i = path.Count - 1; i > currentIndex; i--)
             {
-                newPath.Add(path[i - 1]);
+                if (inView(path[currentIndex], path[i]))
+                {
+                    furthestIndex = i;
+                    break;
+                }
             }
+
+            clean.Add(path[currentIndex]);
+            currentIndex = furthestIndex;
         }
-        newPath.Add(path[path.Count - 1]);
-        return newPath;
+
+        clean.Add(path[path.Count - 1]);
+        return clean;
     }
+
 }

@@ -37,8 +37,8 @@ public class NPCModel : PlayerModel
     }
     public override void Move(Vector3 dir)
     {
-        dir = _obs.GetDir(dir);
-        _look.LookDir(dir);
+        //dir = _obs.GetDir(dir);
+        //_look.LookDir(dir);
         base.Move(dir);
     }
 }

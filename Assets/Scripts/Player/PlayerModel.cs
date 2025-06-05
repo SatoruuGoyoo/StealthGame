@@ -60,8 +60,11 @@ public class PlayerModel : MonoBehaviour, IMove, IAttack, ICrouch
     public void LookDir(Vector3 dir)
     {
         if (dir.sqrMagnitude < 0.01f) return;
-        transform.forward = Vector3.Lerp(transform.forward, dir.normalized, speedRot * Time.deltaTime);
+        Quaternion targetRot = Quaternion.LookRotation(dir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 8f);
     }
+
+
 
 
     public virtual void Attack()

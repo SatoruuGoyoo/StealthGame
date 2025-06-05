@@ -33,6 +33,9 @@ public class StatePathfinding<T> : StateFollowPoints<T>
 
     public void SetPathAStarPlusVector()
     {
+
+
+
         Vector3 init = Vector3Int.RoundToInt(_entity.position);
         Vector3 goal = Vector3Int.RoundToInt(_target.position);
 
@@ -43,6 +46,12 @@ public class StatePathfinding<T> : StateFollowPoints<T>
             GetCost,
             curr => Heuristic(curr, goal)
         );
+
+        for (int i = 0; i < path.Count - 1; i++)
+        {
+            Debug.DrawLine(path[i] + Vector3.up * 0.2f, path[i + 1] + Vector3.up * 0.2f, Color.red, 1f);
+        }
+
 
         path = ASTAR.CleanPath(path, InView);
         SetWaypoints(path);
@@ -60,7 +69,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
 
     private bool IsSatisfied(Vector3 curr, Vector3 goal)
     {
-        return Vector3.Distance(curr, goal) <= 1.25f && InView(curr, goal);
+        return Vector3.Distance(curr, goal) <= 2f && InView(curr, goal);
     }
 
     private List<Vector3> GetConnections(Vector3 curr)

@@ -6,10 +6,9 @@ public class NPCChase<T> : StatePathfinding<T>
     private Transform _fakeTarget;
 
     private Vector3 _lastTargetPos;
-    private float _repathThreshold = 1.5f;
-
+    private float _repathThreshold = 0.5f;
     private float _repathTimer = 0f;
-    private float _repathInterval = 0.5f; // cada 0.5s
+    private float _repathInterval = 0.5f;
 
     private ILook _look;
 
@@ -42,7 +41,6 @@ public class NPCChase<T> : StatePathfinding<T>
         SetPathAStarPlusVector();
     }
 
-
     public override void Execute()
     {
         base.Execute();
@@ -50,12 +48,21 @@ public class NPCChase<T> : StatePathfinding<T>
         _repathTimer += Time.deltaTime;
 
         Vector3Int roundedPos = Vector3Int.RoundToInt(_realTarget.position);
-        if (_repathTimer >= _repathInterval && Vector3.Distance(_realTarget.position, _lastTargetPos) > 1.5f)
+        float distToLast = Vector3.Distance(_realTarget.position, _lastTargetPos);
+
+        if (_repathTimer >= _repathInterval)
         {
-            _lastTargetPos = _realTarget.position;
-            _fakeTarget.position = Vector3Int.RoundToInt(_lastTargetPos);
-            SetPathAStarPlusVector();
-            _repathTimer = 0f;
+            distToLast = Vector3.Distance(_realTarget.position, _lastTargetPos);
+            float distToFakeTarget = Vector3.Distance(_entity.position, _fakeTarget.position);
+
+            // Repath solo si el jugador se alejó lo suficiente O si ya estoy cerca del último destino
+            if (distToLast > _repathThreshold || distToFakeTarget < 1.2f)
+            {
+                _lastTargetPos = _realTarget.position;
+                _fakeTarget.position = Vector3Int.RoundToInt(_lastTargetPos);
+                SetPathAStarPlusVector();
+                _repathTimer = 0f;
+            }
         }
 
     }
