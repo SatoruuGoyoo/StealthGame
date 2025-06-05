@@ -1,56 +1,88 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
-// NPC Patrol State
-// NPC looks for waypoints to patrol - Waits 1f in every WYP
-
-public class NPCPatrol<T> : NPCBase<T>
+public class NPCPatrol<T> : StatePathfinding<T>
 {
-    List<Transform> _patrolPoints;
-    int _currentPatrolIndex = 0;
-    [SerializeField] float _arriveTreshold = 1f;
-    [SerializeField] float _waitTime = 1f;
-    float _timer;
-    bool _waitingatWaypoint = false;
+    private List<Vector3> _patrolPoints;
+    private int _currentPatrolIndex = 0;
 
-    public NPCPatrol(List<Transform> patrolPoints)
+    private float _arriveThreshold = 1f;
+    private float _waitTime = 1f;
+    private float _timer;
+    private bool _waitingAtWaypoint = false;
+
+    private ILook _look;
+    private Transform _fakeTarget;
+
+
+    private static Transform CreateFakeTarget()
     {
-
-        _patrolPoints = patrolPoints;
-
+        var go = new GameObject("FakeTarget_Patrol");
+        go.hideFlags = HideFlags.HideInHierarchy;
+        return go.transform;
     }
+
+    public NPCPatrol(Transform entity, IMove move, ILook look, Animator anim, List<Transform> patrolPoints)
+    : base(entity, move, anim, null)
+    {
+        _look = look;
+
+        _fakeTarget = CreateFakeTarget();
+        base._target = _fakeTarget;
+
+        _patrolPoints = new List<Vector3>();
+        foreach (var p in patrolPoints)
+            _patrolPoints.Add(Vector3Int.RoundToInt(p.position));
+    }
+
+
+
+
+    public override void Enter()
+    {
+        base.Enter();
+        GoToNextPoint();
+    }
+
     public override void Execute()
     {
         base.Execute();
-        if (_patrolPoints == null || _patrolPoints.Count == 0) return;
 
-        var target = _patrolPoints[_currentPatrolIndex];
-        Vector3 dir = target.position - _move.Position;
+        if (IsFinishPath && !_waitingAtWaypoint)
+        {
+            _timer = 0f;
+            _waitingAtWaypoint = true;
+        }
 
-        if(_waitingatWaypoint)
+        if (_waitingAtWaypoint)
         {
             _move.Move(Vector3.zero);
             _timer += Time.deltaTime;
+
             if (_timer >= _waitTime)
             {
-                _waitingatWaypoint = false;
-                _timer = 0f;
-                _currentPatrolIndex = (_currentPatrolIndex + 1) % _patrolPoints.Count;
-                target = _patrolPoints[_currentPatrolIndex];
-                dir = target.position - _move.Position;
+                _waitingAtWaypoint = false;
+                GoToNextPoint();
             }
-            return;
         }
+    }
 
-        if (dir.magnitude < _arriveTreshold)
-        {
-            _waitingatWaypoint = true;
-            _move.Move(Vector3.zero);
-            return;
-        }
+    public override void Exit()
+    {
+        base.Exit();
+        if (_fakeTarget != null)
+            GameObject.Destroy(_fakeTarget.gameObject);
+    }
 
-        _move.Move(dir.normalized);
-        _look.LookDir(dir.normalized);
+
+    private void GoToNextPoint()
+    {
+        var next = _patrolPoints[_currentPatrolIndex];
+        _target.position = next;
+
+        SetPathAStarPlusVector();
+
+        _currentPatrolIndex = (_currentPatrolIndex + 1) % _patrolPoints.Count;
     }
 }

@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class StatePathfinding<T> : StateFollowPoints<T>
 {
-    private IMove _move;
+    protected IMove _move;
     private Animator _anim;
-    private Transform _target;
+    protected Transform _target;
 
     public StatePathfinding(Transform entity, IMove move, Animator anim, Transform target, float distanceToPoint = 0.2f)
         : base(entity, distanceToPoint)

@@ -21,6 +21,13 @@ public class NPCSearch<T> : NPCBase<T>
     private bool _isSearchFinished = false;
     private bool _searchRequestCleared = false;
 
+    private NPCMemory _memory;
+
+    public NPCSearch(NPCMemory memory)
+    {
+        _memory = memory;
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -37,15 +44,15 @@ public class NPCSearch<T> : NPCBase<T>
 
         PickNewDirection();
 
-        NPCMemory.IsSearching = true;
+        _memory.IsSearching = true;
     }
     public override void Execute()
     {
         base.Execute();
 
-        if (!_searchRequestCleared && NPCMemory.SearchRequested)
+        if (!_searchRequestCleared && _memory.SearchRequested)
         {
-            NPCMemory.SearchRequested = false;
+            _memory.SearchRequested = false;
             _searchRequestCleared = true;
         }
 
@@ -57,7 +64,7 @@ public class NPCSearch<T> : NPCBase<T>
 
             if (_finalPauseTimer >= _finalPauseDuration)
             {
-                NPCMemory.IsSearching = false;
+                _memory.IsSearching = false;
             }
 
             return;
@@ -102,7 +109,7 @@ public class NPCSearch<T> : NPCBase<T>
     public override void Exit()
     {
         base.Exit();
-        NPCMemory.IsSearching = false;
+        _memory.IsSearching = false;
 
     }
     private void PickNewDirection()
