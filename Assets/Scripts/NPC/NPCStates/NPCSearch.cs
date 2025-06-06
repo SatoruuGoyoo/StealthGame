@@ -42,35 +42,27 @@ public class NPCSearch<T> : StatePathfinding<T>
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("Entró a estado SEARCH");
 
         if (_fakeTarget == null)
         {
             _fakeTarget = CreateFakeTarget();
         }
 
-        _visitedPoints = 0;
-        _pauseTimer = 0f;
-        _finalPauseTimer = 0f;
-        _isPaused = false;
-        _isSearchFinished = false;
-        _searchRequestCleared = false;
-
-        _lastPosition = _move.Position;
+        _searchPoints = _memory.SearchPoints;
+        _currentIndex = 0;
         _memory.IsSearching = true;
-
-        PickNewPoint();
 
         if (_searchPoints != null && _searchPoints.Count > 0)
         {
             _fakeTarget.position = _searchPoints[0];
-            SetPathAStarPlusVector(_move.Position, _fakeTarget.position);
-            Debug.DrawRay(_searchPoints[0] + Vector3.up, Vector3.up * 2, Color.yellow, 2f);
+            SetPathAStarPlusVector(_move.Position, _searchPoints[0]);
+            Debug.Log("Empezando búsqueda en: " + _searchPoints[0]);
         }
         else
         {
-            Debug.LogWarning("No hay puntos de búsqueda asignados");
+            Debug.LogWarning("NO hay puntos de búsqueda asignados en Search::Enter()");
         }
-
     }
 
     public override void Execute()
@@ -128,59 +120,59 @@ public class NPCSearch<T> : StatePathfinding<T>
     {
         base.Exit();
         _memory.IsSearching = false;
-
+        _memory.SearchRequested = false;
         if (_fakeTarget != null)
             GameObject.Destroy(_fakeTarget.gameObject);
     }
 
-    private void PickNewPoint()
-    {
-        if (_searchPoints == null || _searchPoints.Count == 0)
-            return;
+    //private void PickNewPoint()
+    //{
+    //    if (_searchPoints == null || _searchPoints.Count == 0)
+    //        return;
 
-        if (_isSearchFinished)
-        {
-            _move.Move(Vector3.zero);
-            _finalPauseTimer += Time.deltaTime;
+    //    if (_isSearchFinished)
+    //    {
+    //        _move.Move(Vector3.zero);
+    //        _finalPauseTimer += Time.deltaTime;
 
-            if (_finalPauseTimer >= _finalPauseDuration)
-            {
-                _memory.IsSearching = false;
-                _memory.SearchRequested = false;
-            }
-            return;
-        }
+    //        if (_finalPauseTimer >= _finalPauseDuration)
+    //        {
+    //            _memory.IsSearching = false;
+    //            _memory.SearchRequested = false;
+    //        }
+    //        return;
+    //    }
 
-        if (_currentIndex >= _searchPoints.Count)
-        {
-            _isSearchFinished = true;
-            return;
-        }
+    //    if (_currentIndex >= _searchPoints.Count)
+    //    {
+    //        _isSearchFinished = true;
+    //        return;
+    //    }
 
-        if (IsFinishPath && !_isPaused)
-        {
-            _pauseTimer = 0f;
-            _isPaused = true;
-        }
+    //    if (IsFinishPath && !_isPaused)
+    //    {
+    //        _pauseTimer = 0f;
+    //        _isPaused = true;
+    //    }
 
-        if (_isPaused)
-        {
-            _move.Move(Vector3.zero);
-            _pauseTimer += Time.deltaTime;
+    //    if (_isPaused)
+    //    {
+    //        _move.Move(Vector3.zero);
+    //        _pauseTimer += Time.deltaTime;
 
-            if (_pauseTimer >= _pauseDuration)
-            {
-                _isPaused = false;
-                _currentIndex++;
+    //        if (_pauseTimer >= _pauseDuration)
+    //        {
+    //            _isPaused = false;
+    //            _currentIndex++;
 
-                if (_currentIndex < _searchPoints.Count)
-                {
-                    _fakeTarget.position = _searchPoints[_currentIndex];
-                    SetPathAStarPlusVector(_move.Position, _fakeTarget.position);
-                }
-            }
-        }
-    }
+    //            if (_currentIndex < _searchPoints.Count)
+    //            {
+    //                _fakeTarget.position = _searchPoints[_currentIndex];
+    //                SetPathAStarPlusVector(_move.Position, _fakeTarget.position);
+    //            }
+    //        }
+    //    }
+    //}
 
     public static List<Vector3> GetRandomSearchPoints(Vector3 origin, int count, float radius)
     {
@@ -205,8 +197,21 @@ public class NPCSearch<T> : StatePathfinding<T>
 
     public void SetSearchPoints(List<Vector3> points)
     {
-        Debug.Log("Se recibieron " + points.Count + " puntos de búsqueda");
         _searchPoints = points;
         _currentIndex = 0;
+
+        foreach (var point in _searchPoints)
+        {
+            if (!ObstacleManager.Instance.IsRightPos(point))
+            {
+                Debug.LogWarning("Punto inválido: " + point);
+            }
+            else
+            {
+                Debug.DrawRay(point + Vector3.up * 0.1f, Vector3.up * 1f, Color.green, 3f);
+            }
+        }
+
+        Debug.Log("Puntos de búsqueda asignados: " + _searchPoints.Count);
     }
 }

@@ -17,7 +17,7 @@ public class ASTAR : MonoBehaviour
             watchdog--;
             if (watchdog <= 0) break;
             T current = pending.Dequeue();
-            Debug.Log("ASTAR");
+            //Debug.Log("ASTAR");
             if (isSatisfied(current))
             {
                 List<T> path = new List<T>();

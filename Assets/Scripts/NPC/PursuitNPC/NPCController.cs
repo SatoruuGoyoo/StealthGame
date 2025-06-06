@@ -136,7 +136,7 @@ public class NPCController : MonoBehaviour
         var search = new ActionNode(() =>
         {
             var points = NPCSearch<StateEnum>.GetRandomSearchPoints(_model.Position, 4, 4f);
-            _searchState.SetSearchPoints(points);
+            _memory.SearchPoints = points;
             _fsm.Transition(StateEnum.Search);
         });
         var chase = new ActionNode(() => _fsm.Transition(StateEnum.Chase));
@@ -169,14 +169,21 @@ public class NPCController : MonoBehaviour
 
         if (currentLOS != previousLOSState)
         {
+            Debug.Log("Cambio de visión detectado. Ve al jugador: " + currentLOS);
             OnTargetInView?.Invoke(currentLOS);
-            previousLOSState = currentLOS;
 
             if (!currentLOS)
             {
+                Debug.Log("PERDIÓ DE VISTA AL JUGADOR → solicitar búsqueda");
                 _memory.SearchRequested = true;
             }
+            else
+            {
+                Debug.Log("VOLVIÓ A VER AL JUGADOR");
+            }
         }
+
+        previousLOSState = currentLOS;
 
         if (currentLOS)
             _memory.UpdateLastSeen();
@@ -195,5 +202,23 @@ public class NPCController : MonoBehaviour
         return _memory.IsSearching;
     }
 
+    private void OnDrawGizmos()
+    {
+        if (_memory == null || _memory.SearchPoints == null || _memory.SearchPoints.Count == 0)
+            return;
+
+        Gizmos.color = Color.cyan;
+
+        for (int i = 0; i < _memory.SearchPoints.Count; i++)
+        {
+            Vector3 point = _memory.SearchPoints[i];
+            Gizmos.DrawSphere(point + Vector3.up * 0.2f, 0.2f);
+
+            if (i < _memory.SearchPoints.Count - 1)
+            {
+                Gizmos.DrawLine(point + Vector3.up * 0.2f, _memory.SearchPoints[i + 1] + Vector3.up * 0.2f);
+            }
+        }
+    }
 
 }

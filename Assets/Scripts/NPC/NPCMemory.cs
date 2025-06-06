@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCMemory
@@ -7,6 +8,7 @@ public class NPCMemory
 
     public bool SearchRequested { get; set; } = false;
     public bool IsSearching { get; set; } = false;
+    public List<Vector3> SearchPoints { get; set; } = new List<Vector3>();
 
     public bool ShouldKeepChasing => Time.time - _lastSeenTime <= _chaseMemoryTime;
 
