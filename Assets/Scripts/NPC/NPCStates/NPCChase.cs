@@ -12,40 +12,35 @@ public class NPCChase<T> : StatePathfinding<T>
 
     private ILook _look;
 
-    // Al definir:
-    private float _predictionTime = 0.75f;
-    private Rigidbody _playerRb;
-
+    private static Transform CreateFakeTarget()
+    {
+        var go = new GameObject("FakeTarget_Chase");
+        go.hideFlags = HideFlags.HideInHierarchy;
+        return go.transform;
+    }
 
     public NPCChase(Transform entity, IMove move, ILook look, Animator anim, Transform target)
-    : base(entity, move, anim, null)
+        : base(entity, move, anim)
     {
         _look = look;
         _realTarget = target;
-        _playerRb = target.GetComponent<Rigidbody>();
-
-        _fakeTarget = new GameObject("FakeTarget_Chase").transform;
-        _fakeTarget.hideFlags = HideFlags.HideInHierarchy;
-        base._target = _fakeTarget;
+        _fakeTarget = CreateFakeTarget();
     }
-
 
     public override void Enter()
     {
         base.Enter();
 
-        _repathTimer = 0f;
-
         if (_fakeTarget == null)
         {
-            _fakeTarget = new GameObject("FakeTarget_Chase").transform;
-            _fakeTarget.hideFlags = HideFlags.HideInHierarchy;
-            base._target = _fakeTarget;
+            _fakeTarget = CreateFakeTarget();
         }
 
-        _lastTargetPos = Vector3Int.RoundToInt(_realTarget.position);
-        _fakeTarget.position = _lastTargetPos;
-        SetPathAStarPlusVector();
+        _repathTimer = 0f;
+        _lastTargetPos = _realTarget.position;
+        _fakeTarget.position = Vector3Int.RoundToInt(_lastTargetPos);
+
+        SetPathAStarPlusVector(_move.Position, _fakeTarget.position);
     }
 
     public override void Execute()
@@ -55,17 +50,14 @@ public class NPCChase<T> : StatePathfinding<T>
         _repathTimer += Time.deltaTime;
 
         float distToLast = Vector3.Distance(_realTarget.position, _lastTargetPos);
-        float distToFakeTarget = Vector3.Distance(_entity.position, _fakeTarget.position);
+        float distToFakeTarget = Vector3.Distance(_move.Position, _fakeTarget.position);
 
-        // No recalcules si no terminaste el path actual, salvo que el jugador se haya alejado mucho
         if (_repathTimer >= _repathInterval &&
-    (       IsFinishPath || distToLast > 2f || distToFakeTarget > 4f))
-
+            (distToLast > _repathThreshold || IsFinishPath || distToFakeTarget < 1.2f))
         {
-            _lastTargetPos = PredictPlayerPosition();
-
+            _lastTargetPos = _realTarget.position;
             _fakeTarget.position = Vector3Int.RoundToInt(_lastTargetPos);
-            SetPathAStarPlusVector();
+            SetPathAStarPlusVector(_move.Position, _fakeTarget.position);
             _repathTimer = 0f;
         }
     }
@@ -73,18 +65,10 @@ public class NPCChase<T> : StatePathfinding<T>
     public override void Exit()
     {
         base.Exit();
+
         if (_fakeTarget != null)
             GameObject.Destroy(_fakeTarget.gameObject);
+
+        _fakeTarget = null;
     }
-
-    private Vector3 PredictPlayerPosition()
-    {
-        if (_playerRb == null)
-            return _realTarget.position;
-
-        Vector3 velocity = _playerRb.linearVelocity;
-        Vector3 predicted = _realTarget.position + velocity * _predictionTime;
-        return predicted;
-    }
-
 }

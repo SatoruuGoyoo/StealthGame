@@ -1,20 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class NPCPatrol<T> : StatePathfinding<T>
 {
     private List<Vector3> _patrolPoints;
     private int _currentPatrolIndex = 0;
 
-    private float _arriveThreshold = 1f;
     private float _waitTime = 1f;
     private float _timer;
     private bool _waitingAtWaypoint = false;
 
     private ILook _look;
     private Transform _fakeTarget;
-
 
     private static Transform CreateFakeTarget()
     {
@@ -24,24 +21,29 @@ public class NPCPatrol<T> : StatePathfinding<T>
     }
 
     public NPCPatrol(Transform entity, IMove move, ILook look, Animator anim, List<Transform> patrolPoints)
-    : base(entity, move, anim, null)
+        : base(entity, move, anim)
     {
         _look = look;
 
         _fakeTarget = CreateFakeTarget();
-        base._target = _fakeTarget;
 
         _patrolPoints = new List<Vector3>();
         foreach (var p in patrolPoints)
             _patrolPoints.Add(Vector3Int.RoundToInt(p.position));
     }
 
-
-
-
     public override void Enter()
     {
         base.Enter();
+
+        if (_fakeTarget == null)
+        {
+            _fakeTarget = CreateFakeTarget();
+        }
+
+        _waitingAtWaypoint = false;
+        _timer = 0f;
+
         GoToNextPoint();
     }
 
@@ -73,15 +75,18 @@ public class NPCPatrol<T> : StatePathfinding<T>
         base.Exit();
         if (_fakeTarget != null)
             GameObject.Destroy(_fakeTarget.gameObject);
-    }
 
+        _fakeTarget = null;
+    }
 
     private void GoToNextPoint()
     {
-        var next = _patrolPoints[_currentPatrolIndex];
-        _target.position = next;
+        if (_patrolPoints.Count == 0) return;
 
-        SetPathAStarPlusVector();
+        var next = _patrolPoints[_currentPatrolIndex];
+        _fakeTarget.position = next;
+
+        SetPathAStarPlusVector(_move.Position, next);
 
         _currentPatrolIndex = (_currentPatrolIndex + 1) % _patrolPoints.Count;
     }

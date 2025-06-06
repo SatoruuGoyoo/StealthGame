@@ -17,7 +17,6 @@ public class NPCController : MonoBehaviour
     public Rigidbody target;
 
     FSM<StateEnum> _fsm;
-    StatePathfinding<StateEnum> _statePathfinding;
     NPCModel _model;
      LineOfSightMono _los;
      ITreeNode _root;
@@ -82,8 +81,8 @@ public class NPCController : MonoBehaviour
 
         var patrol = new NPCPatrol<StateEnum>(_model.transform, _model, look, anim, _patrolPoints);
         var chase = new NPCChase<StateEnum>(_model.transform, _model, look, anim, target.transform);
+        var search = new NPCSearch<StateEnum>(_model.transform, _model, anim, _memory);
 
-        var search = new NPCSearch<StateEnum>(_memory);
 
         // Add to List
         var stateList = new List<IState<StateEnum>>();
@@ -115,12 +114,14 @@ public class NPCController : MonoBehaviour
         patrol.AddTransition(StateEnum.Idle, idle);
         patrol.AddTransition(StateEnum.Chase, chase);
         patrol.AddTransition(StateEnum.Attack, attack);
-      
+
 
         for (int i = 0; i < stateList.Count; i++)
         {
             stateList[i].Initialize(_model, look, _model);
         }
+
+
 
         _fsm.SetInit(idle);
     }
@@ -173,8 +174,17 @@ public class NPCController : MonoBehaviour
 
         return _memory.ShouldKeepChasing;
     }
-    bool QuestionSearchRequested() => _memory.SearchRequested;
-    bool QuestionIsSearching() => _memory.IsSearching;
+    bool QuestionSearchRequested()
+    {
+       
+        return _memory.SearchRequested;
+    }
+
+    bool QuestionIsSearching()
+    {
+ 
+        return _memory.IsSearching;
+    }
 
 
 }
