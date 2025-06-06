@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class NPCSearch<T> : StatePathfinding<T>
 {
@@ -19,6 +21,9 @@ public class NPCSearch<T> : StatePathfinding<T>
 
     private Transform _fakeTarget;
     private NPCMemory _memory;
+
+    private List<Vector3> _searchPoints;
+    private int _currentIndex = 0;
 
     private static Transform CreateFakeTarget()
     {
@@ -54,33 +59,40 @@ public class NPCSearch<T> : StatePathfinding<T>
         _memory.IsSearching = true;
 
         PickNewPoint();
+
+        if (_searchPoints != null && _searchPoints.Count > 0)
+        {
+            _fakeTarget.position = _searchPoints[0];
+            SetPathAStarPlusVector(_move.Position, _fakeTarget.position);
+            Debug.DrawRay(_searchPoints[0] + Vector3.up, Vector3.up * 2, Color.yellow, 2f);
+        }
+        else
+        {
+            Debug.LogWarning("No hay puntos de búsqueda asignados");
+        }
+
     }
 
     public override void Execute()
     {
         base.Execute();
 
-        if (!_searchRequestCleared && _memory.SearchRequested)
-        {
-            _memory.SearchRequested = false;
-            _searchRequestCleared = true;
-        }
+        if (_searchPoints == null || _searchPoints.Count == 0)
+            return;
 
         if (_isSearchFinished)
         {
             _move.Move(Vector3.zero);
             _finalPauseTimer += Time.deltaTime;
-
             if (_finalPauseTimer >= _finalPauseDuration)
             {
                 _memory.IsSearching = false;
                 _memory.SearchRequested = false;
             }
-
             return;
         }
 
-        if (_visitedPoints >= _maxPoints)
+        if (_currentIndex >= _searchPoints.Count)
         {
             _isSearchFinished = true;
             return;
@@ -100,9 +112,14 @@ public class NPCSearch<T> : StatePathfinding<T>
             if (_pauseTimer >= _pauseDuration)
             {
                 _isPaused = false;
-                _visitedPoints++;
-                _lastPosition = _move.Position;
-                PickNewPoint();
+                _currentIndex++;
+
+                if (_currentIndex < _searchPoints.Count)
+                {
+                    _fakeTarget.position = _searchPoints[_currentIndex];
+                    SetPathAStarPlusVector(_move.Position, _fakeTarget.position);
+                    Debug.DrawRay(_searchPoints[_currentIndex] + Vector3.up, Vector3.up * 2, Color.cyan, 2f);
+                }
             }
         }
     }
@@ -118,19 +135,78 @@ public class NPCSearch<T> : StatePathfinding<T>
 
     private void PickNewPoint()
     {
-        Vector3 candidate;
+        if (_searchPoints == null || _searchPoints.Count == 0)
+            return;
+
+        if (_isSearchFinished)
+        {
+            _move.Move(Vector3.zero);
+            _finalPauseTimer += Time.deltaTime;
+
+            if (_finalPauseTimer >= _finalPauseDuration)
+            {
+                _memory.IsSearching = false;
+                _memory.SearchRequested = false;
+            }
+            return;
+        }
+
+        if (_currentIndex >= _searchPoints.Count)
+        {
+            _isSearchFinished = true;
+            return;
+        }
+
+        if (IsFinishPath && !_isPaused)
+        {
+            _pauseTimer = 0f;
+            _isPaused = true;
+        }
+
+        if (_isPaused)
+        {
+            _move.Move(Vector3.zero);
+            _pauseTimer += Time.deltaTime;
+
+            if (_pauseTimer >= _pauseDuration)
+            {
+                _isPaused = false;
+                _currentIndex++;
+
+                if (_currentIndex < _searchPoints.Count)
+                {
+                    _fakeTarget.position = _searchPoints[_currentIndex];
+                    SetPathAStarPlusVector(_move.Position, _fakeTarget.position);
+                }
+            }
+        }
+    }
+
+    public static List<Vector3> GetRandomSearchPoints(Vector3 origin, int count, float radius)
+    {
+        List<Vector3> points = new List<Vector3>();
         int attempts = 0;
 
-        do
+        while (points.Count < count && attempts < count * 10)
         {
-            Vector2 random = Random.insideUnitCircle * _stepDistance;
-            candidate = _lastPosition + new Vector3(random.x, 0, random.y);
-            candidate = Vector3Int.RoundToInt(candidate);
+            Vector2 random = UnityEngine.Random.insideUnitCircle * radius;
+            Vector3 candidate = Vector3Int.RoundToInt(origin + new Vector3(random.x, 0, random.y));
+
+            if (ObstacleManager.Instance.IsRightPos(candidate))
+            {
+                points.Add(candidate);
+            }
+
             attempts++;
         }
-        while (!ObstacleManager.Instance.IsRightPos(candidate) && attempts < 10);
 
-        _fakeTarget.position = candidate;
-        SetPathAStarPlusVector(_move.Position, candidate);
+        return points;
+    }
+
+    public void SetSearchPoints(List<Vector3> points)
+    {
+        Debug.Log("Se recibieron " + points.Count + " puntos de búsqueda");
+        _searchPoints = points;
+        _currentIndex = 0;
     }
 }

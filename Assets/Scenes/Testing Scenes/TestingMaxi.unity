@@ -85838,6 +85838,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8247810753394664934, guid: 498446a2fabaff14d85900029204b055, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8701527954304113350, guid: 498446a2fabaff14d85900029204b055, type: 3}
       propertyPath: m_Layer
       value: 6

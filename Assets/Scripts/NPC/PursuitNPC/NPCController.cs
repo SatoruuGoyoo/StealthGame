@@ -26,6 +26,8 @@ public class NPCController : MonoBehaviour
 
     private NPCMemory _memory = new NPCMemory();
 
+    private NPCSearch<StateEnum> _searchState;
+
 
     bool previousLOSState = false;
 
@@ -74,6 +76,7 @@ public class NPCController : MonoBehaviour
         _fsm = new FSM<StateEnum>();
         var look = GetComponent<ILook>();
         var anim = GetComponent<Animator>();
+        _searchState = new NPCSearch<StateEnum>(_model.transform, _model, anim, _memory);
 
         // Create States
         var idle = new NPCIdle<StateEnum>();
@@ -91,6 +94,7 @@ public class NPCController : MonoBehaviour
         stateList.Add(patrol);
         stateList.Add(chase);
         stateList.Add(search);
+        stateList.Add(_searchState);
 
         // Create Transitions
         idle.AddTransition(StateEnum.Chase, chase);
@@ -129,7 +133,12 @@ public class NPCController : MonoBehaviour
     void InitializedTree()
     {
         var patrol = new ActionNode(() => _fsm.Transition(StateEnum.Patrol));
-        var search = new ActionNode(() => _fsm.Transition(StateEnum.Search));
+        var search = new ActionNode(() =>
+        {
+            var points = NPCSearch<StateEnum>.GetRandomSearchPoints(_model.Position, 4, 4f);
+            _searchState.SetSearchPoints(points);
+            _fsm.Transition(StateEnum.Search);
+        });
         var chase = new ActionNode(() => _fsm.Transition(StateEnum.Chase));
         var attack = new ActionNode(() => _fsm.Transition(StateEnum.Attack));
 
