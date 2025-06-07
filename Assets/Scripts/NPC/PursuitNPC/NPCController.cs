@@ -56,19 +56,6 @@ public class NPCController : MonoBehaviour
         _fsm.OnFixExecute();
     }
 
-    //void InitializedSteering()
-    //{
-    //    var pursuit = new Pursuit(_model.transform, target, 0, timePrediction);
-    //    var evade = new Evade(_model.transform, target, 0, timePrediction);
-    //    //if (this.gameObject.tag == "NPC1")
-    //    //{
-    //    //    _steering = pursuit;
-    //    //}
-    //    //else
-    //    //{
-    //    //    _steering = evade;
-    //    //}
-    //}
 
     void InitializedFSM()
     {

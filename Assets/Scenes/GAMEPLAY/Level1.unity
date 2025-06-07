@@ -2960,7 +2960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 2
   speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
@@ -30898,7 +30898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 2
   speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
@@ -66791,7 +66791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 2
   speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
@@ -86538,7 +86538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 2
   speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
