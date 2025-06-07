@@ -6,6 +6,8 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     protected IMove _move;
     protected Animator _anim;
     protected ObstacleAvoidance _avoidance;
+    protected ILook _look;
+    protected NPCModel _model;
 
     public StatePathfinding(Transform entity, IMove move, Animator anim, float distanceToPoint = 0.2f)
         : base(entity, distanceToPoint)

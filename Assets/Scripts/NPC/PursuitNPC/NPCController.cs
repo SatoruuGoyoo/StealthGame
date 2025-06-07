@@ -36,6 +36,7 @@ public class NPCController : MonoBehaviour
     private void Awake()
     {
         _model = GetComponent<NPCModel>();
+        _memory = _model.Memory;
         _los = GetComponent<LineOfSightMono>();
     }
 
@@ -107,6 +108,8 @@ public class NPCController : MonoBehaviour
 
         search.AddTransition(StateEnum.Chase, chase);
         search.AddTransition(StateEnum.Patrol, patrol);
+        search.AddTransition(StateEnum.Search, search);
+
 
         //Chase
         chase.AddTransition(StateEnum.Idle, idle);
@@ -118,6 +121,8 @@ public class NPCController : MonoBehaviour
         patrol.AddTransition(StateEnum.Idle, idle);
         patrol.AddTransition(StateEnum.Chase, chase);
         patrol.AddTransition(StateEnum.Attack, attack);
+        patrol.AddTransition(StateEnum.Patrol, patrol);
+
 
 
         for (int i = 0; i < stateList.Count; i++)
@@ -132,13 +137,29 @@ public class NPCController : MonoBehaviour
 
     void InitializedTree()
     {
-        var patrol = new ActionNode(() => _fsm.Transition(StateEnum.Patrol));
-        var search = new ActionNode(() =>
+        var patrol = new ActionNode(() => 
         {
-            var points = NPCSearch<StateEnum>.GetRandomSearchPoints(_model.Position, 4, 4f);
+            if (_fsm.CurrentStateEnum != StateEnum.Patrol)
+            {
+                Debug.Log("TRANSICIONANDO A PATRULLA");
+                _fsm.Transition(StateEnum.Patrol);
+            }
+        });
+        var search = new ActionNode(() => 
+        {
+            Debug.Log("TRANSICIONANDO A SEARCH DESDE ÁRBOL");
+
+            var points = SearchHelper.GetWeightedSearchPoints(transform.position, 4, 4f);
+
             _memory.SearchPoints = points;
+            _memory.IsSearching = true;
+            _memory.SearchRequested = true;
+
+            _searchState.SetSearchPoints(points); // Asegurate de que _searchState esté accesible
+
             _fsm.Transition(StateEnum.Search);
         });
+
         var chase = new ActionNode(() => _fsm.Transition(StateEnum.Chase));
         var attack = new ActionNode(() => _fsm.Transition(StateEnum.Attack));
 

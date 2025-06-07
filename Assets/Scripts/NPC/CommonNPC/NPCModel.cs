@@ -16,11 +16,13 @@ public class NPCModel : PlayerModel
 
     public bool lostPlayerTooLong = false;
 
+    public NPCMemory Memory { get; private set; }
 
     protected override void Awake()
     {
         _obs = GetComponent<ObstacleAvoidance>();
         _look = GetComponent<ILook>();
+        Memory = new NPCMemory();
         base.Awake();
     }
     public override void Attack()

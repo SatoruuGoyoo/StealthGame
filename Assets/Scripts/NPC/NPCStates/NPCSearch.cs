@@ -49,11 +49,11 @@ public class NPCSearch<T> : StatePathfinding<T>
             _fakeTarget = CreateFakeTarget();
         }
 
-        _searchPoints = _memory.SearchPoints;
+        _searchPoints = _model.Memory.SearchPoints;
         _currentIndex = 0;
         _memory.IsSearching = true;
 
-        if (_searchPoints != null && _searchPoints.Count > 0)
+        if (_searchPoints == null || _searchPoints.Count == 0)
         {
             _fakeTarget.position = _searchPoints[0];
             SetPathAStarPlusVector(_move.Position, _searchPoints[0]);
@@ -87,6 +87,11 @@ public class NPCSearch<T> : StatePathfinding<T>
         if (_currentIndex >= _searchPoints.Count)
         {
             _isSearchFinished = true;
+            _memory.IsSearching = false;
+            _memory.SearchRequested = false;
+
+            Debug.Log("SEARCH FINALIZADO → volver a patrullaje");
+
             return;
         }
 
