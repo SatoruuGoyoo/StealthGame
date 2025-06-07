@@ -155,12 +155,6 @@ public class NPCController : MonoBehaviour
             if (!currentLOS)
             {
                 _memory.SearchRequested = true;
-
-                if (_searchState != null && !_memory.IsSearching)
-                {
-                    var points = RouletteWheelPointGenerator.GeneratePoints(_model.Position, 4, 4f);
-                    _searchState.SetSearchPath(points);
-                }
             }
         }
 

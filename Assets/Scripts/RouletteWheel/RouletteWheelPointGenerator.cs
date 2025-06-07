@@ -18,7 +18,7 @@ public static class RouletteWheelPointGenerator
                 Vector3 candidate = center + new Vector3(rand.x, 0, rand.y);
                 candidate = Vector3Int.RoundToInt(candidate);
 
-                if (ObstacleManager.Instance.IsRightPos(candidate))
+                if (IsPointClear(candidate, 1f))
                 {
                     points.Add(candidate);
                     foundValid = true;
@@ -31,5 +31,11 @@ public static class RouletteWheelPointGenerator
             }
         }
         return points;
+    }
+
+    private static bool IsPointClear(Vector3 point, float clearanceRadius)
+    {
+        Collider[] colliders = Physics.OverlapSphere(point, clearanceRadius, PathfindingConstants.obsMask);
+        return colliders.Length == 0 && ObstacleManager.Instance.IsRightPos(point);
     }
 }

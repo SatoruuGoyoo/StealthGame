@@ -38,12 +38,6 @@ public class NPCSearch<T> : StatePathfinding<T>
         _fakeTarget = CreateFakeTarget();
     }
 
-    public void SetSearchPath(List<Vector3> searchPoints)
-    {
-        _searchPoints = searchPoints;
-        _searchIndex = 0;
-    }
-
     public override void Enter()
     {
         base.Enter();
@@ -63,6 +57,8 @@ public class NPCSearch<T> : StatePathfinding<T>
         _lastPosition = _move.Position;
         _memory.IsSearching = true;
 
+        _searchPoints = RouletteWheelPointGenerator.GeneratePoints(_move.Position, 4, 4f);
+        _searchIndex = 0;
         PickNextSearchPoint();
     }
 
