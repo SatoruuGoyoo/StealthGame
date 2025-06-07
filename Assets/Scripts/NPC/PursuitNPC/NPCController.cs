@@ -26,6 +26,7 @@ public class NPCController : MonoBehaviour
 
     private NPCMemory _memory = new NPCMemory();
 
+    private NPCSearch<StateEnum> _searchState;
 
     bool previousLOSState = false;
 
@@ -82,6 +83,7 @@ public class NPCController : MonoBehaviour
         var patrol = new NPCPatrol<StateEnum>(_model.transform, _model, look, anim, _patrolPoints);
         var chase = new NPCChase<StateEnum>(_model.transform, _model, look, anim, target.transform);
         var search = new NPCSearch<StateEnum>(_model.transform, _model, anim, _memory);
+        _searchState = search;
 
 
         // Add to List
@@ -166,6 +168,12 @@ public class NPCController : MonoBehaviour
             if (!currentLOS)
             {
                 _memory.SearchRequested = true;
+
+                if (_searchState != null && !_memory.IsSearching)
+                {
+                    var points = RouletteWheelPointGenerator.GeneratePoints(_model.Position, 4, 4f);
+                    _searchState.SetSearchPath(points);
+                }
             }
         }
 
@@ -186,5 +194,22 @@ public class NPCController : MonoBehaviour
         return _memory.IsSearching;
     }
 
+    private void OnDrawGizmos()
+    {
+        if (_searchState == null) return;
 
+        var points = _searchState.GetSearchPoints();
+        if (points == null || points.Count == 0) return;
+
+        Gizmos.color = Color.cyan;
+
+        for (int i = 0; i < points.Count; i++)
+        {
+            Gizmos.DrawSphere(points[i] + Vector3.up * 0.2f, 0.2f);
+            if (i < points.Count - 1)
+            {
+                Gizmos.DrawLine(points[i] + Vector3.up * 0.2f, points[i + 1] + Vector3.up * 0.2f);
+            }
+        }
+    }
 }
