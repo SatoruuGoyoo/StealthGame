@@ -11,7 +11,8 @@ public enum StateEnum
     Chase,
     GoZone,
     Patrol,
-    Search
+    Search,
+    FollowBoss
 
 }
 
