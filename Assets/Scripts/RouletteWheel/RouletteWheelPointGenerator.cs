@@ -18,7 +18,7 @@ public static class RouletteWheelPointGenerator
                 Vector3 candidate = center + new Vector3(rand.x, 0, rand.y);
                 candidate = Vector3Int.RoundToInt(candidate);
 
-                if (IsPointClear(candidate, 1f))
+                if (IsPointClear(candidate, 2f) && !IsTooCloseToOthers(candidate, points, 3.5f))
                 {
                     points.Add(candidate);
                     foundValid = true;
@@ -37,5 +37,15 @@ public static class RouletteWheelPointGenerator
     {
         Collider[] colliders = Physics.OverlapSphere(point, clearanceRadius, PathfindingConstants.obsMask);
         return colliders.Length == 0 && ObstacleManager.Instance.IsRightPos(point);
+    }
+
+    private static bool IsTooCloseToOthers(Vector3 point, List<Vector3> others, float minDistance)
+    {
+        foreach (var p in others)
+        {
+            if (Vector3.Distance(p, point) < minDistance)
+                return true;
+        }
+        return false;
     }
 }
