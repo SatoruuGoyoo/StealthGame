@@ -2835,11 +2835,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
   speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
-  attackRange: 1
+  attackRange: 2
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
@@ -3053,7 +3053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440272fa5e026c54f9accf5218f7cff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1.5
+  multiplier: 3
 --- !u!114 &45692063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3066,7 +3066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd1e938e71cff04db82044f2011bbb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1
+  multiplier: 2
 --- !u!114 &45692064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4400,7 +4400,7 @@ MonoBehaviour:
   speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
-  attackRange: 0
+  attackRange: 1
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
@@ -4529,7 +4529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b08a9f55edf242947b5b8bd7a25f87a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 3
+  multiplier: 4
   timePrediction: 0.5
 --- !u!114 &69723405
 MonoBehaviour:
@@ -27809,11 +27809,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
   speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
-  attackRange: 1
+  attackRange: 2
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
@@ -28027,7 +28027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440272fa5e026c54f9accf5218f7cff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1.5
+  multiplier: 3
 --- !u!114 &595539620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28040,7 +28040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd1e938e71cff04db82044f2011bbb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1
+  multiplier: 2
 --- !u!114 &595539621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59891,11 +59891,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
   speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
-  attackRange: 1
+  attackRange: 2
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
@@ -60109,7 +60109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440272fa5e026c54f9accf5218f7cff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1.5
+  multiplier: 3
 --- !u!114 &1349943215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60122,7 +60122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd1e938e71cff04db82044f2011bbb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1
+  multiplier: 2
 --- !u!114 &1349943216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77546,11 +77546,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30157cc7a415f94281d945180f8d437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
   speedRot: 10
   crouchSize: {x: 0.006859852, y: 0.02, z: 0.00960762}
   crouchCenter: {x: -0.0002046084, y: 0.0105, z: -0.0006253576}
-  attackRange: 1
+  attackRange: 2
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
@@ -77748,7 +77748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440272fa5e026c54f9accf5218f7cff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1.5
+  multiplier: 3
 --- !u!114 &1775237855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77761,7 +77761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd1e938e71cff04db82044f2011bbb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1
+  multiplier: 2
 --- !u!114 &1775237856
 MonoBehaviour:
   m_ObjectHideFlags: 0
