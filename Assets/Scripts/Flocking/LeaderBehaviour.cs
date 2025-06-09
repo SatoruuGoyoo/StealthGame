@@ -3,54 +3,49 @@ using UnityEngine;
 
 public class LeaderBehaviour : FlockingBaseBehaviour
 {
-    public float timePrediction = 0.5f;
-
-    private Pursuit _pursuit;
-    private bool _isPursuit;
-
+    public float timePrediction;
+    Seek _seek;
+    Pursuit _pursuit;
+    bool _isPursuit;
     private void Awake()
     {
-        // Usamos constructor compatible con tu profe
-        _pursuit = new Pursuit(transform, errorRange: 0, timePrediction: timePrediction);
+        _pursuit = new Pursuit(transform, 0, timePrediction);
+        _seek = new Seek(transform);
     }
-
     protected override Vector3 GetRealDir(List<IBoid> boids, IBoid self)
     {
         if (_isPursuit && _pursuit != null)
         {
-            return _pursuit.GetDir() * multiplier;
+            var dir = _pursuit.GetDir();
+            Debug.DrawLine(transform.position, transform.position + dir.normalized * 2f, Color.magenta); // Debug
+            return dir * multiplier;
         }
 
         return Vector3.zero;
     }
-
     public Transform Leader
     {
         set
         {
             var rb = value.GetComponent<Rigidbody>();
-            if (rb != null)
+            if (rb)
             {
                 _pursuit.Target = rb;
                 _isPursuit = true;
             }
             else
             {
-                Debug.LogWarning("LeaderBehaviour: El líder no tiene Rigidbody.");
+                _seek.Target = value;
                 _isPursuit = false;
             }
         }
     }
-
     public Rigidbody LeaderRb
     {
         set
         {
-            if (value != null)
-            {
-                _pursuit.Target = value;
-                _isPursuit = true;
-            }
+            _pursuit.Target = value;
+            _isPursuit = true;
         }
     }
 }

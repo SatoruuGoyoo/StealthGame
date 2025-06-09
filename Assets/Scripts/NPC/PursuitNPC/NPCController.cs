@@ -1,45 +1,39 @@
-﻿using System.Collections.Generic;
+﻿// Enemy NPC Controller
+using System.Collections.Generic;
 using UnityEngine;
-
-// Enemy NPC Controller
-// Initilaize FSM - Decision Tree - Steering (Pursuit)
 
 public class NPCController : MonoBehaviour
 {
     [Header("NPC Waypoints")]
     public List<Transform> _patrolPoints;
 
-    //[Header("Pursuit Time")]
-    //public float timePrediction;
-
     [Header("NPC Common Settings")]
     public Rigidbody target;
 
-    protected FSM<StateEnum> _fsm;
+    FSM<StateEnum> _fsm;
     protected LineOfSightMono _los;
+    protected NPCModel _model;
     protected ITreeNode _root;
-    NPCModel _model;
     ISteering _steering;
 
     public event System.Action<bool> OnTargetInView;
 
     private NPCMemory _memory = new NPCMemory();
-
     private NPCSearch<StateEnum> _searchState;
 
     bool previousLOSState = false;
-
     public StateEnum CurrentStateEnum { get; protected set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _model = GetComponent<NPCModel>();
         _los = GetComponent<LineOfSightMono>();
+        _steering = GetComponent<ISteering>();
     }
+
 
     void Start()
     {
-        //InitializedSteering();
         InitializedFSM();
         InitializedTree();
     }
@@ -47,14 +41,13 @@ public class NPCController : MonoBehaviour
     protected virtual void Update()
     {
         _fsm.OnExecute();
-        _root.Execute(); 
+        _root.Execute();
     }
 
     private void FixedUpdate()
     {
         _fsm.OnFixExecute();
     }
-
 
     void InitializedFSM()
     {
@@ -69,9 +62,14 @@ public class NPCController : MonoBehaviour
         var patrol = new NPCPatrol<StateEnum>(_model.transform, _model, look, anim, _patrolPoints);
         var chase = new NPCChase<StateEnum>(_model.transform, _model, look, anim, target.transform);
         var search = new NPCSearch<StateEnum>(_model.transform, _model, anim, _memory);
-        var followBoss = new NPCFollowBoss<StateEnum>(_model.transform, _model, look, anim);
         _searchState = search;
 
+        NPCFollowBoss<StateEnum> followBoss = null;
+
+        if (!(this is BossController))
+        {
+            followBoss = new NPCFollowBoss<StateEnum>(_model.transform, _model, look, anim);
+        }
 
         // Add to List
         var stateList = new List<IState<StateEnum>>();
@@ -80,13 +78,15 @@ public class NPCController : MonoBehaviour
         stateList.Add(patrol);
         stateList.Add(chase);
         stateList.Add(search);
-        stateList.Add(followBoss);
+        if (followBoss != null)
+            stateList.Add(followBoss);
 
-        // Create Transitions
+        // Transitions
         idle.AddTransition(StateEnum.Chase, chase);
         idle.AddTransition(StateEnum.Attack, attack);
         idle.AddTransition(StateEnum.Patrol, patrol);
-        idle.AddTransition(StateEnum.FollowBoss, followBoss);  
+        if (followBoss != null)
+            idle.AddTransition(StateEnum.FollowBoss, followBoss);
 
         attack.AddTransition(StateEnum.Idle, idle);
         attack.AddTransition(StateEnum.Chase, chase);
@@ -94,7 +94,7 @@ public class NPCController : MonoBehaviour
 
         search.AddTransition(StateEnum.Chase, chase);
         search.AddTransition(StateEnum.Patrol, patrol);
-      
+
         chase.AddTransition(StateEnum.Idle, idle);
         chase.AddTransition(StateEnum.Attack, attack);
         chase.AddTransition(StateEnum.Patrol, patrol);
@@ -103,22 +103,23 @@ public class NPCController : MonoBehaviour
         patrol.AddTransition(StateEnum.Idle, idle);
         patrol.AddTransition(StateEnum.Chase, chase);
         patrol.AddTransition(StateEnum.Attack, attack);
-        patrol.AddTransition(StateEnum.FollowBoss, followBoss);
+        if (followBoss != null)
+            patrol.AddTransition(StateEnum.FollowBoss, followBoss);
 
-        followBoss.AddTransition(StateEnum.Patrol, patrol);
+        if (followBoss != null)
+            followBoss.AddTransition(StateEnum.Patrol, patrol);
 
-
-        for (int i = 0; i < stateList.Count; i++)
+        // Initialize
+        foreach (var state in stateList)
         {
-            stateList[i].Initialize(_model, look, _model);
+           
+            state.Initialize(_model, look, _model);
         }
-
-
 
         _fsm.SetInit(idle);
     }
 
-   protected virtual void InitializedTree()
+    protected virtual void InitializedTree()
     {
         var patrol = new ActionNode(() => _fsm.Transition(StateEnum.Patrol));
         var search = new ActionNode(() => _fsm.Transition(StateEnum.Search));
@@ -126,23 +127,14 @@ public class NPCController : MonoBehaviour
         var attack = new ActionNode(() => _fsm.Transition(StateEnum.Attack));
         var followBoss = new ActionNode(() => _fsm.Transition(StateEnum.FollowBoss));
 
-        // Si puede atacar → atacar
         var qAttack = new QuestionNode(QuestionCanAttack, attack, chase);
-
-        // Si puede ver al jugador → pregunta si puede atacar
         var qChase = new QuestionNode(QuestionCanSeePlayer, qAttack, search);
-
-        // Si no puede ver → pregunta si está buscando
         var qSearchRequest = new QuestionNode(QuestionSearchRequested, search, patrol);
         var qIsSearching = new QuestionNode(QuestionIsSearching, search, qSearchRequest);
-
-        // Si el boss alertó → seguirlo, sino lo de siempre
         var qIsBossAlerted = new QuestionNode(QuestionIsBossAlerted, followBoss, qIsSearching);
 
         _root = qIsBossAlerted;
     }
-
-
 
     protected bool QuestionCanAttack()
     {
@@ -154,7 +146,6 @@ public class NPCController : MonoBehaviour
         return BossAlertManager.Instance.IsBossAlerted;
     }
 
-
     protected bool QuestionCanSeePlayer()
     {
         if (target == null) return false;
@@ -165,11 +156,7 @@ public class NPCController : MonoBehaviour
         {
             OnTargetInView?.Invoke(currentLOS);
             previousLOSState = currentLOS;
-
-            if (!currentLOS)
-            {
-                _memory.SearchRequested = true;
-            }
+            if (!currentLOS) _memory.SearchRequested = true;
         }
 
         if (currentLOS)
@@ -177,15 +164,14 @@ public class NPCController : MonoBehaviour
 
         return _memory.ShouldKeepChasing;
     }
+
     protected bool QuestionSearchRequested()
     {
-       
         return _memory.SearchRequested;
     }
 
     protected bool QuestionIsSearching()
     {
- 
         return _memory.IsSearching;
     }
 

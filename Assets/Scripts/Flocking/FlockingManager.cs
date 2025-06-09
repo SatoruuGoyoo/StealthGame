@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class FlockingManager : MonoBehaviour, ISteering
 {
-    [Min(1)]
-    public int maxBoids = 10;
-    [Min(1)]
-    public int radius = 10;
+    [Min(1)] public int maxBoids = 10;
+    [Min(1)] public int radius = 10;
     public LayerMask boidMask;
 
     IFlocking[] _behaviours;
     IBoid _self;
     Collider[] _colls;
     List<IBoid> _boids;
+
+    private LeaderBehaviour _leader;
 
     private void Awake()
     {
@@ -40,8 +40,17 @@ public class FlockingManager : MonoBehaviour, ISteering
             dir += _behaviours[i].GetDir(_boids, _self);
         }
 
+        if (_boids.Count == 0 && _leader != null)
+        {
+            Vector3 seek = (_leader.transform.position - _self.Position).normalized;
+            dir += seek * 1.5f;
+        }
+
+
         return dir.normalized;
     }
+
+    public bool HasNeighbors() => _boids.Count > 0;
 
     public IBoid SetSelf { set => _self = value; }
 
@@ -49,5 +58,10 @@ public class FlockingManager : MonoBehaviour, ISteering
     {
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
+    public void SetLeader(LeaderBehaviour leader)
+    {
+        _leader = leader;
     }
 }

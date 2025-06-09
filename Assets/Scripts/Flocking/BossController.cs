@@ -3,6 +3,15 @@ using UnityEngine;
 public class BossController : NPCController
 {
     private bool _alreadyAlerted = false;
+    private LeaderBehaviour _leaderBehaviour;
+    private ObstacleAvoidance _avoidance;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _leaderBehaviour = GetComponent<LeaderBehaviour>();
+        _avoidance = GetComponent<ObstacleAvoidance>(); //  agregá esto
+    }
 
     protected override void Update()
     {
@@ -12,23 +21,26 @@ public class BossController : NPCController
         {
             BossAlertManager.Instance.Alert(transform);
             _alreadyAlerted = true;
+
+            if (_leaderBehaviour != null)
+                _leaderBehaviour.Leader = target.transform;
         }
-    }
 
-    protected override void InitializedTree()
-    {
-        var patrol = new ActionNode(() => _fsm.Transition(StateEnum.Patrol));
-        var search = new ActionNode(() => _fsm.Transition(StateEnum.Search));
-        var chase = new ActionNode(() => _fsm.Transition(StateEnum.Chase));
-        var attack = new ActionNode(() => _fsm.Transition(StateEnum.Attack));
 
-        var qAttack = new QuestionNode(QuestionCanAttack, attack, chase);
-        var qCanSee = new QuestionNode(QuestionCanSeePlayer, qAttack, search);
-        var qSearchReq = new QuestionNode(QuestionSearchRequested, search, patrol);
-        var qIsSearching = new QuestionNode(QuestionIsSearching, search, qSearchReq);
+        // Movimiento de persecución del Boss
+        if (_alreadyAlerted && _leaderBehaviour != null)
+        {
+            Vector3 dir = _leaderBehaviour.GetDir(null, null);
 
-        _root = new QuestionNode(QuestionCanSeePlayer, qAttack, qIsSearching);
-       
+            if (_avoidance != null)
+                dir = _avoidance.GetDir(dir); // aplicamos evasión
+
+            if (dir.sqrMagnitude > 0.01f)
+            {
+                _model.Move(dir.normalized);
+                _model.LookDir(dir.normalized);
+            }
+        }
+
     }
 }
-
