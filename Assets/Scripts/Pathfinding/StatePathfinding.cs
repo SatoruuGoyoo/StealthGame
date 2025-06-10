@@ -106,4 +106,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         Vector3 dir = to - from;
         return !Physics.Raycast(from, dir.normalized, dir.magnitude, PathfindingConstants.obsMask);
     }
+
+    public virtual void Sleep() { }
+
 }

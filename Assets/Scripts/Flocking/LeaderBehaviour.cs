@@ -7,11 +7,13 @@ public class LeaderBehaviour : FlockingBaseBehaviour
     Seek _seek;
     Pursuit _pursuit;
     bool _isPursuit;
+
     private void Awake()
     {
         _pursuit = new Pursuit(transform, 0, timePrediction);
         _seek = new Seek(transform);
     }
+
     protected override Vector3 GetRealDir(List<IBoid> boids, IBoid self)
     {
         if (_isPursuit && _pursuit != null)
@@ -21,8 +23,16 @@ public class LeaderBehaviour : FlockingBaseBehaviour
             return dir * multiplier;
         }
 
-        return Vector3.zero;
+        // Fallback a Seek si no está en Pursuit
+        return _seek.GetDir() * multiplier;
     }
+
+    // Método público para usar desde BossController
+    public Vector3 GetDir()
+    {
+        return GetRealDir(null, null);
+    }
+
     public Transform Leader
     {
         set
@@ -40,6 +50,7 @@ public class LeaderBehaviour : FlockingBaseBehaviour
             }
         }
     }
+
     public Rigidbody LeaderRb
     {
         set

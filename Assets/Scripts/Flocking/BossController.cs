@@ -10,7 +10,7 @@ public class BossController : NPCController
     {
         base.Awake();
         _leaderBehaviour = GetComponent<LeaderBehaviour>();
-        _avoidance = GetComponent<ObstacleAvoidance>(); //  agregá esto
+        _avoidance = GetComponent<ObstacleAvoidance>();
     }
 
     protected override void Update()
@@ -30,10 +30,10 @@ public class BossController : NPCController
         // Movimiento de persecución del Boss
         if (_alreadyAlerted && _leaderBehaviour != null)
         {
-            Vector3 dir = _leaderBehaviour.GetDir(null, null);
+            Vector3 dir = _leaderBehaviour.GetDir();
 
             if (_avoidance != null)
-                dir = _avoidance.GetDir(dir); // aplicamos evasión
+                dir = _avoidance.GetDir(dir);
 
             if (dir.sqrMagnitude > 0.01f)
             {
@@ -42,5 +42,12 @@ public class BossController : NPCController
             }
         }
 
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            DefeatHandler.Instance.TriggerDefeat();
+        }
     }
 }

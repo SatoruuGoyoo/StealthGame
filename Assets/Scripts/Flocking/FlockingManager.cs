@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class FlockingManager : MonoBehaviour, ISteering
@@ -14,7 +14,7 @@ public class FlockingManager : MonoBehaviour, ISteering
 
     private LeaderBehaviour _leader;
 
-    private void Awake()
+    private void Start()
     {
         _behaviours = GetComponents<IFlocking>();
         _self = GetComponent<IBoid>();
@@ -35,17 +35,31 @@ public class FlockingManager : MonoBehaviour, ISteering
         }
 
         Vector3 dir = Vector3.zero;
-        for (int i = 0; i < _behaviours.Length; i++)
+
+        // Logs por comportamiento individual
+        foreach (var behaviour in _behaviours)
         {
-            dir += _behaviours[i].GetDir(_boids, _self);
+            Vector3 contrib = behaviour.GetDir(_boids, _self);
+            Debug.Log($"{_self} → {behaviour.GetType().Name} devuelve: {contrib}");
+            dir += contrib;
         }
 
+        // Seek al líder si no hay vecinos
         if (_boids.Count == 0 && _leader != null)
         {
             Vector3 seek = (_leader.transform.position - _self.Position).normalized;
             dir += seek * 1.5f;
         }
 
+        // Log final del vector compuesto
+        if (dir.sqrMagnitude < 0.01f)
+        {
+            Debug.Log($"{_self} → dir final de flocking es cero. Vecinos: {_boids.Count}, Leader: {_leader != null}");
+        }
+        else
+        {
+            Debug.Log($"{_self} → dir total final de flocking: {dir} con vecinos: {_boids.Count}, Leader asignado: {_leader != null}");
+        }
 
         return dir.normalized;
     }
@@ -63,5 +77,11 @@ public class FlockingManager : MonoBehaviour, ISteering
     public void SetLeader(LeaderBehaviour leader)
     {
         _leader = leader;
+
+        foreach (var behaviour in _behaviours)
+        {
+            if (behaviour is FollowLeaderBehaviour follow)
+                follow.SetLeader(leader.transform);
+        }
     }
 }

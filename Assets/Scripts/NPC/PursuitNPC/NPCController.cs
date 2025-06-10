@@ -106,8 +106,11 @@ public class NPCController : MonoBehaviour
         if (followBoss != null)
             patrol.AddTransition(StateEnum.FollowBoss, followBoss);
 
-        if (followBoss != null)
+        if(followBoss != null)
+        {
             followBoss.AddTransition(StateEnum.Patrol, patrol);
+            followBoss.AddTransition(StateEnum.Attack, attack); 
+        }
 
         // Initialize
         foreach (var state in stateList)
@@ -131,7 +134,7 @@ public class NPCController : MonoBehaviour
         var qChase = new QuestionNode(QuestionCanSeePlayer, qAttack, search);
         var qSearchRequest = new QuestionNode(QuestionSearchRequested, search, patrol);
         var qIsSearching = new QuestionNode(QuestionIsSearching, search, qSearchRequest);
-        var qIsBossAlerted = new QuestionNode(QuestionIsBossAlerted, followBoss, qIsSearching);
+        var qIsBossAlerted = new QuestionNode(QuestionIsBossAlerted, new QuestionNode(QuestionCanAttack, attack, followBoss), qIsSearching);
 
         _root = qIsBossAlerted;
     }
