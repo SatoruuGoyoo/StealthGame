@@ -17,6 +17,7 @@ public class BossController : NPCController
     {
         base.Update();
 
+        // Trigger alert only once when the Boss sees the player
         if (!_alreadyAlerted && _los != null && target != null && _los.LOS(target.transform))
         {
             BossAlertManager.Instance.Alert(transform);
@@ -26,8 +27,7 @@ public class BossController : NPCController
                 _leaderBehaviour.Leader = target.transform;
         }
 
-
-        // Movimiento de persecución del Boss
+        // If alerted, Boss moves using Pursuit + Avoidance
         if (_alreadyAlerted && _leaderBehaviour != null)
         {
             Vector3 dir = _leaderBehaviour.GetDir();
@@ -41,8 +41,9 @@ public class BossController : NPCController
                 _model.LookDir(dir.normalized);
             }
         }
-
     }
+
+    // Game Over if Boss touches the player
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

@@ -4,9 +4,10 @@ using UnityEngine;
 public class LeaderBehaviour : FlockingBaseBehaviour
 {
     public float timePrediction;
-    Seek _seek;
-    Pursuit _pursuit;
-    bool _isPursuit;
+
+    private Seek _seek;
+    private Pursuit _pursuit;
+    private bool _isPursuit;
 
     private void Awake()
     {
@@ -14,25 +15,25 @@ public class LeaderBehaviour : FlockingBaseBehaviour
         _seek = new Seek(transform);
     }
 
+    // Calculates the movement direction for the leader
     protected override Vector3 GetRealDir(List<IBoid> boids, IBoid self)
     {
         if (_isPursuit && _pursuit != null)
         {
-            var dir = _pursuit.GetDir();
-            Debug.DrawLine(transform.position, transform.position + dir.normalized * 2f, Color.magenta); // Debug
+            Vector3 dir = _pursuit.GetDir();
             return dir * multiplier;
         }
 
-        // Fallback a Seek si no está en Pursuit
         return _seek.GetDir() * multiplier;
     }
 
-    // Método público para usar desde BossController
+    // Called externally to get the movement direction
     public Vector3 GetDir()
     {
         return GetRealDir(null, null);
     }
 
+    // Sets the leader target using a Transform
     public Transform Leader
     {
         set
@@ -51,6 +52,7 @@ public class LeaderBehaviour : FlockingBaseBehaviour
         }
     }
 
+    // Sets the leader target using a Rigidbody
     public Rigidbody LeaderRb
     {
         set

@@ -15,7 +15,7 @@ public class NPCFollowBoss<T> : StatePathfinding<T>
 
     private LeaderBehaviour _leader;
 
-    private const float _graceTime = 5f; // 🕒 Tiempo de memoria visual
+    private const float _graceTime = 5f; // ⏳ Time allowed to "remember" last seen boss position
     private float _lastSeenTime = -Mathf.Infinity;
 
     public NPCFollowBoss(Transform self, IMove move, ILook look, Animator anim)
@@ -29,7 +29,6 @@ public class NPCFollowBoss<T> : StatePathfinding<T>
     public override void Enter()
     {
         base.Enter();
-        Debug.Log($"ENTER: {_self.name} NPCFollowBoss");
 
         _flocking = _self.GetComponent<FlockingManager>();
         _avoidance = _self.GetComponent<ObstacleAvoidance>();
@@ -45,14 +44,14 @@ public class NPCFollowBoss<T> : StatePathfinding<T>
             if (_leader != null)
             {
                 _leader.IsActive = true;
-                _flocking.SetLeader(_leader);
+                _flocking.SetLeader(_leader); // Assign boss as flocking leader
             }
         }
 
         if (!CanSeeBoss())
         {
             _isFlocking = false;
-            SetPathAStarPlusVector(_self.position, _lastBossPos);
+            SetPathAStarPlusVector(_self.position, _lastBossPos); // Use pathfinding if boss not visible
         }
         else
         {
@@ -65,15 +64,9 @@ public class NPCFollowBoss<T> : StatePathfinding<T>
     {
         Transform boss = BossAlertManager.Instance.BossTransform;
         if (boss == null) return;
-        if (_flocking == null)
-        {
-            Debug.LogError($"{_self.name} → FlockingManager no asignado.");
-            return;
-        }
+        if (_flocking == null) return;
 
         bool seesBossNow = CanSeeBoss();
-
-        // ✅ Memoria visual: si lo vio recientemente, aún lo "ve"
         bool shouldFlock = seesBossNow || Time.time - _lastSeenTime <= _graceTime;
 
         if (seesBossNow)
@@ -87,17 +80,14 @@ public class NPCFollowBoss<T> : StatePathfinding<T>
 
             if (dir.sqrMagnitude < 0.01f)
             {
-                Debug.Log($"{_self.name} → Dir de flocking nulo, usando A* como fallback.");
                 _isFlocking = false;
-                SetPathAStarPlusVector(_self.position, boss.position);
+                SetPathAStarPlusVector(_self.position, boss.position); // fallback to pathfinding
                 base.Execute();
                 return;
             }
 
-            Debug.DrawLine(_self.position, _self.position + dir.normalized * 2f, Color.cyan);
-
             if (_avoidance != null)
-                dir = _avoidance.GetDir(dir);
+                dir = _avoidance.GetDir(dir); // obstacle avoidance
 
             _move.Move(dir.normalized);
             _look.LookDir(dir.normalized);
@@ -119,7 +109,7 @@ public class NPCFollowBoss<T> : StatePathfinding<T>
                 }
             }
 
-            base.Execute(); // Pathfinding fallback
+            base.Execute(); // continue pathfinding
         }
     }
 
@@ -129,14 +119,12 @@ public class NPCFollowBoss<T> : StatePathfinding<T>
 
         if (_leader != null)
             _leader.IsActive = false;
-
-        Debug.Log($"{_self.name} → EXIT: NPCFollowBoss");
     }
 
     private bool CanSeeBoss()
     {
         return _los != null &&
                BossAlertManager.Instance.BossTransform != null &&
-               _los.LOS(BossAlertManager.Instance.BossTransform);
+               _los.LOS(BossAlertManager.Instance.BossTransform); // vision check to boss
     }
 }
