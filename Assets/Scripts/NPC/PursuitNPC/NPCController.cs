@@ -31,7 +31,6 @@ public class NPCController : MonoBehaviour
         _steering = GetComponent<ISteering>();
     }
 
-
     void Start()
     {
         InitializedFSM();
@@ -55,38 +54,26 @@ public class NPCController : MonoBehaviour
         var look = GetComponent<ILook>();
         var anim = GetComponent<Animator>();
 
-        // Create States
         var idle = new NPCIdle<StateEnum>();
         var attack = new NPCAttack<StateEnum>();
-
         var patrol = new NPCPatrol<StateEnum>(_model.transform, _model, look, anim, _patrolPoints);
         var chase = new NPCChase<StateEnum>(_model.transform, _model, look, anim, target.transform);
         var search = new NPCSearch<StateEnum>(_model.transform, _model, anim, _memory);
         _searchState = search;
 
         NPCFollowBoss<StateEnum> followBoss = null;
-
         if (!(this is BossController))
         {
             followBoss = new NPCFollowBoss<StateEnum>(_model.transform, _model, look, anim);
         }
 
-        // Add to List
-        var stateList = new List<IState<StateEnum>>();
-        stateList.Add(idle);
-        stateList.Add(attack);
-        stateList.Add(patrol);
-        stateList.Add(chase);
-        stateList.Add(search);
-        if (followBoss != null)
-            stateList.Add(followBoss);
+        var stateList = new List<IState<StateEnum>> { idle, attack, patrol, chase, search };
+        if (followBoss != null) stateList.Add(followBoss);
 
-        // Transitions
         idle.AddTransition(StateEnum.Chase, chase);
         idle.AddTransition(StateEnum.Attack, attack);
         idle.AddTransition(StateEnum.Patrol, patrol);
-        if (followBoss != null)
-            idle.AddTransition(StateEnum.FollowBoss, followBoss);
+        if (followBoss != null) idle.AddTransition(StateEnum.FollowBoss, followBoss);
 
         attack.AddTransition(StateEnum.Idle, idle);
         attack.AddTransition(StateEnum.Chase, chase);
@@ -103,19 +90,16 @@ public class NPCController : MonoBehaviour
         patrol.AddTransition(StateEnum.Idle, idle);
         patrol.AddTransition(StateEnum.Chase, chase);
         patrol.AddTransition(StateEnum.Attack, attack);
-        if (followBoss != null)
-            patrol.AddTransition(StateEnum.FollowBoss, followBoss);
+        if (followBoss != null) patrol.AddTransition(StateEnum.FollowBoss, followBoss);
 
-        if(followBoss != null)
+        if (followBoss != null)
         {
             followBoss.AddTransition(StateEnum.Patrol, patrol);
-            followBoss.AddTransition(StateEnum.Attack, attack); 
+            followBoss.AddTransition(StateEnum.Attack, attack);
         }
 
-        // Initialize
         foreach (var state in stateList)
         {
-           
             state.Initialize(_model, look, _model);
         }
 
@@ -134,9 +118,12 @@ public class NPCController : MonoBehaviour
         var qChase = new QuestionNode(QuestionCanSeePlayer, qAttack, search);
         var qSearchRequest = new QuestionNode(QuestionSearchRequested, search, patrol);
         var qIsSearching = new QuestionNode(QuestionIsSearching, search, qSearchRequest);
-        var qIsBossAlerted = new QuestionNode(QuestionIsBossAlerted, new QuestionNode(QuestionCanAttack, attack, followBoss), qIsSearching);
 
-        _root = qIsBossAlerted;
+      
+        var qIfBossAlerted = new QuestionNode(QuestionIsBossAlerted, followBoss, qIsSearching);
+        var qRoot = new QuestionNode(QuestionCanSeePlayer, qAttack, qIfBossAlerted);
+
+        _root = qRoot;
     }
 
     protected bool QuestionCanAttack()
