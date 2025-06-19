@@ -25,7 +25,7 @@ public class NPCPatrol<T> : StatePathfinding<T>
     {
         _look = look;
 
-        _fakeTarget = CreateFakeTarget();
+        //_fakeTarget = CreateFakeTarget();
 
         _patrolPoints = new List<Vector3>();
         foreach (var p in patrolPoints)
@@ -36,10 +36,10 @@ public class NPCPatrol<T> : StatePathfinding<T>
     {
         base.Enter();
 
-        if (_fakeTarget == null)
-        {
-            _fakeTarget = CreateFakeTarget();
-        }
+        //if (_fakeTarget == null)
+        //{
+        //    _fakeTarget = CreateFakeTarget();
+        //}
 
         _waitingAtWaypoint = false;
         _timer = 0f;
@@ -73,8 +73,8 @@ public class NPCPatrol<T> : StatePathfinding<T>
     public override void Exit()
     {
         base.Exit();
-        if (_fakeTarget != null)
-            GameObject.Destroy(_fakeTarget.gameObject);
+        //if (_fakeTarget != null)
+        //    GameObject.Destroy(_fakeTarget.gameObject);
 
         _fakeTarget = null;
     }
@@ -84,7 +84,7 @@ public class NPCPatrol<T> : StatePathfinding<T>
         if (_patrolPoints.Count == 0) return;
 
         var next = _patrolPoints[_currentPatrolIndex];
-        _fakeTarget.position = next;
+        //_fakeTarget.position = next;
 
         SetPathAStarPlusVector(_move.Position, next);
 

@@ -63723,6 +63723,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1405571732196255035, guid: 498446a2fabaff14d85900029204b055, type: 3}
+      propertyPath: m_Drag
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1426519770776490900, guid: 498446a2fabaff14d85900029204b055, type: 3}
       propertyPath: m_Layer
       value: 6
